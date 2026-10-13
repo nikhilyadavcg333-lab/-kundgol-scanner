@@ -3,52 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nikhil Yadav - Pro Scanner - FII Hold/Exit + Bearish Sell</title>
+<title>Nikhil Yadav - Simple Scanner - Only Buying</title>
 <style>
 body{font-family:Arial;background:#0f172a;color:white;padding:5px;margin:0}
-h2{color:#22c55e;text-align:center;margin:4px;font-size:17px}
-.sub{color:#fbbf24;text-align:center;font-size:10px;margin-bottom:6px}
-.topbar{display:flex;justify-content:space-between;background:#1e293b;padding:6px;border-radius:8px;margin-bottom:6px;font-size:9px;flex-wrap:wrap}
-table{width:100%;border-collapse:collapse;font-size:8px;background:#1e293b;border-radius:8px;overflow:hidden}
-th{background:#0f172a;padding:5px;color:#94a3b8;font-size:7px;position:sticky;top:0}
-td{padding:4px;border-bottom:1px solid #334155;text-align:center}
-.green{background:#16a34a;color:white;padding:3px 5px;border-radius:5px;font-weight:bold;font-size:7px;display:inline-block}
-.red{background:#dc2626;color:white;padding:3px 5px;border-radius:5px;font-weight:bold;font-size:7px;display:inline-block}
-.orange{background:#ea580c;color:white;padding:3px 5px;border-radius:5px;font-weight:bold;font-size:7px;display:inline-block}
-.blue{background:#2563eb;color:white;padding:3px 5px;border-radius:5px;font-weight:bold;font-size:7px;display:inline-block}
-.purple{background:#7c3aed;color:white;padding:3px 5px;border-radius:5px;font-weight:bold;font-size:7px;display:inline-block}
-.gray{background:#475569;color:white;padding:2px 4px;border-radius:4px;font-size:7px;display:inline-block}
-.live{color:#22c55e;font-weight:bold;font-size:10px}
-input[type=checkbox]{width:16px;height:16px;accent-color:#22c55e;cursor:pointer}
-.filter{margin:6px auto;text-align:center}
-.filter button{padding:5px 10px;margin:2px;border-radius:6px;border:none;font-weight:bold;cursor:pointer;font-size:9px;background:#334155;color:white}
+h2{color:#22c55e;text-align:center;margin:5px;font-size:18px}
+.sub{color:#fbbf24;text-align:center;font-size:11px;margin-bottom:8px}
+.topbar{display:flex;justify-content:space-between;background:#1e293b;padding:7px;border-radius:8px;margin-bottom:8px;font-size:10px}
+table{width:100%;border-collapse:collapse;font-size:10px;background:#1e293b;border-radius:8px;overflow:hidden}
+th{background:#0f172a;padding:7px;color:#94a3b8;font-size:8px;position:sticky;top:0}
+td{padding:6px;border-bottom:1px solid #334155;text-align:center}
+.green{background:#16a34a;color:white;padding:4px 8px;border-radius:6px;font-weight:bold;font-size:9px;display:inline-block}
+.red{background:#dc2626;color:white;padding:4px 8px;border-radius:6px;font-weight:bold;font-size:9px;display:inline-block}
+.blue{background:#2563eb;color:white;padding:4px 8px;border-radius:6px;font-weight:bold;font-size:9px;display:inline-block}
+.gray{background:#475569;color:white;padding:3px 6px;border-radius:5px;font-size:8px;display:inline-block}
+.live{color:#22c55e;font-weight:bold;font-size:11px}
+input[type=checkbox]{width:18px;height:18px;accent-color:#22c55e;cursor:pointer}
+.filter{margin:8px auto;text-align:center}
+.filter button{padding:6px 14px;margin:3px;border-radius:7px;border:none;font-weight:bold;cursor:pointer;font-size:11px;background:#334155;color:white}
 .filter button.active{background:#22c55e;color:white}
-.footer{text-align:center;margin-top:8px;padding:8px;background:#1e293b;border-radius:8px;font-size:9px;color:#94a3b8}
+.footer{text-align:center;margin-top:10px;padding:10px;background:#1e293b;border-radius:8px;font-size:10px;color:#94a3b8}
 .hold-row{background:#14532d !important}
-.exit-row{background:#7f1d1d !important;opacity:0.8}
-.bear-row{background:#1e1b4b !important}
+.exit-row{background:#7f1d1d !important;opacity:0.9}
 </style>
 </head>
 <body>
 
-<h2>🔥 NIKHIL YADAV - PRO SCANNER - FII/DII TRACKER ✅</h2>
-<div class="sub">FII/DII Hold/Exit Signal | Bullish CE + Bearish PE Sell | Tick Mark Tracker | Yadgir</div>
+<h2>🔥 NIKHIL YADAV - SIMPLE SCANNER ✅</h2>
+<div class="sub">Only Buying Data | FII/DII Hold or Exit | Clean & Clear | Yadgir</div>
 
 <div class="topbar">
 <span>📅 <b id="todayDate"></b></span>
 <span>🔴 <b id="liveStatus" style="color:#fbbf24">Connecting...</b></span>
-<span>📊 <b id="count">0</b> | ✅ Tick: <b id="tickCount">0</b></span>
-<span><button onclick="clearTicks()" style="padding:2px 6px;font-size:8px;border-radius:4px;border:none;background:#dc2626;color:white;cursor:pointer">Clear Ticks</button></span>
+<span>📊 <b id="count">0</b> | ☑️ <b id="tickCount">0</b> Ticked</span>
 </div>
 
 <div class="filter">
 <button onclick="setMode('ALL')" id="btn-ALL" class="active">ALL (18)</button>
-<button onclick="setMode('ENTRY')" id="btn-ENTRY">✅ ENTRY</button>
-<button onclick="setMode('EXIT')" id="btn-EXIT">🚪 EXIT</button>
-<button onclick="setMode('FII_HOLD')" id="btn-FII_HOLD">🔵 FII HOLD</button>
-<button onclick="setMode('FII_EXIT')" id="btn-FII_EXIT">🔴 FII EXIT</button>
-<button onclick="setMode('BEARISH')" id="btn-BEARISH">🐻 BEARISH SELL</button>
-<button onclick="setMode('TICKED')" id="btn-TICKED">☑️ My Ticks</button>
+<button onclick="setMode('BUY')" id="btn-BUY">✅ BUYING ONLY</button>
+<button onclick="setMode('HOLD')" id="btn-HOLD">🔵 HOLD</button>
+<button onclick="setMode('EXIT')" id="btn-EXIT">🔴 EXIT</button>
+<button onclick="setMode('FII')" id="btn-FII">🔵 FII</button>
+<button onclick="setMode('TICKED')" id="btn-TICKED">☑️ My Picks</button>
 </div>
 
 <table>
@@ -57,46 +52,45 @@ input[type=checkbox]{width:16px;height:16px;accent-color:#22c55e;cursor:pointer}
 <th>☑️</th>
 <th>SYMBOL</th>
 <th>BUYER</th>
-<th>BUY ₹</th>
+<th>BUY PRICE</th>
 <th>LIVE NSE</th>
 <th>TREND</th>
-<th>FII/DII STATUS</th>
-<th>BULLISH ENTRY (CE)</th>
-<th>BEARISH SELL (PE)</th>
-<th>EXIT / HOLD</th>
+<th>FII/DII</th>
+<th>BUYING SIGNAL</th>
+<th>HOLD or EXIT</th>
 </tr>
 </thead>
 <tbody id="tbody"></tbody>
 </table>
 
 <div class="footer">
-<b>© 2026 Nikhil Yadav - Pro FII/DII Tracker | Yadgir</b><br>
-🔵 FII HOLD = Still Holding | 🔴 FII EXIT = Sold Today | 🐻 Bearish PE = Sell on Downtrend | ☑️ Tick = Your Tracked Trades
+<b>© 2026 Nikhil Yadav - Kundgol Scanner - Simple Buying Tracker</b><br>
+Only Buying Data | 🔵 HOLD = Still Holding | 🔴 EXIT = Sold | No Selling Confusion
 </div>
 
 <script>
 document.getElementById("todayDate").innerText=new Date().toLocaleDateString("en-IN",{day:'2-digit',month:'short',year:'numeric'});
-let tickedSymbols=JSON.parse(localStorage.getItem('nikhil_ticks')||'[]');
+let tickedSymbols=JSON.parse(localStorage.getItem('nikhil_simple_ticks')||'[]');
 
 let dealsData=[
-  {symbol:"INFY",buyer:"FII",time:"09:20 AM",buyPrice:1020,spot:1062.10,pChange:4.13,deals:45,type:"FII",fiiStatus:"HOLD",qty:"50Cr"},
-  {symbol:"HINDCOPPER",buyer:"FII",time:"10:50 AM",buyPrice:455,spot:468.05,pChange:-0.40,deals:22,type:"FII",fiiStatus:"EXIT",qty:"12Cr"},
-  {symbol:"ABB",buyer:"LIC",time:"09:42 AM",buyPrice:6650,spot:6977.50,pChange:1.78,deals:18,type:"DII",fiiStatus:"HOLD",qty:"30Cr"},
-  {symbol:"SIEMENS",buyer:"SBI MF",time:"09:54 AM",buyPrice:2950,spot:3742.00,pChange:2.41,deals:12,type:"MF",fiiStatus:"HOLD",qty:"8Cr"},
-  {symbol:"BHARATFORG",buyer:"FII",time:"09:12 AM",buyPrice:1815,spot:1842.20,pChange:1.48,deals:25,type:"FII",fiiStatus:"HOLD",qty:"22Cr"},
-  {symbol:"ASHOKLEY",buyer:"FII",time:"09:32 AM",buyPrice:144.25,spot:147.37,pChange:2.18,deals:15,type:"FII",fiiStatus:"HOLD",qty:"15Cr"},
-  {symbol:"RELIANCE",buyer:"LIC",time:"09:15 AM",buyPrice:1152,spot:1166.70,pChange:-0.80,deals:20,type:"DII",fiiStatus:"EXIT",qty:"100Cr"},
-  {symbol:"HAL",buyer:"LIC",time:"09:32 AM",buyPrice:4780,spot:4869.00,pChange:2.20,deals:19,type:"DII",fiiStatus:"HOLD",qty:"45Cr"},
-  {symbol:"TCS",buyer:"FII",time:"10:15 AM",buyPrice:2220,spot:2269.30,pChange:0.79,deals:30,type:"FII",fiiStatus:"HOLD",qty:"60Cr"},
-  {symbol:"ICICIBANK",buyer:"FII",time:"09:45 AM",buyPrice:1180,spot:1360.20,pChange:1.51,deals:28,type:"FII",fiiStatus:"HOLD",qty:"80Cr"},
-  {symbol:"TATAPOWER",buyer:"FII",time:"10:20 AM",buyPrice:380,spot:345.00,pChange:-1.20,deals:20,type:"FII",fiiStatus:"EXIT",qty:"18Cr"},
-  {symbol:"ZYDUSLIFE",buyer:"FII",time:"09:50 AM",buyPrice:940,spot:1132.50,pChange:-0.17,deals:16,type:"FII",fiiStatus:"EXIT",qty:"10Cr"},
-  {symbol:"MOTHERSON",buyer:"FII",time:"09:40 AM",buyPrice:145,spot:160.00,pChange:1.02,deals:20,type:"FII",fiiStatus:"HOLD",qty:"25Cr"},
-  {symbol:"TVSMOTOR",buyer:"FII",time:"09:55 AM",buyPrice:2650,spot:4011.50,pChange:1.81,deals:8,type:"FII",fiiStatus:"HOLD",qty:"5Cr"},
-  {symbol:"HDFCBANK",buyer:"LIC",time:"09:25 AM",buyPrice:1680,spot:1714.00,pChange:-0.60,deals:35,type:"DII",fiiStatus:"HOLD",qty:"90Cr"},
-  {symbol:"SBIN",buyer:"SBI MF",time:"10:05 AM",buyPrice:780,spot:795.20,pChange:1.50,deals:24,type:"MF",fiiStatus:"HOLD",qty:"35Cr"},
-  {symbol:"LUPIN",buyer:"DII",time:"09:35 AM",buyPrice:2100,spot:2150.00,pChange:-1.50,deals:14,type:"DII",fiiStatus:"EXIT",qty:"20Cr"},
-  {symbol:"DIXON",buyer:"MF",time:"10:00 AM",buyPrice:14500,spot:14800.00,pChange:1.70,deals:9,type:"MF",fiiStatus:"HOLD",qty:"6Cr"},
+  {symbol:"INFY",buyer:"FII",time:"09:20 AM",buyPrice:1020,spot:1062.10,pChange:4.13,deals:45,type:"FII",fiiStatus:"HOLD"},
+  {symbol:"HINDCOPPER",buyer:"FII",time:"10:50 AM",buyPrice:455,spot:468.05,pChange:-0.40,deals:22,type:"FII",fiiStatus:"EXIT"},
+  {symbol:"ABB",buyer:"LIC",time:"09:42 AM",buyPrice:6650,spot:6977.50,pChange:1.78,deals:18,type:"DII",fiiStatus:"HOLD"},
+  {symbol:"SIEMENS",buyer:"SBI MF",time:"09:54 AM",buyPrice:2950,spot:3742.00,pChange:2.41,deals:12,type:"MF",fiiStatus:"HOLD"},
+  {symbol:"BHARATFORG",buyer:"FII",time:"09:12 AM",buyPrice:1815,spot:1842.20,pChange:1.48,deals:25,type:"FII",fiiStatus:"HOLD"},
+  {symbol:"ASHOKLEY",buyer:"FII",time:"09:32 AM",buyPrice:144.25,spot:147.37,pChange:2.18,deals:15,type:"FII",fiiStatus:"HOLD"},
+  {symbol:"RELIANCE",buyer:"LIC",time:"09:15 AM",buyPrice:1152,spot:1166.70,pChange:0.67,deals:20,type:"DII",fiiStatus:"HOLD"},
+  {symbol:"HAL",buyer:"LIC",time:"09:32 AM",buyPrice:4780,spot:4869.00,pChange:2.20,deals:19,type:"DII",fiiStatus:"HOLD"},
+  {symbol:"TCS",buyer:"FII",time:"10:15 AM",buyPrice:2220,spot:2269.30,pChange:0.79,deals:30,type:"FII",fiiStatus:"HOLD"},
+  {symbol:"HDFCBANK",buyer:"LIC",time:"09:25 AM",buyPrice:1680,spot:1714.00,pChange:1.20,deals:35,type:"DII",fiiStatus:"HOLD"},
+  {symbol:"ICICIBANK",buyer:"FII",time:"09:45 AM",buyPrice:1180,spot:1360.20,pChange:1.51,deals:28,type:"FII",fiiStatus:"HOLD"},
+  {symbol:"SBIN",buyer:"SBI MF",time:"10:05 AM",buyPrice:780,spot:795.20,pChange:1.50,deals:24,type:"MF",fiiStatus:"HOLD"},
+  {symbol:"TATAPOWER",buyer:"FII",time:"10:20 AM",buyPrice:380,spot:345.00,pChange:0.38,deals:20,type:"FII",fiiStatus:"EXIT"},
+  {symbol:"ZYDUSLIFE",buyer:"FII",time:"09:50 AM",buyPrice:940,spot:1132.50,pChange:-0.17,deals:16,type:"FII",fiiStatus:"EXIT"},
+  {symbol:"LUPIN",buyer:"DII",time:"09:35 AM",buyPrice:2100,spot:2150.00,pChange:1.20,deals:14,type:"DII",fiiStatus:"HOLD"},
+  {symbol:"MOTHERSON",buyer:"FII",time:"09:40 AM",buyPrice:145,spot:160.00,pChange:1.02,deals:20,type:"FII",fiiStatus:"HOLD"},
+  {symbol:"DIXON",buyer:"MF",time:"10:00 AM",buyPrice:14500,spot:14800.00,pChange:1.70,deals:9,type:"MF",fiiStatus:"HOLD"},
+  {symbol:"TVSMOTOR",buyer:"FII",time:"09:55 AM",buyPrice:2650,spot:4011.50,pChange:1.81,deals:8,type:"FII",fiiStatus:"HOLD"},
 ];
 
 let currentMode="ALL";
@@ -104,53 +98,29 @@ function setMode(m){currentMode=m;document.querySelectorAll('.filter button').fo
 function toggleTick(sym){
   if(tickedSymbols.includes(sym)){tickedSymbols=tickedSymbols.filter(s=>s!==sym);}
   else{tickedSymbols.push(sym);}
-  localStorage.setItem('nikhil_ticks',JSON.stringify(tickedSymbols));
+  localStorage.setItem('nikhil_simple_ticks',JSON.stringify(tickedSymbols));
   render();
 }
-function clearTicks(){tickedSymbols=[];localStorage.setItem('nikhil_ticks','[]');render();}
-function getFiiStatus(d){
-  if(d.fiiStatus==="EXIT"){
-    return `<span class="red">🔴 FII EXIT<br>${d.qty} SOLD</span>`;
-  }else{
-    return `<span class="blue">🔵 ${d.type} HOLD<br>${d.qty} HOLDING</span>`;
-  }
+function getBuying(d){
+  if(d.deals<10) return `<span class="gray">Deals Low</span>`;
+  if(d.fiiStatus==="EXIT") return `<span class="gray">Already EXIT</span>`;
+  let ce=Math.ceil(d.spot/10)*10;
+  let profit=((d.spot-d.buyPrice)/d.buyPrice*100).toFixed(1);
+  return `<span class="green">✅ ${ce} CE BUY<br>+${profit}%</span>`;
 }
-function getBullish(d){
-  if(d.deals<10) return `<span class="gray">No Entry</span>`;
-  if(parseFloat(d.pChange)>0.5){
-    let ce=Math.ceil(d.spot/10)*10;
-    return `<span class="green">✅ ${ce} CE BUY<br>${(((d.spot-d.buyPrice)/d.buyPrice*100).toFixed(1))}% UP</span>`;
-  }else{
-    return `<span class="gray">No Bullish</span>`;
-  }
-}
-function getBearish(d){
-  if(d.deals<10) return `<span class="gray">No Sell</span>`;
-  if(parseFloat(d.pChange)<-0.5){
-    let pe=Math.floor(d.spot/10)*10;
-    return `<span class="red">🐻 ${pe} PE SELL<br>${d.pChange}% DOWN</span>`;
-  }else if(d.fiiStatus==="EXIT"){
-    return `<span class="orange">🐻 FII EXIT SELL<br>PE ${Math.floor(d.spot/10)*10}</span>`;
-  }else{
-    return `<span class="gray">No Bearish</span>`;
-  }
-}
-function getExitHold(d){
+function getHoldExit(d){
   let profit=((parseFloat(d.spot)-d.buyPrice)/d.buyPrice*100).toFixed(2);
-  if(d.fiiStatus==="EXIT") return `<span class="red">🚪 FII EXITED<br>SELL DONE</span>`;
-  if(profit>=3) return `<span class="green">💰 TARGET HIT +${profit}%<br>EXIT</span>`;
-  if(parseFloat(d.spot)<d.buyPrice*0.99) return `<span class="red">🛑 SL HIT ${profit}%<br>EXIT</span>`;
-  if(d.fiiStatus==="HOLD" && parseFloat(d.pChange)>0) return `<span class="blue">🔵 FII HOLDING<br>HOLD +${profit}%</span>`;
-  return `<span class="purple">HOLD ${profit}%</span>`;
+  if(d.fiiStatus==="EXIT") return `<span class="red">🔴 EXIT<br>Sold Today</span>`;
+  if(profit>=3) return `<span class="green">💰 +${profit}%<br>Target Done</span>`;
+  return `<span class="blue">🔵 HOLD<br>+${profit}% Holding</span>`;
 }
 function render(){
   let filtered=dealsData.filter(d=>{
     if(currentMode==="ALL") return true;
-    if(currentMode==="ENTRY") return d.deals>=10 && parseFloat(d.pChange)>0.5;
-    if(currentMode==="EXIT") return d.fiiStatus==="EXIT" || ((parseFloat(d.spot)-d.buyPrice)/d.buyPrice*100)>=3;
-    if(currentMode==="FII_HOLD") return d.fiiStatus==="HOLD" && d.type==="FII";
-    if(currentMode==="FII_EXIT") return d.fiiStatus==="EXIT";
-    if(currentMode==="BEARISH") return parseFloat(d.pChange)<-0.5 || d.fiiStatus==="EXIT";
+    if(currentMode==="BUY") return d.deals>=10 && d.fiiStatus==="HOLD";
+    if(currentMode==="HOLD") return d.fiiStatus==="HOLD";
+    if(currentMode==="EXIT") return d.fiiStatus==="EXIT";
+    if(currentMode==="FII") return d.type==="FII" && d.fiiStatus==="HOLD";
     if(currentMode==="TICKED") return tickedSymbols.includes(d.symbol);
     return true;
   });
@@ -160,21 +130,17 @@ function render(){
   filtered.forEach(d=>{
     let isUp=parseFloat(d.pChange)>0;
     let isTicked=tickedSymbols.includes(d.symbol);
-    let rowClass="";
-    if(isTicked) rowClass="hold-row";
-    else if(d.fiiStatus==="EXIT") rowClass="exit-row";
-    else if(parseFloat(d.pChange)<-0.5) rowClass="bear-row";
+    let rowClass=isTicked?"hold-row":(d.fiiStatus==="EXIT"?"exit-row":"");
     html+=`<tr class="${rowClass}">
-      <td><input type="checkbox" ${isTicked?'checked':''} onchange="toggleTick('${d.symbol}')"><br><span style="font-size:6px">${isTicked?'✅':''}</span></td>
-      <td><b>${d.symbol}</b><br><span style="font-size:6px">${d.type}</span></td>
-      <td><b>${d.buyer}</b><br><span style="font-size:6px">${d.time}</span><br><span style="font-size:6px">${d.qty}</span></td>
+      <td><input type="checkbox" ${isTicked?'checked':''} onchange="toggleTick('${d.symbol}')"></td>
+      <td><b>${d.symbol}</b><br><span style="font-size:7px">${d.type}</span></td>
+      <td><b>${d.buyer}</b><br><span style="font-size:7px">${d.time}</span></td>
       <td>₹${d.buyPrice}</td>
-      <td class="live">₹${parseFloat(d.spot).toFixed(2)}<br><span style="font-size:5px">YAHOO LIVE</span></td>
+      <td class="live">₹${parseFloat(d.spot).toFixed(2)}</td>
       <td style="color:${isUp?'#22c55e':'#ef4444'}">${isUp?'🚀':'⬇️'} ${d.pChange}%</td>
-      <td>${getFiiStatus(d)}</td>
-      <td>${getBullish(d)}</td>
-      <td>${getBearish(d)}</td>
-      <td>${getExitHold(d)}</td>
+      <td><b>${d.type}</b></td>
+      <td>${getBuying(d)}</td>
+      <td>${getHoldExit(d)}</td>
     </tr>`;
   });
   document.getElementById("tbody").innerHTML=html;
