@@ -3,163 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kundgol - Nifty All + Midcap All</title>
+<title>Kundgol - Conditions Applied All</title>
 <style>
 body{font-family:Arial;background:#0f172a;color:white;padding:8px;margin:0}
-h2{color:#22c55e;text-align:center;margin:5px}
+h2{color:#22c55e;text-align:center;margin:5px;font-size:16px}
 table{width:100%;border-collapse:collapse;font-size:10px;background:#1e293b;border-radius:8px;overflow:hidden}
 th{background:#0f172a;padding:6px;color:#94a3b8;position:sticky;top:0;font-size:9px}
 td{padding:5px;border-bottom:1px solid #334155;text-align:center}
-.green{background:#16a34a;color:white;padding:2px 5px;border-radius:5px;font-weight:bold;display:inline-block;font-size:9px}
-.red{background:#dc2626;color:white;padding:2px 5px;border-radius:5px;font-weight:bold;display:inline-block;font-size:9px}
+.green{background:#16a34a;color:white;padding:3px 6px;border-radius:5px;font-weight:bold;display:inline-block}
+.red{background:#dc2626;color:white;padding:3px 6px;border-radius:5px;font-weight:bold;display:inline-block}
 .gray{background:#475569;color:white;padding:2px 5px;border-radius:5px;display:inline-block;font-size:9px}
-.live{background:#16a34a;animation:blink 1s infinite;font-weight:bold}
+.yellow{background:#f59e0b;color:white;padding:3px 6px;border-radius:5px;font-weight:bold}
+.live{color:#22c55e;font-weight:bold;animation:blink 1s infinite}
 @keyframes blink{0%{opacity:1}50%{opacity:0.6}}
 .filter{margin:8px auto;text-align:center}
-.filter button{padding:5px 10px;margin:2px;border-radius:5px;border:none;font-weight:bold;cursor:pointer;font-size:11px}
+.filter button{padding:6px 12px;margin:3px;border-radius:6px;border:none;font-weight:bold;cursor:pointer;font-size:11px}
 .active{background:#22c55e;color:white}
+.conditions{background:#1e293b;border:1px solid #22c55e;border-radius:8px;padding:8px;margin:8px;text-align:center;font-size:11px}
 </style>
 </head>
 <body>
 
-<h2>🔥 KUNDGOL - NIFTY 50 + MIDCAP 100 + FII ✅</h2>
+<h2>🔥 KUNDGOL - ALL CONDITIONS APPLIED ✅</h2>
+
+<div class="conditions">
+<b>🎯 AUTO FILTER CONDITIONS (Yella Stocks ge Apply Aaytu):</b><br>
+1. Time: 9:15 AM - 11:00 AM ✅ | 2. Deals >=10 ✅ | 3. Buyer: FII/LIC/MF/DII ✅ | 4. Trend >0.5% CE / <-0.5% PE ✅
+</div>
 
 <div class="filter">
-<button onclick="filterIndex('ALL')" id="btn-ALL" class="active">ALL 150+</button>
-<button onclick="filterIndex('NIFTY50')" id="btn-NIFTY50">Nifty 50</button>
-<button onclick="filterIndex('MIDCAP')" id="btn-MIDCAP">Midcap 100</button>
-<button onclick="filterIndex('FII')" id="btn-FII">FII Only 🔵</button>
+<button onclick="setMode('ALL')" id="btn-ALL" class="active">ALL Stocks</button>
+<button onclick="setMode('ENTRY')" id="btn-ENTRY" style="background:#16a34a;color:white">✅ Only ENTRY Ready (3 Conditions Pass)</button>
+<button onclick="setMode('FII')" id="btn-FII">FII Only 🔵</button>
 </div>
-<p style="text-align:center;font-size:10px">Total: <span id="count">0</span> Stocks | Live 1s | FII Filter</p>
+
+<p style="text-align:center;font-size:11px">Showing: <span id="count">0</span> | Green = Entry Ready | Gray = Skip</p>
 
 <table>
 <thead>
 <tr>
-<th>Index</th>
 <th>Symbol</th>
 <th>Buyer + Time</th>
 <th>Buy ₹</th>
-<th>Live Spot</th>
+<th>Live</th>
 <th>Trend</th>
 <th>Deals</th>
-<th>Lot</th>
-<th>Profit %</th>
+<th>Check</th>
 <th>ENTRY</th>
-<th>EXIT 🚪</th>
+<th>EXIT</th>
 </tr>
 </thead>
 <tbody id="tbody"></tbody>
 </table>
 
 <script>
-// ✅ COMPLETE LOT MAP - Nifty 50 + Midcap 100
-const LOT_MAP = {
-  // NIFTY 50
-  "RELIANCE":250,"TCS":150,"HDFCBANK":550,"ICICIBANK":700,"INFY":400,"BHARTIARTL":475,"ITC":1600,"SBIN":1500,"LICI":400,"LT":550,"HINDUNILVR":300,"KOTAKBANK":800,"BAJFINANCE":500,"AXISBANK":1200,"MARUTI":100,"ASIANPAINT":400,"SUNPHARMA":700,"TITAN":350,"ULTRACEMCO":100,"WIPRO":1200,"ONGC":6400,"NTPC":3000,"POWERGRID":1800,"HCLTECH":700,"BAJAJFINSV":500,"NESTLEIND":100,"ADANIENT":500,"ADANIPORTS":1000,"JSWSTEEL":1350,"COALINDIA":2100,"GRASIM":400,"BRITANNIA":100,"CIPLA":500,"EICHERMOT":35,"DRREDDY":125,"HDFCLIFE":1100,"SBILIFE":750,"APOLLOHOSP":125,"BPCL":1800,"TATAMOTORS":1425,"TATASTEEL":5500,"TECHM":600,"INDUSINDBK":800,"DIVISLAB":100,"HEROMOTOCO":150,"BAJAJ-AUTO":125,"HINDALCO":1400,"UPL":1100,
-  // MIDCAP 100 + HAL
-  "HAL":300,"BEL":2500,"BHEL":2625,"BDL":600,"MAZDOCK":200,"CONCOR":1000,"PERSISTENT":100,"MPHASIS":300,"COFORGE":150,"LTF":5000,"MUTHOOTFIN":250,"CHOLAFIN":1000,"FEDERALBNK":5000,"IDFCFIRSTB":10000,"BANKBARODA":3900,"CANBK":5000,"PNB":8000,"INDIANB":2000,"AUBANK":700,"GODREJPROP":200,"OBEROIRLTY":400,"PRESTIGE":500,"PHOENIXLTD":500,"INDHOTEL":2000,"PEL":600,"MRF":5,"BALKRISIND":300,"ASTRAL":400,"POLYCAB":200,"KEI":200,"VOLTAS":600,"CUMMINSIND":250,"ABB":300,"SIEMENS":200,"BHARATFORG":500,"ASHOKLEY":8000,"TVSMOTOR":700,"MOTHERSON":4500,"MRF":5,"DIXON":100,"AMBER":300,"TATAPOWER":3000,"TATACOMM":300,"TATACHEM":600,"JINDALSTEL":800,"SAIL":4000,"NMDC":4000,"HINDCOPPER":3000,"ZYDUSLIFE":800,"LUPIN":500,"AUROPHARMA":800,"ALKEM":100,"IPCALAB":400,"LAURUSLABS":1800,"GLENMARK":800,"NAUKRI":100,"INDIAMART":100,"LTTS":100,"TATAELXSI":100,"KPITTECH":500,"SYNGENE":800,"DEEPAKNTR":200,"PIIND":200,"COROMANDEL":500,"UPL":1100,"GUJGAS":800,"IGL":1500,"MGL":400,"PETRONET":1000,"ATGL":500
-};
+const LOT_MAP={"ABB":500,"SIEMENS":200,"BHARATFORG":500,"ASHOKLEY":8000,"TVSMOTOR":700,"MOTHERSON":4500,"DIXON":100,"AMBER":300,"TATAPOWER":3000,"TATACOMM":300,"TATACHEM":600,"JINDALSTEL":800,"SAIL":4000,"NMDC":4000,"HINDCOPPER":3000,"ZYDUSLIFE":800,"LUPIN":500,"AUROPHARMA":800,"ALKEM":100,"RELIANCE":250,"TCS":150,"HDFCBANK":550,"ICICIBANK":700,"INFY":400,"BHARTIARTL":475,"ITC":1600,"SBIN":1500,"LICI":400,"HAL":300,"BEL":2500,"BHEL":2625};
 
-let currentFilter="ALL";
+let dealsData=[
+  {symbol:"ABB",buyer:"LIC",time:"09:42 AM",buyPrice:382,spot:403.70,pChange:1.8,deals:18,type:"DII"},
+  {symbol:"SIEMENS",buyer:"SBI MF",time:"09:54 AM",buyPrice:2373,spot:2353.38,pChange:-0.8,deals:12,type:"MF"},
+  {symbol:"BHARATFORG",buyer:"FII",time:"09:12 AM",buyPrice:854,spot:875.08,pChange:2.2,deals:25,type:"FII"},
+  {symbol:"ASHOKLEY",buyer:"DII",time:"10:13 AM",buyPrice:3045,spot:3067.71,pChange:0.6,deals:15,type:"DII"},
+  {symbol:"TVSMOTOR",buyer:"HDFC MF",time:"10:38 AM",buyPrice:791,spot:768.60,pChange:-1.2,deals:8,type:"MF"},
+  {symbol:"MOTHERSON",buyer:"SBI MF",time:"10:54 AM",buyPrice:1655,spot:1669.55,pChange:-0.9,deals:14,type:"MF"},
+  {symbol:"DIXON",buyer:"ICICI MF",time:"10:19 AM",buyPrice:3107,spot:3142.65,pChange:0.3,deals:9,type:"MF"},
+  {symbol:"HINDCOPPER",buyer:"FII",time:"10:50 AM",buyPrice:1281,spot:1331.80,pChange:1.1,deals:22,type:"FII"},
+  {symbol:"ZYDUSLIFE",buyer:"LIC",time:"09:25 AM",buyPrice:1886,spot:1909.87,pChange:1.9,deals:20,type:"DII"},
+  {symbol:"LUPIN",buyer:"ICICI MF",time:"10:44 AM",buyPrice:1159,spot:1136.09,pChange:-1.5,deals:11,type:"MF"},
+  {symbol:"TATAPOWER",buyer:"ICICI MF",time:"09:20 AM",buyPrice:893,spot:857.36,pChange:0.7,deals:16,type:"MF"},
+  {symbol:"RELIANCE",buyer:"LIC",time:"09:15 AM",buyPrice:2900,spot:2968.41,pChange:1.29,deals:29,type:"DII"},
+  {symbol:"HAL",buyer:"LIC",time:"09:32 AM",buyPrice:4510,spot:4856.22,pChange:1.89,deals:19,type:"DII"},
+  {symbol:"INFY",buyer:"FII",time:"09:20 AM",buyPrice:1845,spot:1880.30,pChange:1.95,deals:45,type:"FII"},
+  {symbol:"SBIN",buyer:"HDFC MF",time:"10:30 AM",buyPrice:810,spot:822.44,pChange:-0.41,deals:7,type:"MF"},
+];
 
-// ✅ GENERATE ALL STOCKS DATA
-function generateAllStocks(){
-  let nifty50 = ["RELIANCE","TCS","HDFCBANK","ICICIBANK","INFY","BHARTIARTL","ITC","SBIN","LICI","LT","HINDUNILVR","KOTAKBANK","BAJFINANCE","AXISBANK","MARUTI","ASIANPAINT","SUNPHARMA","TITAN","ULTRACEMCO","WIPRO","ONGC","NTPC","POWERGRID","HCLTECH","BAJAJFINSV","NESTLEIND","ADANIENT","ADANIPORTS","JSWSTEEL","COALINDIA","GRASIM","BRITANNIA","CIPLA","EICHERMOT","DRREDDY","HDFCLIFE","SBILIFE","APOLLOHOSP","BPCL","TATAMOTORS","TATASTEEL","TECHM","INDUSINDBK","DIVISLAB","HEROMOTOCO","BAJAJ-AUTO","HINDALCO","UPL","JSWSTEEL","SBILIFE"];
-  
-  let midcap100 = ["HAL","BEL","BHEL","BDL","MAZDOCK","CONCOR","PERSISTENT","MPHASIS","COFORGE","LTF","MUTHOOTFIN","CHOLAFIN","FEDERALBNK","IDFCFIRSTB","BANKBARODA","CANBK","PNB","INDIANB","AUBANK","GODREJPROP","OBEROIRLTY","PRESTIGE","PHOENIXLTD","INDHOTEL","PEL","BALKRISIND","ASTRAL","POLYCAB","KEI","VOLTAS","CUMMINSIND","ABB","SIEMENS","BHARATFORG","ASHOKLEY","TVSMOTOR","MOTHERSON","DIXON","AMBER","TATAPOWER","TATACOMM","TATACHEM","JINDALSTEL","SAIL","NMDC","HINDCOPPER","ZYDUSLIFE","LUPIN","AUROPHARMA","ALKEM","IPCALAB","LAURUSLABS","GLENMARK","NAUKRI","INDIAMART","LTTS","TATAELXSI","KPITTECH","SYNGENE","DEEPAKNTR","PIIND","COROMANDEL","GUJGAS","IGL","MGL","PETRONET","ATGL","MRF","TATAPOWER","LUPIN","CONCOR"];
+let currentMode="ALL";
 
-  let allData=[];
-  let buyers=["FII","LIC","HDFC MF","SBI MF","ICICI MF","DII"];
-  
-  nifty50.forEach(sym=>{
-    let buyPrice = 500 + Math.random()*4000;
-    allData.push({
-      symbol:sym, index:"NIFTY50", buyer:buyers[Math.floor(Math.random()*buyers.length)],
-      time:`${9+Math.floor(Math.random()*2)}:${10+Math.floor(Math.random()*50)} AM`,
-      buyPrice:buyPrice, deals:5+Math.floor(Math.random()*50),
-      spot:buyPrice + (Math.random()-0.5)*100, pChange:(Math.random()*3-1).toFixed(2),
-      highest:buyPrice+50, type:Math.random()>0.5?"FII":"DII"
-    });
-  });
-  
-  midcap100.forEach(sym=>{
-    let buyPrice = 200 + Math.random()*3000;
-    allData.push({
-      symbol:sym, index:"MIDCAP", buyer:buyers[Math.floor(Math.random()*buyers.length)],
-      time:`${9+Math.floor(Math.random()*2)}:${10+Math.floor(Math.random()*50)} AM`,
-      buyPrice:buyPrice, deals:5+Math.floor(Math.random()*40),
-      spot:buyPrice + (Math.random()-0.5)*80, pChange:(Math.random()*4-1.5).toFixed(2),
-      highest:buyPrice+40, type:Math.random()>0.4?"FII":"MF"
-    });
-  });
-  return allData;
-}
-
-let dealsData = generateAllStocks();
-
-function filterIndex(type){
-  currentFilter=type;
+function setMode(m){
+  currentMode=m;
   document.querySelectorAll('.filter button').forEach(b=>b.classList.remove('active'));
-  document.getElementById('btn-'+type).classList.add('active');
+  document.getElementById('btn-'+m).classList.add('active');
   render();
 }
 
-function getTrend(p){
-  p=parseFloat(p);
-  if(p>1.5) return `<span style="color:#22c55e">🚀 FULL UP +${p}%</span>`;
-  if(p>0.5) return `<span style="color:#22c55e">⬆️ UP +${p}%</span>`;
-  if(p<-1.5) return `<span style="color:#ef4444">💥 FULL DOWN ${p}%</span>`;
-  if(p<-0.5) return `<span style="color:#ef4444">⬇️ DOWN ${p}%</span>`;
-  return `<span class="gray">➡️ SIDE ${p}%</span>`;
+// ✅ ALL 4 CONDITIONS CHECK FUNCTION - Yella edukke apply!
+function checkConditions(d){
+  let timeStr=d.time; // "09:42 AM"
+  let hour=parseInt(timeStr.split(':')[0]);
+  let min=parseInt(timeStr.split(':')[1]);
+  let isAM=timeStr.includes('AM');
+  let timeOk = isAM && hour>=9 && (hour<11 || (hour==11 && min==0)) &&!(hour==9 && min<15);
+  if(hour==9 && isAM) timeOk = min>=15;
+  if(hour>=10 && hour<=11 && isAM) timeOk=true;
+  if(hour==9 && isAM && min>=15) timeOk=true;
+
+  let dealsOk = d.deals>=10;
+  let buyerOk = ["FII","LIC","DII","MF","SBI MF","HDFC MF","ICICI MF"].some(b=>d.buyer.includes(b) || d.type==b || d.type=="FII" || d.type=="DII");
+  let trendOk = Math.abs(parseFloat(d.pChange))>0.5;
+
+  return {timeOk,dealsOk,buyerOk,trendOk,allOk:timeOk&&dealsOk&&buyerOk&&trendOk};
 }
 
 function getEntry(d){
-  if(d.deals<5) return `<span class="gray">❌ SKIP</span>`;
+  let c=checkConditions(d);
+  if(!c.timeOk) return `<span class="gray">❌ Time Fail 9:15-11</span>`;
+  if(!c.dealsOk) return `<span class="gray">❌ Deals <10 (${d.deals})</span>`;
+  if(!c.trendOk) return `<span class="gray">⏸️ SIDE ${d.pChange}%</span>`;
+
+  // ✅ ALL CONDITIONS PASS!
   if(parseFloat(d.pChange)>0.5){
     let ce=Math.ceil(d.spot/10)*10;
-    return `<span class="green">✅ ${ce} CE</span>`;
-  } else if(parseFloat(d.pChange)<-0.5){
+    return `<span class="green">✅ ${ce} CE BUY</span>`;
+  } else {
     let pe=Math.floor(d.spot/10)*10;
-    return `<span class="red">✅ ${pe} PE</span>`;
-  } else return `<span class="gray">⏸️ WAIT</span>`;
+    return `<span class="red">✅ ${pe} PE BUY</span>`;
+  }
 }
 
 function getExit(d){
-  let profit = ((d.spot - d.buyPrice)/d.buyPrice*100);
+  let profit=((d.spot-d.buyPrice)/d.buyPrice*100);
   if(profit>=5) return `<span class="green">🎯 EXIT +${profit.toFixed(1)}%</span>`;
   if(profit<=-2) return `<span class="red">🛑 SL ${profit.toFixed(1)}%</span>`;
-  if(d.deals<=3 && profit>1) return `<span class="red">🚨 EXIT Buyer Out</span>`;
   return `<span style="color:#22c55e;font-size:9px">💎 HOLD +${profit.toFixed(1)}%</span>`;
 }
 
 function render(){
-  let filtered = dealsData.filter(d=>{
-    if(currentFilter=="ALL") return true;
-    if(currentFilter=="NIFTY50") return d.index=="NIFTY50";
-    if(currentFilter=="MIDCAP") return d.index=="MIDCAP";
-    if(currentFilter=="FII") return d.type=="FII" || d.buyer=="FII";
+  let filtered=dealsData.filter(d=>{
+    if(currentMode=="ALL") return true;
+    if(currentMode=="ENTRY") return checkConditions(d).allOk;
+    if(currentMode=="FII") return d.type=="FII";
     return true;
   });
-  
-  document.getElementById("count").innerText=filtered.length;
+  document.getElementById("count").innerText=filtered.length+" / "+dealsData.length;
   let html="";
-  filtered.slice(0,100).forEach(d=>{ // Show 100 at a time for speed
-    let lot=LOT_MAP[d.symbol]||500;
-    let profit=((d.spot-d.buyPrice)/d.buyPrice*100).toFixed(2);
-    let pColor=profit>0?"#22c55e":"#ef4444";
-    if(d.spot>d.highest) d.highest=d.spot;
-    let idxBadge = d.index=="NIFTY50"? "🔵 N50" : "🟡 MID";
-    
-    html+=`<tr>
-      <td>${idxBadge}</td>
-      <td><b>${d.symbol}</b> ${d.type=="FII"?"🔵":""}</td>
-      <td><b>${d.buyer}</b><br><span style="font-size:8px;background:#334155;padding:1px 4px;border-radius:8px">🕘 ${d.time}</span></td>
-      <td>₹${d.buyPrice.toFixed(0)}</td>
+  filtered.forEach(d=>{
+    let c=checkConditions(d);
+    let profit=((d.spot-d.buyPrice)/d.buyPrice*100).toFixed(1);
+    let checkBadge = c.allOk? `<span class="green">✅ 4/4 PASS</span>` : `<span class="gray">${(c.timeOk?1:0)+(c.dealsOk?1:0)+(c.buyerOk?1:0)+(c.trendOk?1:0)}/4</span>`;
+
+    html+=`<tr style="${c.allOk?'background:#14532d':''}">
+      <td><b>${d.symbol}</b> ${d.type=="FII"?"🔵":"🟢"}</td>
+      <td><b>${d.buyer}</b><br><span style="font-size:8px;background:#334155;padding:1px 4px;border-radius:8px">${d.time}</span></td>
+      <td>₹${d.buyPrice}</td>
       <td class="live">₹${d.spot.toFixed(2)}</td>
-      <td>${getTrend(d.pChange)}</td>
+      <td>${parseFloat(d.pChange)>0.5?'🚀':parseFloat(d.pChange)<-0.5?'⬇️':'➡️'} ${d.pChange}%</td>
       <td>${d.deals}</td>
-      <td>${lot}</td>
-      <td style="color:${pColor};font-weight:bold">${profit>0?'+':''}${profit}%</td>
+      <td>${checkBadge}</td>
       <td>${getEntry(d)}</td>
       <td>${getExit(d)}</td>
     </tr>`;
@@ -167,17 +156,8 @@ function render(){
   document.getElementById("tbody").innerHTML=html;
 }
 
-function updateLive(){
-  dealsData=dealsData.map(d=>{
-    d.spot+= (Math.random()-0.5)*3;
-    d.pChange=(parseFloat(d.pChange)+(Math.random()-0.5)*0.1).toFixed(2);
-    return d;
-  });
-  render();
-}
-
 render();
-setInterval(updateLive, 1000);
+setInterval(()=>{ dealsData.forEach(d=>d.spot+= (Math.random()-0.5)*2); render(); },1500);
 </script>
 </body>
 </html>
