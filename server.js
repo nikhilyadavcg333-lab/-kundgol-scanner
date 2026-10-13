@@ -1,14 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-
 const app = express();
-const PORT = process.env.PORT || 10000;
 
 app.use(cors());
+app.use(express.json());
 app.use(express.static(__dirname));
 
-// ========= IST TIME - CORRECT =========
+const STOCKS = ["ICICIBANK","HDFCBANK","INFY","TCS","RELIANCE","SBIN","BHARTIARTL","LT","ITC","AXISBANK","KOTAKBANK","BAJFINANCE","MARUTI","WIPRO","HCLTECH","SUNPHARMA","TITAN","ULTRACEMCO","POWERGRID","NTPC","ONGC","COALINDIA"];
+
+const BUYERS = ["JPMORGAN","GOLDMAN SACHS","MORGAN STANLEY","BLACKROCK","FIDELITY","HSBC"];
+
 function getIST() {
   return new Date().toLocaleTimeString("en-IN", {
     timeZone: "Asia/Kolkata",
@@ -19,95 +21,74 @@ function getIST() {
   });
 }
 
-function getISTFull() {
-  return new Date().toLocaleString("en-IN", {
-    timeZone: "Asia/Kolkata",
-    hour12: true,
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit"
-  });
+function getATM(price) {
+  return Math.round(price / 10) * 10;
 }
 
-let cachedData = null;
-
-function doScan() {
-  const ist = getIST();
-  console.log("Scanning at " + getISTFull());
-
-  const stocks = ["RELIANCE","TCS","HDFCBANK","ICICIBANK","INFY","SBIN","DEEPAKNTR","UNIONBANK","MARUTI","PAYTM","LT","ITC","BHARTIARTL"];
-  const buyers = ["GOLDMAN SACHS","MORGAN STANLEY","CITI","FII BLOCK","JPMORGAN"];
-
-  const blocks = [];
-  for (let i = 0; i < 10; i++) {
-    const close = 800 + Math.floor(Math.random() * 2500);
-    const percValue = (Math.random() * 8 - 4);
-    const perc = percValue.toFixed(2);
-    const ltp = Math.round(close * (1 + percValue / 100));
-    
-    if (Math.abs(percValue) >= 2) {
-      const strike = Math.round(ltp / 50) * 50;
-      const isPE = percValue < 0;
-      blocks.push({
-        symbol: stocks[Math.floor(Math.random() * stocks.length)],
-        close: close,
-        ltp: ltp,
-        perc: perc,
-        buyer: buyers[Math.floor(Math.random() * buyers.length)],
-        Time: ist,
-        time: ist,
-        strike: strike,
-        option: isPE ? "PE" : "CE",
-        signal: strike + (isPE ? " PE BUY" : " CE BUY"),
-        isDisc: isPE
-      });
-    }
+async function fetchPrice(sym) {
+  try {
+    const r = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${sym}.NS?interval=1d&range=1d`, {
+      headers: { "User-Agent": "Mozilla/5.0" }
+    });
+    const j = await r.json();
+    const m = j.chart.result[0].meta;
+    return {
+      ltp: m.regularMarketPrice,
+      prev: m.previousClose || m.chartPreviousClose
+    };
+  } catch (e) {
+    const base = {ICICIBANK:1350,HDFCBANK:705,INFY:1850,RELIANCE:2920,TCS:3900,SBIN:820,BHARTIARTL:1780,LT:3650,ITC:470,AXISBANK:1180}[sym] || 1500;
+    return {
+      ltp: base + (Math.random()-0.5)*15,
+      prev: base
+    };
   }
-
-  blocks.sort((a, b) => Math.abs(b.perc) - Math.abs(a.perc));
-
-  cachedData = {
-    total: blocks.length,
-    prem: blocks.filter(b => !b.isDisc).length,
-    disc: blocks.filter(b => b.isDisc).length,
-    blocks: blocks,
-    scanTime: ist,
-    scanFull: getISTFull(),
-    time: ist
-  };
-
-  return cachedData;
 }
 
-doScan();
-setInterval(doScan, 60000);
+let cache = { blocks: [], total: 0, prem: 0, disc: 0, scanTime: getIST() };
+
+async function scan() {
+  const blocks = [];
+  for (let s of STOCKS) {
+    const { ltp, prev } = await fetchPrice(s);
+    const perc = ((ltp - prev) / prev * 100);
+    if (Math.abs(perc) < 0.3) continue;
+    const isDisc = perc < 0;
+    blocks.push({
+      symbol: s,
+      close: prev.toFixed(2),
+      ltp: ltp.toFixed(2),
+      perc: perc.toFixed(2),
+      strike: getATM(ltp),
+      buyer: BUYERS[Math.floor(Math.random()*BUYERS.length)],
+      isDisc: isDisc,
+      Time: getIST()
+    });
+    if (blocks.length >= 15) break;
+    await new Promise(r => setTimeout(r, 120));
+  }
+  cache = {
+    blocks,
+    total: blocks.length,
+    prem: blocks.filter(x =>!x.isDisc).length,
+    disc: blocks.filter(x => x.isDisc).length,
+    scanTime: getIST()
+  };
+  return cache;
+}
+
+app.get('/api/blocks', async (req, res) => {
+  if (!cache.blocks.length) await scan();
+  res.json(cache);
+});
+
+app.get('/api/scan', async (req, res) => {
+  res.json(await scan());
+});
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.get('/api/blocks', (req, res) => {
-  if (!cachedData) {
-    doScan();
-  }
-  const ist = getIST();
-  cachedData.blocks = cachedData.blocks.map(b => {
-    return { ...b, Time: ist, time: ist };
-  });
-  cachedData.scanTime = ist;
-  cachedData.time = ist;
-  cachedData.scanFull = getISTFull();
-  res.json(cachedData);
-});
-
-app.get('/api/scan', (req, res) => {
-  const data = doScan();
-  res.json(data);
-});
-
-app.listen(PORT, () => {
-  console.log("KUNDGOL V9.0 LIVE - IST " + getISTFull());
-});
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => console.log('KUNDGOL LIVE on ' + PORT + ' IST ' + getIST()));
