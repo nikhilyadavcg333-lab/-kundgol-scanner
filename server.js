@@ -12,13 +12,15 @@ const REAL = {ICICIBANK:1342,HDFCBANK:708,INFY:1845,TCS:3925,RELIANCE:2940,SBIN:
 
 function getIST(){return new Date().toLocaleTimeString("en-IN",{timeZone:"Asia/Kolkata",hour12:true,hour:"2-digit",minute:"2-digit",second:"2-digit"})}
 function getATM(p){if(p>5000) return Math.round(p/50)*50; return Math.round(p/10)*10;}
+
 function getLive(sym){
  const base = REAL[sym]||1500;
- // Live change -0.8% to +1.2% real market jaisa
- const changePct = (Math.random()*2 -0.8);
+ // 2% Premium/Discount
+ const isPrem = Math.random() > 0.5;
+ const perc = 2 + Math.random()*1.5; // 2% to 3.5%
+ const changePct = isPrem? perc : -perc;
  const ltp = base * (1+changePct/100);
- const prev = base * (0.998 + Math.random()*0.008);
- return {ltp, prev, changePct: ((ltp-prev)/prev*100)};
+ return {ltp, prev:base, changePct};
 }
 
 let cache={blocks:[],total:0,prem:0,disc:0,scanTime:getIST()};
@@ -27,7 +29,6 @@ async function scan(){
  const blocks=[];
  for(let s of STOCKS){
   const {ltp,prev,changePct}=getLive(s);
-  if(Math.abs(changePct)<0.15) continue;
   blocks.push({
    symbol:s,
    close:prev.toFixed(2),
@@ -47,4 +48,4 @@ async function scan(){
 app.get('/api/blocks', async (req,res)=>{if(!cache.blocks.length) await scan(); res.json(cache);});
 app.get('/api/scan', async (req,res)=>{res.json(await scan());});
 app.get('/', (req,res)=>res.sendFile(path.join(__dirname,'index.html')));
-app.listen(process.env.PORT||10000,()=>console.log('KUNDGOL V11 REAL LOCK '+getIST()));
+app.listen(process.env.PORT||10000,()=>console.log('KUNDGOL V12 2% ABOVE '+getIST()));
