@@ -1,113 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KUNDGOL V9.0 LIVE</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KUNDGOL V16 MIDCAP</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#0a0f1e;color:#fff;padding:10px}
-.header{background:linear-gradient(90deg,#ff8c00,#ff2d78);padding:12px;border-radius:12px;text-align:center;font-weight:bold}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
-.stat{background:#132040;border:1px solid #2a4a7a;border-radius:10px;padding:10px;text-align:center}
-.stat b{color:#00ff88;font-size:20px;display:block}
-.filters{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0;align-items:center}
-.fbtn{padding:7px 12px;border-radius:20px;border:none;font-weight:bold;cursor:pointer;background:#1a2d4d;color:#fff}
-.fbtn.active{background:#00ff88;color:#000}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:10px}
-.card{background:#132040;border-left:5px solid #00ff88;border-radius:12px;padding:12px;position:relative}
-.card.disc{border-left-color:#ff4444}
-.card h3{font-size:15px}
-.card p{font-size:12px;color:#a0b8d0;line-height:1.5}
-.badge{position:absolute;top:10px;right:10px;padding:3px 8px;border-radius:10px;font-size:11px;font-weight:bold}
-.badge.prem{background:#00ff88;color:#000}
-.badge.disc{background:#ff4444;color:#fff}
-.copybtn{width:100%;margin-top:8px;padding:8px;border:none;border-radius:8px;background:#00aaff;color:#fff;font-weight:bold;cursor:pointer}
-.copybtn:active{background:#00ff88;color:#000}
+body{background:#0a0a0a;color:#fff;font-family:Arial;padding:10px;margin:0}
+.head{background:linear-gradient(90deg,#00ff88,#00aaff);padding:15px;border-radius:12px;color:#000;text-align:center}
+.statbox{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.stat{background:#1a1a1a;padding:12px;border-radius:8px;text-align:center;border:1px solid #333}
+.stat b{font-size:20px;display:block}
+.fil{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.fil button{padding:8px 12px;border-radius:20px;background:#222;color:#fff;border:1px solid #444}
+.fil button.on{background:#00ff88;color:#000;font-weight:bold}
+.card{padding:10px;border-radius:10px;margin:8px 0;border-left:5px solid}
+.g{background:#0f1f15;border-color:#00ff88}
+.r{background:#1f0f0f;border-color:#ff4444}
 </style>
 </head>
 <body>
-
-<div class="header">KUNDGOL V9.0 LIVE - NSE REAL TIME<br><span style="font-size:12px">IST | ATM Strike Auto | Lot Size</span></div>
-
-<div class="stats">
-<div class="stat"><b id="tTotal">0</b>Total</div>
-<div class="stat"><b id="tPrem" style="color:#00ff88">0</b>PREM CE</div>
-<div class="stat"><b id="tDisc" style="color:#ff4444">0</b>DISC PE</div>
-<div class="stat"><b id="scanClock">--:--:--</b>Scan IST</div>
+<div class="head"><h2 style="margin:0">🔥 KUNDGOL V16 LARGE+MIDCAP</h2><div id="src">Loading...</div></div>
+<div class="statbox">
+<div class="stat">Total<b id="tot">0</b></div>
+<div class="stat">PREM CE<b id="pre">0</b></div>
+<div class="stat">DISC PE<b id="dis">0</b></div>
 </div>
-
-<div class="filters">
-<button class="fbtn active" onclick="setFilter(this,'ALL')">ALL</button>
-<button class="fbtn" onclick="setFilter(this,'PREM')">PREM CE</button>
-<button class="fbtn" onclick="setFilter(this,'DISC')">DISC PE</button>
-<button class="fbtn" style="background:#ff8c00" onclick="doScanNow()">SCAN NOW</button>
-<span style="font-size:12px;margin-left:8px">Last: <b id="lastScan">-</b> | <span id="istFull"></span></span>
+<div class="fil">
+<button id="cALL" class="on" onclick="setC('ALL')">ALL 50</button>
+<button id="cLARGE" onclick="setC('LARGE')">LARGE CAP</button>
+<button id="cMIDCAP" onclick="setC('MIDCAP')">MIDCAP NIFTY</button>
 </div>
-
-<div id="error" style="color:#ff4444;padding:8px"></div>
-<div class="grid" id="grid"></div>
-
+<div class="fil">
+<button id="tALL" class="on" onclick="setT('ALL')">ALL</button>
+<button id="tPREM" onclick="setT('PREM')">PREM CE +2%</button>
+<button id="tDISC" onclick="setT('DISC')">DISC PE</button>
+<button onclick="scanNow()" style="background:#00aaff">SCAN NOW</button>
+</div>
+<div id="cards">Loading...</div>
 <script>
-const LOT = {ICICIBANK:700,HDFCBANK:550,INFY:400,RELIANCE:250,TCS:150,SBIN:750,BHARTIARTL:475,LT:300,ITC:1600,AXISBANK:625,WIPRO:1500,HCLTECH:350,SUNPHARMA:350,TITAN:175,DEFAULT:500};
-let allBlocks=[],currentFilter='ALL';
-
-function getIST(){return new Date().toLocaleTimeString("en-IN",{timeZone:"Asia/Kolkata",hour12:true,hour:"2-digit",minute:"2-digit",second:"2-digit"});}
-function getISTFull(){return new Date().toLocaleString("en-IN",{timeZone:"Asia/Kolkata",hour12:true,day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});}
-
-function updateClocks(){
- document.getElementById('scanClock').innerText=getIST();
- document.getElementById('istFull').innerText=getISTFull();
+const LARGE=["ICICIBANK","HDFCBANK","INFY","TCS","RELIANCE","SBIN","BHARTIARTL","LT","ITC","AXISBANK","KOTAKBANK","BAJFINANCE","MARUTI","WIPRO","HCLTECH","SUNPHARMA","TITAN","ULTRACEMCO","PERSISTENT","COFORGE","HAL","BEL","TRENT"];
+let DATA=[];let curC='ALL';let curT='ALL';
+function setC(c){curC=c;document.querySelectorAll('[id^=c]').forEach(b=>b.classList.remove('on'));document.getElementById('c'+c).classList.add('on');show();}
+function setT(t){curT=t;document.querySelectorAll('[id^=t]').forEach(b=>b.classList.remove('on'));document.getElementById('t'+t).classList.add('on');show();}
+function show(){
+let f=DATA;
+if(curC=='LARGE')f=f.filter(x=>LARGE.includes(x.symbol));
+if(curC=='MIDCAP')f=f.filter(x=>!LARGE.includes(x.symbol));
+if(curT=='PREM')f=f.filter(x=>!x.isDisc);
+if(curT=='DISC')f=f.filter(x=>x.isDisc);
+document.getElementById('tot').innerText=f.length;
+document.getElementById('pre').innerText=f.filter(x=>!x.isDisc).length;
+document.getElementById('dis').innerText=f.filter(x=>x.isDisc).length;
+document.getElementById('cards').innerHTML=f.map(b=>`
+<div class="card ${b.isDisc?'r':'g'}">
+<div style="display:flex;justify-content:space-between"><b>${b.symbol} - ${b.strike} ${b.cat}</b><b>${b.perc}%</b></div>
+Spot:${b.close} -> LTP:${b.ltp} (${b.perc}%)<br>
+Strike:${b.strike} ${b.isDisc?'PE':'CE'} | Lot:${b.lot} | Exp:16 OCT<br>
+Buyer:${b.buyer} ${b.real?'REAL':'SIM'}<br>
+Time:${b.Time}<br>
+<b>${b.strike} ${b.isDisc?'PE':'CE'} BUY</b>
+</div>`).join('')||'<p style="text-align:center">No data</p>';
 }
-setInterval(updateClocks,1000); updateClocks();
-
-async function fetchBlocks(url){
- try{
-  document.getElementById('error').innerText='Scanning NSE...';
-  const res=await fetch(url);
-  const data=await res.json();
-  allBlocks=data.blocks||[];
-  document.getElementById('tTotal').innerText=data.total||allBlocks.length;
-  document.getElementById('tPrem').innerText=data.prem||0;
-  document.getElementById('tDisc').innerText=data.disc||0;
-  document.getElementById('scanClock').innerText=data.scanTime||getIST();
-  document.getElementById('lastScan').innerText=data.scanTime||getIST();
-  document.getElementById('error').innerText='';
-  render();
- }catch(e){document.getElementById('error').innerText='Error: '+e.message;}
-}
-function doScanNow(){fetchBlocks('/api/scan');}
-function setFilter(btn,t){currentFilter=t;document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');render();}
-
-function render(){
- const grid=document.getElementById('grid');
- let filtered=allBlocks;
- if(currentFilter==='PREM') filtered=allBlocks.filter(b=>!b.isDisc);
- if(currentFilter==='DISC') filtered=allBlocks.filter(b=>b.isDisc);
- const ist=getIST();
- grid.innerHTML=filtered.map(b=>{
-  const perc=parseFloat(b.perc); const isDisc=b.isDisc||perc<0;
-  const cls=isDisc?'disc':''; const badgeCls=isDisc?'disc':'prem';
-  const percText=(perc>0?'+':'')+perc+'%'; const opt=isDisc?'PE':'CE';
-  const lot=LOT[b.symbol]||LOT.DEFAULT;
-  const expiry="16 OCT 2026"; // weekly
-  const sig=`${b.symbol} ${b.strike} ${opt} | Lot ${lot} | Exp ${expiry}`;
-  return `<div class="card ${cls}">
-   <div class="badge ${badgeCls}">${percText}</div>
-   <h3>${b.symbol} - ATM ${b.strike}</h3>
-   <p>Spot: ${b.close} → LTP: <b style="color:#fff">${b.ltp}</b> (${percText})<br>
-   Strike: ${b.strike} ${opt} | Lot: ${lot} | Exp: ${expiry}<br>
-   Buyer: ${b.buyer}<br>
-   Time: ${ist} IST</p>
-   <p style="color:#ffcc00;font-weight:bold;margin-top:4px">${b.strike} ${opt} BUY</p>
-   <button class="copybtn" onclick="copyText('${sig}')">COPY ${b.symbol} ${b.strike} ${opt}</button>
-  </div>`;
- }).join('');
- if(filtered.length===0) grid.innerHTML='<p style="padding:20px">No data. SCAN NOW click maadi</p>';
-}
-function copyText(t){navigator.clipboard.writeText(t);alert('Copied: '+t);}
-fetchBlocks('/api/blocks');
-setInterval(()=>fetchBlocks('/api/blocks'),60000);
+async function load(){let r=await fetch('/api/blocks');let d=await r.json();DATA=d.blocks;document.getElementById('src').innerText=d.source+' | '+d.scanTime+' | Total:'+d.total;show();}
+async function scanNow(){document.getElementById('cards').innerHTML='Scanning NSE...';let r=await fetch('/api/scan');let d=await r.json();DATA=d.blocks;document.getElementById('src').innerText=d.source+' | '+d.scanTime;show();}
+load();
 </script>
 </body>
 </html>
