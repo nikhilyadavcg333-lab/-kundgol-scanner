@@ -3,45 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KUNDGOL V16 MIDCAP</title>
+<title>KUNDGOL V17 PRO - Official</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body{background:#0a0a0a;color:#fff;font-family:Arial;padding:10px;margin:0}
-.head{background:linear-gradient(90deg,#00ff88,#00aaff);padding:15px;border-radius:12px;color:#000;text-align:center}
-.statbox{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
-.stat{background:#1a1a1a;padding:12px;border-radius:8px;text-align:center;border:1px solid #333}
-.stat b{font-size:20px;display:block}
-.fil{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
-.fil button{padding:8px 12px;border-radius:20px;background:#222;color:#fff;border:1px solid #444}
-.fil button.on{background:#00ff88;color:#000;font-weight:bold}
-.card{padding:10px;border-radius:10px;margin:8px 0;border-left:5px solid}
-.g{background:#0f1f15;border-color:#00ff88}
-.r{background:#1f0f0f;border-color:#ff4444}
+*{font-family:'Inter',Arial,sans-serif;box-sizing:border-box}
+body{background:#f5f7fa;color:#1a1d29;margin:0;padding:0}
+.topbar{background:#0f172a;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,0.2)}
+.topbar h1{margin:0;font-size:16px;letter-spacing:0.5px}
+.topbar span{font-size:11px;color:#94a3b8}
+.dash{padding:16px;max-width:1200px;margin:0 auto}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.kpi div{background:#fff;border-radius:10px;padding:16px;text-align:center;border:1px solid #e2e8f0;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.kpi b{font-size:24px;display:block;color:#0f172a}
+.kpi label{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:1px}
+.kpi .green b{color:#059669}.kpi .red b{color:#dc2626}
+.toolbar{background:#fff;border-radius:12px;padding:12px;border:1px solid #e2e8f0;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
+.toolbar button{padding:7px 14px;border-radius:20px;border:1px solid #e2e8f0;background:#f8fafc;font-size:12px;font-weight:600;cursor:pointer}
+.toolbar button.active{background:#0f172a;color:#fff;border-color:#0f172a}
+.toolbar button.scan{background:#3b82f6;color:#fff;border-color:#3b82f6}
+.table{background:#fff;border-radius:12px;border:1px solid #e2e8f0;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.row{display:grid;grid-template-columns:1fr 80px;gap:10px;padding:14px 16px;border-bottom:1px solid #f1f5f9;align-items:center}
+.row:last-child{border:none}
+.row:hover{background:#f8fafc}
+.sym{font-weight:700;font-size:13px;color:#0f172a}
+.meta{font-size:11px;color:#64748b;margin-top:4px;line-height:1.5}
+.badge{padding:3px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.badge-ce{background:#dcfce7;color:#166534}
+.badge-pe{background:#fee2e2;color:#991b1b}
+.badge-mid{background:#e0e7ff;color:#3730a3;font-size:9px}
+.pct{font-weight:700;font-size:13px;text-align:right}
+.pct.up{color:#059669}.pct.down{color:#dc2626}
+.footer{font-size:11px;color:#94a3b8;text-align:center;padding:20px}
 </style>
 </head>
 <body>
-<div class="head"><h2 style="margin:0">🔥 KUNDGOL V16 LARGE+MIDCAP</h2><div id="src">Loading...</div></div>
-<div class="statbox">
-<div class="stat">Total<b id="tot">0</b></div>
-<div class="stat">PREM CE<b id="pre">0</b></div>
-<div class="stat">DISC PE<b id="dis">0</b></div>
+<div class="topbar"><div><h1>⚡ KUNDGOL V17 PRO</h1><span id="src">Loading NSE Block Deals...</span></div><div style="text-align:right"><span>LIVE MARKET SCANNER</span><br><span id="time" style="color:#fff;font-weight:600">--:--</span></div></div>
+<div class="dash">
+<div class="kpi">
+<div><label>Total Deals</label><b id="tot">0</b></div>
+<div class="green"><label>Premium CE</label><b id="pre">0</b></div>
+<div class="red"><label>Discount PE</label><b id="dis">0</b></div>
 </div>
-<div class="fil">
-<button id="cALL" class="on" onclick="setC('ALL')">ALL 50</button>
-<button id="cLARGE" onclick="setC('LARGE')">LARGE CAP</button>
-<button id="cMIDCAP" onclick="setC('MIDCAP')">MIDCAP NIFTY</button>
+<div class="toolbar">
+<button id="cALL" class="active" onclick="setC('ALL')">All 50</button>
+<button id="cLARGE" onclick="setC('LARGE')">Large Cap</button>
+<button id="cMIDCAP" onclick="setC('MIDCAP')">Midcap Nifty</button>
+<span style="width:1px;height:20px;background:#e2e8f0;margin:0 4px"></span>
+<button id="tALL" class="active" onclick="setT('ALL')">All</button>
+<button id="tPREM" onclick="setT('PREM')">Prem +2%</button>
+<button id="tDISC" onclick="setT('DISC')">Disc</button>
+<button class="scan" onclick="scanNow()">↻ Scan Now</button>
 </div>
-<div class="fil">
-<button id="tALL" class="on" onclick="setT('ALL')">ALL</button>
-<button id="tPREM" onclick="setT('PREM')">PREM CE +2%</button>
-<button id="tDISC" onclick="setT('DISC')">DISC PE</button>
-<button onclick="scanNow()" style="background:#00aaff">SCAN NOW</button>
+<div class="table" id="list"><div style="padding:30px;text-align:center;color:#94a3b8">Loading block deals...</div></div>
+<div class="footer">Data: NSE India | Expiry: Monthly Last Thursday | Official Terminal V17 | Kundgol Technologies</div>
 </div>
-<div id="cards">Loading...</div>
 <script>
 const LARGE=["ICICIBANK","HDFCBANK","INFY","TCS","RELIANCE","SBIN","BHARTIARTL","LT","ITC","AXISBANK","KOTAKBANK","BAJFINANCE","MARUTI","WIPRO","HCLTECH","SUNPHARMA","TITAN","ULTRACEMCO","PERSISTENT","COFORGE","HAL","BEL","TRENT"];
 let DATA=[];let curC='ALL';let curT='ALL';
-function setC(c){curC=c;document.querySelectorAll('[id^=c]').forEach(b=>b.classList.remove('on'));document.getElementById('c'+c).classList.add('on');show();}
-function setT(t){curT=t;document.querySelectorAll('[id^=t]').forEach(b=>b.classList.remove('on'));document.getElementById('t'+t).classList.add('on');show();}
+function setC(c){curC=c;document.querySelectorAll('[id^=c]').forEach(b=>b.classList.remove('active'));document.getElementById('c'+c).classList.add('active');show();}
+function setT(t){curT=t;document.querySelectorAll('[id^=t]').forEach(b=>b.classList.remove('active'));document.getElementById('t'+t).classList.add('active');show();}
 function show(){
 let f=DATA;
 if(curC=='LARGE')f=f.filter(x=>LARGE.includes(x.symbol));
@@ -51,19 +71,11 @@ if(curT=='DISC')f=f.filter(x=>x.isDisc);
 document.getElementById('tot').innerText=f.length;
 document.getElementById('pre').innerText=f.filter(x=>!x.isDisc).length;
 document.getElementById('dis').innerText=f.filter(x=>x.isDisc).length;
-document.getElementById('cards').innerHTML=f.map(b=>`
-<div class="card ${b.isDisc?'r':'g'}">
-<div style="display:flex;justify-content:space-between"><b>${b.symbol} - ${b.strike} ${b.cat}</b><b>${b.perc}%</b></div>
-Spot:${b.close} -> LTP:${b.ltp} (${b.perc}%)<br>
-Strike:${b.strike} ${b.isDisc?'PE':'CE'} | Lot:${b.lot} | Exp:16 OCT<br>
-Buyer:${b.buyer} ${b.real?'REAL':'SIM'}<br>
-Time:${b.Time}<br>
-<b>${b.strike} ${b.isDisc?'PE':'CE'} BUY</b>
-</div>`).join('')||'<p style="text-align:center">No data</p>';
+document.getElementById('list').innerHTML=f.map(b=>`<div class="row"><div><div class="sym">${b.symbol} <span class="badge ${b.isDisc?'badge-pe':'badge-ce'}">${b.strike} ${b.isDisc?'PE':'CE'}</span> <span class="badge-mid badge">${b.cat}</span></div><div class="meta">Spot: ₹${b.close} → LTP: ₹${b.ltp} | Lot: ${b.lot} | Exp: 16 OCT 25 | Buyer: ${b.buyer} ${b.real?'• LIVE':''}<br><b style="color:#0f172a">${b.strike} ${b.isDisc?'PE':'CE'} BUY • ${b.Time}</b></div></div><div class="pct ${b.isDisc?'down':'up'}">${b.perc>0?'+':''}${b.perc}%<br><span style="font-size:10px;color:#64748b">${b.isDisc?'DISC':'PREM'}</span></div></div>`).join('')||'<div style="padding:30px;text-align:center;color:#94a3b8">No deals found</div>';
 }
-async function load(){let r=await fetch('/api/blocks');let d=await r.json();DATA=d.blocks;document.getElementById('src').innerText=d.source+' | '+d.scanTime+' | Total:'+d.total;show();}
-async function scanNow(){document.getElementById('cards').innerHTML='Scanning NSE...';let r=await fetch('/api/scan');let d=await r.json();DATA=d.blocks;document.getElementById('src').innerText=d.source+' | '+d.scanTime;show();}
-load();
+async function load(){let r=await fetch('/api/blocks');let d=await r.json();DATA=d.blocks;document.getElementById('src').innerText=`${d.source} • ${d.scanTime} • ${d.total} deals`;document.getElementById('time').innerText=d.scanTime;show();}
+async function scanNow(){document.getElementById('list').innerHTML='<div style="padding:30px;text-align:center">Scanning NSE live...</div>';let r=await fetch('/api/scan');let d=await r.json();DATA=d.blocks;document.getElementById('src').innerText=`${d.source} • ${d.scanTime}`;document.getElementById('time').innerText=d.scanTime;show();}
+load();setInterval(load,60000);
 </script>
 </body>
 </html>
