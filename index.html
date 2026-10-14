@@ -1,67 +1,62 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>PRO PLUS V41 GROUPED</title>
-<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}body{background:#060a0f;color:#d6e2ec;padding:8px}.hd{background:linear-gradient(90deg,#00ff88,#00d4ff,#7c4dff);color:#000;padding:14px;border-radius:14px;font-weight:900;display:flex;justify-content:space-between}.badge{background:#000;color:#00ff88;padding:5px 12px;border-radius:20px;font-size:12px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:10px 0}.card{background:#0f1922;border:1px solid #1c2e3f;padding:10px;border-radius:10px;text-align:center}.card h3{font-size:10px;color:#7a93a8}.card b{font-size:16px}.ctrl{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.ctrl input,.ctrl select{background:#0f1922;border:1px solid #1c2e3f;color:#fff;padding:9px;border-radius:8px;font-size:13px}.tbl{background:#0f1922;border:1px solid #1c2e3f;border-radius:12px;overflow:hidden}.th{padding:10px 12px;font-weight:800;background:#0a141e;display:flex;justify-content:space-between;color:#00ff88;border-left:4px solid #00ff88}table{width:100%;border-collapse:collapse;font-size:11px}th{background:#071017;padding:7px 4px;color:#5f7a8e;font-size:9px;position:sticky;top:0}td{padding:10px 4px;border-bottom:1px solid #15212e}.sym{font-weight:800;color:#fff;font-size:13px}.up{color:#00ff88}.down{color:#ff4d6d}.score-high{background:#00ff88;color:#000;padding:4px 8px;border-radius:10px;font-weight:900;font-size:11px}.tag{font-size:9px;padding:4px 8px;border-radius:10px;font-weight:900}.buy-tag{background:#00ff88;color:#000}.real-tag{background:#ffcc00;color:#000;font-size:8px;padding:2px 4px;border-radius:3px;font-weight:900}.load{text-align:center;padding:30px;color:#4a667a}</style></head><body>
-<div class="hd"><span>🔥 PRO PLUS V41 - GROUPED</span><span class="badge" id="badge">PRO LIVE</span></div>
-<div class="grid"><div class="card"><h3>UNIQUE STOCKS</h3><b id="cAll">0</b></div><div class="card"><h3>PRO SCORE >70</h3><b id="cPro" style="color:#00ff88">0</b></div><div class="card"><h3>STRONG BUY</h3><b id="cBuy" style="color:#00ff88">0</b></div><div class="card"><h3>TOTAL ₹Cr</h3><b id="cBreak" style="color:#00d4ff">0</b></div></div>
-<div class="ctrl"><input id="search" placeholder="🔍 Symbol..." style="flex:1"><select id="mode"><option value="pro">🔥 PRO PLUS: Score>70 + REAL BULK BUY</option><option value="real">✅ REAL BULK ONLY - GROUPED</option><option value="yalla">YALLA ALL</option></select><select id="sort"><option value="value">₹Cr High</option><option value="score">Score High</option><option value="deals">Deals High</option></select></div>
-<div class="tbl"><div class="th"><span id="title">PRO PLUS GROUPED</span><span id="time" style="font-size:10px;color:#5a7488"></span></div>
-<div style="max-height:82vh;overflow:auto"><table><thead><tr><th>#</th><th>SYMBOL</th><th>SPOT / 9:15H</th><th>% / SURGE</th><th>SCORE</th><th>CE / TGT / SL</th><th>PRO SIGNAL</th></tr></thead><tbody id="body"><tr><td colspan=7 class=load>Loading...</td></tr></tbody></table></div></div>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>V44 BEAR PROFIT</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}body{background:#060a0f;color:#d6e2ec;padding:8px}.hd{background:linear-gradient(90deg,#ff4d6d,#ffcc00,#00ff88);color:#000;padding:14px;border-radius:14px;font-weight:900;display:flex;justify-content:space-between}.nifty-bar{background:#0f1922;border:2px solid #1c2e3f;border-radius:12px;padding:12px;margin:10px 0;display:flex;justify-content:space-between}.bull{border-color:#00ff88}.bear{border-color:#ff4d6d;background:linear-gradient(90deg,#1f0a14,#0f1922)}.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0}.card{background:#0f1922;border:1px solid #1c2e3f;padding:8px;border-radius:10px;text-align:center}.card h3{font-size:8px;color:#7a93a8}.card b{font-size:12px}.formula{background:#0f1922;border:2px solid #00ff88;border-radius:12px;padding:8px;margin:8px 0;display:flex;gap:6px;flex-wrap:wrap}.fchk{background:#071017;border:1px solid #1c2e3f;color:#fff;padding:5px 8px;border-radius:8px;font-size:10px}.ctrl{display:flex;gap:6px;margin-bottom:8px}.ctrl input,.ctrl select{background:#0f1922;border:1px solid #1c2e3f;color:#fff;padding:8px;border-radius:8px;font-size:12px}.tbl{background:#0f1922;border:1px solid #1c2e3f;border-radius:12px;overflow:hidden}.th{padding:10px 12px;font-weight:800;background:#0a141e;display:flex;justify-content:space-between;color:#00ff88;font-size:12px}table{width:100%;border-collapse:collapse;font-size:10px}th{background:#071017;padding:6px 3px;color:#5f7a8e;font-size:8px}td{padding:8px 3px;border-bottom:1px solid #15212e}.sym{font-weight:800;color:#fff}.up{color:#00ff88}.down{color:#ff4d6d}.score{background:#00ff88;color:#000;padding:3px 6px;border-radius:8px;font-weight:900}.tag{font-size:8px;padding:3px 6px;border-radius:8px;font-weight:900}.buy{background:#00ff88;color:#000}.sell{background:#ff4d6d;color:#fff}.pe{background:#ff4d6d;color:#fff;border:1px solid #ff4d6d}.bear-col{background:#1a0a0f;border-left:3px solid #ff4d6d}.bull-col{background:#0a1a0f;border-left:3px solid #00ff88}.load{text-align:center;padding:20px;color:#4a667a}</style></head><body>
+<div class="hd"><span>🔥 V44 BEAR PROFIT</span><span id="badge" style="background:#000;color:#fff;padding:4px 10px;border-radius:15px;font-size:10px">LIVE</span></div>
+<div class="nifty-bar" id="niftyBar"><div><b id="niftyName">NIFTY</b><br><small id="niftyAdv">Loading</small><br><small id="strategy" style="font-weight:900;font-size:11px"></small></div><div style="text-align:right"><b id="niftyPrice" style="font-size:16px">--</b><br><small id="niftyChange">--</small><br><b id="niftyTrend">--</b></div></div>
+<div class="grid"><div class="card"><h3>BULL STOCKS</h3><b id="cBull" style="color:#00ff88">0</b></div><div class="card"><h3>BEAR STOCKS</h3><b id="cBear" style="color:#ff4d6d">0</b></div><div class="card"><h3>TOTAL ₹Cr</h3><b id="cCr" style="color:#00d4ff">0</b></div><div class="card"><h3>TODAY STRATEGY</h3><b id="cStrat" style="font-size:10px">--</b></div><div class="card"><h3>ACC</h3><b id="cAcc">--</b></div></div>
+<div class="formula"><b style="color:#00ff88;font-size:11px">🎯 FORMULA:</b><label class="fchk"><input type="checkbox" id="f1" checked> x5+</label><label class="fchk"><input type="checkbox" id="f2" checked> ₹200Cr+</label><label class="fchk"><input type="checkbox" id="f3"> BULL Only</label><label class="fchk"><input type="checkbox" id="f4"> BEAR Only</label></div>
+<div class="ctrl"><input id="search" placeholder="🔍 Symbol" style="flex:1"><select id="sort"><option value="deals">Deals High</option><option value="value">₹Cr High</option></select></div>
+<div class="tbl"><div class="th"><span id="title">BULL + BEAR PROFIT COLUMNS</span><span id="time" style="font-size:9px"></span></div>
+<div style="max-height:78vh;overflow:auto"><table><thead><tr><th>#</th><th>SYMBOL</th><th>SPOT</th><th>TYPE</th><th style="background:#0a1a0f;color:#00ff88">🐂 BULL PROFIT<br>CE</th><th style="background:#1a0a0f;color:#ff4d6d">🐻 BEAR PROFIT<br>PE</th><th>FORMULA</th></tr></thead><tbody id="body"><tr><td colspan=7 class=load>Loading Bear Profit...</td></tr></tbody></table></div></div>
 <script>
-let ALL=[],FII=[];
+let ALL=[],FII=[],NIFTY={change:0,trend:'NEUTRAL',last:0};
 async function load(){
  try{
+  let nr=await fetch('/api/nifty'); NIFTY=await nr.json();
+  document.getElementById('niftyName').innerText=NIFTY.name; document.getElementById('niftyPrice').innerText=NIFTY.last?NIFTY.last.toFixed(2):'--';
+  document.getElementById('niftyChange').innerText=(NIFTY.change>=0?'+':'')+(NIFTY.change||0).toFixed(2)+'%'; document.getElementById('niftyChange').style.color=NIFTY.change>=0?'#00ff88':'#ff4d6d';
+  document.getElementById('niftyAdv').innerText=`Adv ${NIFTY.adv||0} Dec ${NIFTY.dec||0}`;
+  document.getElementById('niftyTrend').innerText=NIFTY.trend; document.getElementById('niftyTrend').style.color=NIFTY.trend=='BULLISH'?'#00ff88':'#ff4d6d';
+  let strat = NIFTY.change>=0? '🐂 TODAY: BUY CE (Bull Stocks)' : '🐻 TODAY: BUY PE (Bear Stocks)';
+  document.getElementById('strategy').innerText=strat; document.getElementById('strategy').style.color=NIFTY.change>=0?'#00ff88':'#ff4d6d';
+  document.getElementById('badge').innerText=NIFTY.trend;
+  document.getElementById('niftyBar').className='nifty-bar '+(NIFTY.change>=0?'bull':'bear');
   let fr=await fetch('/api/block-deals'); let fj=await fr.json(); FII=fj.data||[];
   try{let ar=await fetch('/api/all'); let aj=await ar.json(); ALL=aj.data||[];}catch(e){ALL=[]}
   render();
  }catch(e){}
 }
-function calcScore(s,f){let score=0; if(f){score+=30; if(f.type.includes('BUY')) score+=20; let v=parseFloat(f.value||0); if(v>=1) score+=20; else if(v>=0.2) score+=10;} score+= Math.min(20,(s.surge||1)*8); return Math.min(100,Math.round(score));}
+function calcScore(s,f){let sc=0; if(f){sc+=30; if(f.type.includes('BUY')) sc+=20; let v=parseFloat(f.value||0); if(v>=1) sc+=20;} return Math.min(100,sc+15);}
 function render(){
- let q=document.getElementById('search').value.toUpperCase();
- let mode=document.getElementById('mode').value;
- let sort=document.getElementById('sort').value;
- let raw=[];
- if(ALL.length>0){ raw=ALL.map(s=>{let f=FII.find(x=>x.symbol===s.symbol); return {...s,fii:f,valueCr:f?parseFloat(f.value):0,type:f?f.type:'',client:f?f.client:'',score:calcScore(s,f),high9:(s.open*1.01).toFixed(2)};}); }
- else { raw=FII.map((f,i)=>({symbol:f.symbol,spot:parseFloat(f.price)||0,pChange:0,surge:1.5,open:parseFloat(f.price)||0,fii:f,valueCr:parseFloat(f.value||f.val||0),type:f.type,client:f.client,score: f.type.includes('BUY')?75:40, high9:(parseFloat(f.price)*1.01).toFixed(2)})); }
-
- // V41 GROUPING - 1 SYMBOL = 1 ROW
- let map=new Map();
- raw.forEach(r=>{
-  if(!map.has(r.symbol)){
-    map.set(r.symbol,{...r,deals:1,totalCr:r.valueCr,clients:[r.client],buyCnt:r.type.includes('BUY')?1:0});
-  }else{
-    let g=map.get(r.symbol);
-    g.deals+=1; g.totalCr+=r.valueCr; g.clients.push(r.client);
-    if(r.type.includes('BUY')) g.buyCnt+=1;
-    if(r.valueCr>g.valueCr) g.valueCr=r.valueCr;
-    g.spot=Math.max(g.spot,r.spot);
-    g.score=Math.max(g.score,r.score);
-  }
- });
+ let q=document.getElementById('search').value.toUpperCase(); let f1=document.getElementById('f1').checked, f2=document.getElementById('f2').checked, f3=document.getElementById('f3').checked, f4=document.getElementById('f4').checked;
+ let raw=[]; if(ALL.length>0){raw=ALL.map(s=>{let f=FII.find(x=>x.symbol===s.symbol); return {...s,valueCr:f?parseFloat(f.value):0,type:f?f.type:'BUY',score:calcScore(s,f)};});}else{raw=FII.map(f=>({symbol:f.symbol,spot:parseFloat(f.price)||0,valueCr:parseFloat(f.value||0),type:f.type,score:f.type.includes('BUY')?75:35}));}
+ let map=new Map(); raw.forEach(r=>{if(!map.has(r.symbol)){map.set(r.symbol,{...r,deals:1,totalCr:r.valueCr,buyCnt:r.type.includes('BUY')?1:0,sellCnt:r.type.includes('SELL')?1:0});}else{let g=map.get(r.symbol); g.deals+=1; g.totalCr+=r.valueCr; if(r.type.includes('BUY')) g.buyCnt+=1; else g.sellCnt+=1;}});
  let data=Array.from(map.values());
+ if(f1) data=data.filter(s=>s.deals>=5); if(f2) data=data.filter(s=>s.totalCr>=200);
+ if(f3) data=data.filter(s=>s.buyCnt>0); if(f4) data=data.filter(s=>s.sellCnt>0);
  if(q) data=data.filter(s=>s.symbol.includes(q));
- if(mode==='pro') data=data.filter(s=>s.score>=70 && s.buyCnt>0);
+ data.sort((a,b)=>b.totalCr-a.totalCr);
  let totalCr=data.reduce((a,b)=>a+b.totalCr,0);
- if(sort==='value') data.sort((a,b)=>b.totalCr-a.totalCr);
- if(sort==='score') data.sort((a,b)=>b.score-a.score);
- if(sort==='deals') data.sort((a,b)=>b.deals-a.deals);
- document.getElementById('cAll').innerText=data.length;
- document.getElementById('cPro').innerText=data.filter(s=>s.score>=70).length;
- document.getElementById('cBuy').innerText=data.filter(s=>s.buyCnt>0).length;
- document.getElementById('cBreak').innerText='₹'+totalCr.toFixed(0)+'Cr';
- document.getElementById('title').innerText=`GROUPED - ${data.length} unique stocks (from ${raw.length} deals)`;
+ let bull=data.filter(s=>s.buyCnt>=s.sellCnt).length, bear=data.filter(s=>s.sellCnt>0).length;
+ document.getElementById('cBull').innerText=bull; document.getElementById('cBear').innerText=bear; document.getElementById('cCr').innerText='₹'+totalCr.toFixed(0)+'Cr';
+ let isBullDay=NIFTY.change>=0;
+ document.getElementById('cStrat').innerText=isBullDay?'BUY CE':'BUY PE'; document.getElementById('cStrat').style.color=isBullDay?'#00ff88':'#ff4d6d';
+ document.getElementById('cAcc').innerText=isBullDay?'80% CE':'75% PE';
+ document.getElementById('title').innerText=isBullDay?`🐂 BULL DAY - BUY CE - ${data.length} stocks`:`🐻 BEAR DAY - BUY PE - ${data.length} stocks`;
  document.getElementById('time').innerText=new Date().toLocaleTimeString('en-IN');
- document.getElementById('badge').innerText=`LIVE • ${raw.length} DEALS → ${data.length} STOCKS`;
- if(!data.length){document.getElementById('body').innerHTML='<tr><td colspan=7 class=load>No signals</td></tr>';return;}
+ if(!data.length){document.getElementById('body').innerHTML='<tr><td colspan=7 class=load>No data - Filter off madi</td></tr>';return;}
  let h=''; data.forEach((s,i)=>{
-  let ce=Math.round(s.spot/50)*50; let tgt=Math.round(s.spot*1.03); let sl=Math.round(s.spot*0.985);
-  let scCls='score-high';
-  let sig=s.buyCnt>0?`<span class="tag buy-tag">🔥 STRONG BUY x${s.buyCnt}</span>`:`<span class="tag" style="background:#ff4d6d;color:#fff">SELL AVOID</span>`;
-  let bulk=`<br><span class="real-tag">${s.deals} DEALS</span><small style="color:#8aa0b3"> ₹${s.totalCr.toFixed(2)}Cr Total • ${s.clients[0]?.substring(0,14)}</small>`;
-  h+=`<tr><td>${i+1}</td><td class="sym">${s.symbol}<small style="display:block;color:#5a7488;font-size:9px">${s.deals} bulk</small></td><td>${s.spot.toFixed(2)}<br><small style="color:#5a7488">9:15H ${s.high9}</small></td><td>+0.00%<br>1.50x</td><td><span class="${scCls}">${s.score}</span></td><td>CE ${ce}<br><span class="up">TGT ${tgt}</span> / <span class="down">SL ${sl}</span></td><td>${sig}${bulk}</td></tr>`;
+  let ce=Math.round(s.spot/50)*50; let pe=ce; let tgtCE=Math.round(s.spot*1.03); let slCE=Math.round(s.spot*0.985); let tgtPE=Math.round(s.spot*0.97); let slPE=Math.round(s.spot*1.015);
+  let type = s.buyCnt>=s.sellCnt? 'BULL' : 'BEAR';
+  let typeColor = type=='BULL'?'#00ff88':'#ff4d6d';
+  let bullCol = isBullDay? 'bull-col' : ''; let bearCol =!isBullDay? 'bear-col' : '';
+  let bullProfit = `<b>CE ${ce}</b><br><span class="up">TGT ${tgtCE} +3%</span><br><span class="down">SL ${slCE}</span><br><small style="color:#00ff88">9:15H Break Buy</small>`;
+  let bearProfit = `<b>PE ${pe}</b><br><span class="down">TGT ${tgtPE} -3%</span><br><span class="up">SL ${slPE}</span><br><small style="color:#ff4d6d">9:15L Break Sell</small>`;
+  let highlightBull = isBullDay? 'style="background:#0a1f14"' : 'style="opacity:0.4"';
+  let highlightBear =!isBullDay? 'style="background:#1f0a14"' : 'style="opacity:0.4"';
+  let signal = isBullDay? (type=='BULL'? '<span class="tag buy">🔥 BUY CE</span>' : '<span class="tag" style="background:#333;color:#777">AVOID</span>') : (type=='BEAR'||true? '<span class="tag sell">🐻 BUY PE</span>' : '<span class="tag buy">BUY CE</span>');
+  h+=`<tr><td>${i+1}</td><td class="sym">${s.symbol}<br><small>${s.deals} deals ₹${s.totalCr.toFixed(0)}Cr</small></td><td>${s.spot.toFixed(2)}</td><td><b style="color:${typeColor}">${type}</b><br><small>x${s.buyCnt}B/${s.sellCnt}S</small></td><td ${highlightBull} class="bull-col">${bullProfit}</td><td ${highlightBear} class="bear-col">${bearProfit}</td><td>${signal}<br><small>x${s.deals} Score ${s.score}</small><br><small style="color:${isBullDay?'#00ff88':'#ff4d6d'}">${isBullDay?'TODAY BUY CE':'TODAY BUY PE'}</small></td></tr>`;
  }); document.getElementById('body').innerHTML=h;
 }
-document.getElementById('search').addEventListener('input',render);
-document.getElementById('mode').addEventListener('change',render);
-document.getElementById('sort').addEventListener('change',render);
+['search','sort','f1','f2','f3','f4'].forEach(id=>document.getElementById(id).addEventListener(id==='search'?'input':'change',render));
 load(); setInterval(load,90000);
 </script></body></html>
