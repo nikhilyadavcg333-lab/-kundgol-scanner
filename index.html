@@ -3,138 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nikhil Yadav - FII BUY + STOP Tracker V12.1</title>
+<title>FII BUY SELL Separate</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#0f172a;color:#fff;font-family:Arial;padding:10px}
-h2{color:#22c55e;font-size:18px;text-align:center;padding:10px}
-.sub{color:#facc15;text-align:center;font-size:12px;margin-bottom:8px}
-#liveStatus{text-align:center;font-size:14px;font-weight:bold;padding:12px;border-radius:8px;margin:8px}
-.liveBG{background:#facc15;color:#000}
-.stopBG{background:#ef4444;color:#fff}
-.waitBG{background:#334155;color:#fff}
-table{width:100%;border-collapse:collapse;background:#1e293b;border-radius:8px;overflow:hidden;margin-top:10px}
-th{background:#0f172a;padding:12px 4px;font-size:11px;color:#facc15;text-align:center}
-td{padding:12px 4px;text-align:center;border-top:1px solid #334155;font-size:12px}
-.buying{background:#1a2e05}
-.stopped{background:#3f1010}
-.ceLive{background:#22c55e;color:#000;padding:6px 8px;border-radius:6px;font-weight:bold;font-size:11px}
-.ceStop{background:#ef4444;color:#fff;padding:6px 8px;border-radius:6px;font-weight:bold;font-size:11px}
-.livePrice{color:#facc15;font-weight:bold;font-size:14px}
-.stopPrice{color:#ef4444;font-weight:bold;font-size:14px}
+body{margin:0;background:#000;color:#fff;font-family:Arial;padding:8px}
+.header{background:#111;padding:12px;border-radius:10px;text-align:center;border:1px solid #222;margin-bottom:10px}
+.live{color:#00ff00;animation:blink 1s infinite} @keyframes blink{50%{opacity:0.3}}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.col{background:#111;border-radius:10px;padding:8px;border:1px solid #222}
+.col-buy{border-top:3px solid #00ff88}
+.col-sell{border-top:3px solid #ff3333}
+.title{font-weight:bold;padding:8px;text-align:center;border-radius:6px;margin-bottom:8px;font-size:15px}
+.t-buy{background:#00ff8822;color:#00ff88}
+.t-sell{background:#ff333322;color:#ff5555}
+.item{background:#1c1c1c;margin:5px 0;padding:8px 10px;border-radius:6px;display:flex;justify-content:space-between;font-size:13px}
+.item b{color:#fff}
+.b-price{color:#00ff88;font-weight:bold}
+.s-price{color:#ff5555;font-weight:bold}
+.old{color:#888;font-size:11px}
+.badge{font-size:10px;padding:2px 5px;border-radius:4px}
+.bg{background:#00ff8820;color:#00ff88}
+.bs{background:#ff333320;color:#ff5555}
+.allbox{margin-top:10px;background:#111;border-radius:10px;padding:10px;border:1px solid #222}
+.allgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<h2>🔥 NIKHIL YADAV - FII BUY + STOP TRACKER V12.1</h2>
-<div class="sub">Yava Price Ge Buy Maadtavre + Stop Maadidaga Stop Buying</div>
-<div id="liveStatus" class="waitBG">🟢 Scanning LIVE...</div>
-<table>
-<thead>
-<tr><th>SYMBOL</th><th>STATUS + TIME</th><th>BUYING / STOP PRICE</th><th>VOL / TREND</th><th>SIGNAL</th></tr>
-</thead>
-<tbody id="tbody"></tbody>
-</table>
+<div class="header">
+<b>NIKHIL YADAV TRACKER <span class="live">● LIVE</span></b> <span id="t" style="color:#888;font-size:12px;margin-left:10px"></span>
+<div style="font-size:11px;color:#666;margin-top:4px">70 Stocks Live Price | Auto 10s</div>
+</div>
+
+<div class="grid">
+<div class="col col-buy">
+<div class="title t-buy" id="bt">🔥 BUYING STOCKS (0)</div>
+<div id="bl">Loading...</div>
+</div>
+<div class="col col-sell">
+<div class="title t-sell" id="st">🛑 SELLING STOCKS (0)</div>
+<div id="sl">Loading...</div>
+</div>
+</div>
+
+<div class="allbox">
+<div style="font-weight:bold;margin-bottom:8px;text-align:center">📊 ALL 70 STOCKS LIVE PRICE</div>
+<div class="allgrid" id="all">Loading 70...</div>
+</div>
 
 <script>
-// COMPLETE JAVASCRIPT CODE - BUYING + STOP LOGIC
-let dealsData = [];
-let lastStatus = {};
-let stopHistory = {};
-
-function render(){
- let tb = document.getElementById("tbody");
- tb.innerHTML = "";
- let allToShow = [];
-
- dealsData.forEach(d=>{
-   let isBuying = d.surge >= 1.8 && d.pChange > 0.3;
-   let wasBuying = lastStatus[d.symbol] === true;
-
-   if(isBuying){
-     allToShow.push({...d, state:"BUYING"});
-     lastStatus[d.symbol] = true;
-   } else if(wasBuying &&!isBuying){
-     stopHistory[d.symbol] = {price: d.spot, time: d.time, surge: d.surge, buy: d.buy};
-     lastStatus[d.symbol] = false;
-     allToShow.push({...d, state:"STOPPED", stopPrice: stopHistory[d.symbol].price, stopTime: stopHistory[d.symbol].time});
-   } else if(stopHistory[d.symbol] &&!isBuying){
-     allToShow.push({...d, state:"STOPPED", stopPrice: stopHistory[d.symbol].price, stopTime: stopHistory[d.symbol].time, buy: stopHistory[d.symbol].buy});
-   }
- });
-
- allToShow.sort((a,b)=>{
-   if(a.state==="BUYING" && b.state==="STOPPED") return -1;
-   if(a.state==="STOPPED" && b.state==="BUYING") return 1;
-   return b.surge - a.surge;
- });
-
- if(allToShow.length === 0){
-   tb.innerHTML = `<tr><td colspan=5 style="padding:40px;color:#94a3b8;font-size:14px">⏳ Eega Yavdu FII Buy Maadta Illa...<br>Surge >1.8x Aadaga Auto Barutte<br>5 Sec Auto Refresh...</td></tr>`;
-   return;
- }
-
- allToShow.forEach(d=>{
-  let tr = document.createElement("tr");
-  if(d.state === "BUYING"){
-    tr.className = "buying";
-    tr.innerHTML = `<td><b style="font-size:14px">${d.symbol}</b><br><span style="font-size:10px;color:#94a3b8">Old Buy ₹${d.buy}</span></td>
-    <td><span style="background:#22c55e;color:#000;padding:5px 10px;border-radius:12px;font-weight:bold;font-size:11px">🔥 BUYING NOW</span><br><span style="font-size:10px;color:#facc15">${d.time}</span></td>
-    <td><span class="livePrice">₹${d.spot.toFixed(2)}</span><br><span style="font-size:10px;background:#facc15;color:#000;padding:3px 6px;border-radius:4px">BUYING @ THIS PRICE</span></td>
-    <td style="color:#22c55e"><b>🔥 ${d.surge.toFixed(2)}x</b><br><span style="font-size:11px">🚀 ${d.pChange.toFixed(2)}%</span></td>
-    <td><span class="ceLive">BUY ${Math.ceil(d.spot/10)*10} CE</span><br><span style="font-size:10px">Entry ₹${d.spot.toFixed(2)}</span></td>`;
-  } else {
-    tr.className = "stopped";
-    let stopP = d.stopPrice || d.spot;
-    let stopT = d.stopTime || d.time;
-    tr.innerHTML = `<td><b style="font-size:14px">${d.symbol}</b><br><span style="font-size:10px;color:#94a3b8">Old Buy ₹${d.buy||d.buy}</span></td>
-    <td><span style="background:#ef4444;color:#fff;padding:5px 10px;border-radius:12px;font-weight:bold;font-size:11px">🛑 STOP BUYING</span><br><span style="font-size:10px;color:#fca5a5">Stopped: ${stopT}</span></td>
-    <td><span class="stopPrice">₹${stopP.toFixed(2)}</span><br><span style="font-size:10px;background:#ef4444;color:#fff;padding:3px 6px;border-radius:4px">STOPPED @ THIS</span></td>
-    <td style="color:#ef4444"><b>📉 ${d.surge.toFixed(2)}x</b><br><span style="font-size:11px">Vol Down</span></td>
-    <td><span class="ceStop">EXIT / BOOK</span><br><span style="font-size:10px">Book Profit</span></td>`;
-  }
-  tb.appendChild(tr);
- });
+async function load(){
+ let r=await fetch('/api/all',{cache:'no-store'});
+ let j=await r.json();
+ let d=j.data||[];
+ document.getElementById('t').innerText=j.time;
+ 
+ let buy = d.filter(x=> x.pChange > 0).sort((a,b)=> b.pChange - a.pChange);
+ let sell = d.filter(x=> x.pChange < 0).sort((a,b)=> a.pChange - b.pChange);
+ 
+ document.getElementById('bt').innerText=`🔥 BUYING STOCKS (${buy.length}) - SEPARATE`;
+ document.getElementById('st').innerText=`🛑 SELLING STOCKS (${sell.length}) - SEPARATE`;
+ 
+ document.getElementById('bl').innerHTML=buy.map(s=>`
+  <div class="item">
+   <div><b>${s.symbol}</b><br><span class="old">Old ₹${s.buy.toFixed(1)}</span></div>
+   <div style="text-align:right"><span class="b-price">₹${s.spot.toFixed(2)}</span><br><span class="badge bg">+${s.pChange.toFixed(2)}% BUY</span></div>
+  </div>`).join('') || '<div style="color:#555;text-align:center;padding:20px">No Buying</div>';
+ 
+ document.getElementById('sl').innerHTML=sell.map(s=>`
+  <div class="item">
+   <div><b>${s.symbol}</b><br><span class="old">Old ₹${s.buy.toFixed(1)}</span></div>
+   <div style="text-align:right"><span class="s-price">₹${s.spot.toFixed(2)}</span><br><span class="badge bs">${s.pChange.toFixed(2)}% SELL</span></div>
+  </div>`).join('') || '<div style="color:#555;text-align:center;padding:20px">No Selling</div>';
+ 
+ document.getElementById('all').innerHTML=d.map(s=>`
+  <div style="background:#1a1a1a;padding:6px;border-radius:5px;font-size:12px;display:flex;justify-content:space-between">
+   <b>${s.symbol}</b><span style="color:${s.pChange>0?'#00ff88':'#ff5555'}">₹${s.spot.toFixed(1)} ${s.pChange>0?'▲':'▼'}${Math.abs(s.pChange).toFixed(1)}%</span>
+  </div>`).join('');
 }
-
-async function fetchLivePrices(){
- let statusEl = document.getElementById("liveStatus");
- try{
-  let res = await fetch(`/api/all?t=${Date.now()}`, {cache:"no-store"});
-  let json = await res.json();
-  let now = new Date().toLocaleTimeString("en-IN", {timeZone:"Asia/Kolkata", hour:"2-digit", minute:"2-digit", second:"2-digit"});
-  if(json.data && json.data.length>0){
-   dealsData = json.data.map(l=>({
-     symbol:l.symbol,
-     buy:l.buy,
-     spot:l.spot,
-     pChange:l.pChange,
-     surge:l.surge,
-     time:now,
-     volume:l.volume
-   }));
-   let buyingCount = dealsData.filter(d=> d.surge>=1.8 && d.pChange>0.3).length;
-   let stoppedCount = Object.keys(stopHistory).filter(k=> lastStatus[k]===false).length;
-   if(buyingCount>0){
-     statusEl.className = "liveBG";
-     statusEl.innerHTML = `🔥 LIVE ${now} IST | ${buyingCount} BUYING NOW @ PRICE SHOWN | ${stoppedCount} STOPPED`;
-   } else if(stoppedCount>0){
-     statusEl.className = "stopBG";
-     statusEl.innerHTML = `🛑 LIVE ${now} IST | 0 BUYING | ${stoppedCount} JUST STOPPED @ PRICE - BOOK PROFIT`;
-   } else {
-     statusEl.className = "waitBG";
-     statusEl.innerHTML = `⏳ LIVE ${now} IST | Scanning ${json.data.length} Stocks - No Buying Yet`;
-   }
-   render();
-  }
- }catch(e){
-   statusEl.innerHTML = "🟡 Retrying Connection...";
-   statusEl.className = "waitBG";
- }
-}
-
-setInterval(fetchLivePrices, 5000);
-fetchLivePrices();
-setInterval(()=>{ stopHistory={}; lastStatus={}; }, 30*60*1000);
+load(); setInterval(load,10000);
 </script>
 </body>
 </html>
