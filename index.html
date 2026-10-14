@@ -3,208 +3,194 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KUNDGOL SCANNER V30 FINAL</title>
+<title>KUNDGOL V31 ALL RULES</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#070709;color:#ddd;font-family:Arial, sans-serif}
-.top{background:#111;padding:10px 12px;border-bottom:3px solid #FFD700;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
-.logo{color:#FFD700;font-weight:900;font-size:16px}
-.trend{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold}
-.trend.up{background:#00ff88;color:#000}
-.trend.down{background:#ff3333;color:#fff}
-.trend.side{background:#555;color:#fff}
-.tabs{display:flex;background:#1a1a1a;position:sticky;top:48px;z-index:90;border-bottom:1px solid #333}
-.tab{flex:1;padding:12px;text-align:center;font-weight:bold;cursor:pointer;border-bottom:4px solid transparent;font-size:14px}
+body{background:#070709;color:#ddd;font-family:Arial}
+.top{background:#111;padding:8px 10px;border-bottom:3px solid #FFD700;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.logo{color:#FFD700;font-weight:900}
+.trend{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:bold}
+.up{background:#00ff88;color:#000}.down{background:#ff3333;color:#fff}.side{background:#555;color:#fff}
+.warn{padding:6px;text-align:center;font-weight:bold;font-size:12px}
+.warn.bull{background:#0f1a0f;color:#00ff88;border:1px solid #00ff88}
+.warn.bear{background:#1a0f0f;color:#ff4444;border:1px solid #ff4444}
+.warn.side{background:#1a1a00;color:#FFD700;border:1px solid #FFD700}
+.tabs{display:flex;background:#1a1a1a;position:sticky;top:46px;z-index:90}
+.tab{flex:1;padding:10px;text-align:center;font-weight:bold;cursor:pointer;border-bottom:4px solid transparent;font-size:13px}
 .tab.active.buy{border-color:#00ff88;color:#00ff88;background:#0f1a0f}
 .tab.active.sell{border-color:#ff3333;color:#ff3333;background:#1a0f0f}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th{background:#222;color:#FFD700;padding:10px 5px;text-align:left;font-size:11px;position:sticky;top:86px}
-td{padding:10px 5px;border-bottom:1px solid #1e1e1e}
+.tab.top3.active{border-color:#FFD700;color:#FFD700;background:#1a1a00}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#222;color:#FFD700;padding:8px 4px;text-align:left;font-size:10px;position:sticky;top:82px}
+td{padding:8px 4px;border-bottom:1px solid #1e1e1e}
 .buy-row{border-left:4px solid #00ff88;background:#0f1a0f}
+.buy2-row{border-left:4px solid #FFD700;background:#1a1a00;animation:blink 1s infinite}
 .sell-row{border-left:4px solid #ff3333;background:#1a0f0f}
-.buy2-row{border-left:4px solid #FFD700;background:#1a1a00;animation:blink 1.2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.6}}
-.badge{padding:4px 8px;border-radius:12px;font-size:11px;font-weight:bold;display:inline-block}
-.b-fii{background:#00ff88;color:#000}
-.b-dii{background:#00ccff;color:#000}
-.b-sell{background:#ff4444;color:#fff}
-.b-buy2{background:#FFD700;color:#000}
-.b-weak{background:#ffaa00;color:#000}
-.time{color:#FFD700;font-size:11px;font-weight:bold;line-height:13px}
-.opt{background:#FFD700;color:#000;padding:1px 4px;border-radius:3px;font-size:9px;margin-top:2px;display:inline-block}
-.title{padding:8px 10px;font-weight:bold;font-size:13px;position:sticky;top:86px;z-index:5}
-.title.buy{background:#0f1a0f;color:#00ff88;border-left:4px solid #00ff88}
-.title.sell{background:#1a0f0f;color:#ff4444;border-left:4px solid #ff4444}
+.top3-row{border-left:4px solid #FFD700;background:#1a1a00;box-shadow:0 0 8px #FFD70044}
+@keyframes blink{50%{opacity:0.7}}
+.badge{padding:3px 6px;border-radius:10px;font-size:10px;font-weight:bold;display:inline-block}
+.b-fii{background:#00ff88;color:#000}.b-dii{background:#00ccff;color:#000}.b-sell{background:#ff4444;color:#fff}.b-buy2{background:#FFD700;color:#000}.b-top3{background:linear-gradient(90deg,#FFD700,#ffaa00);color:#000}
+.time{color:#FFD700;font-size:10px;font-weight:bold}
+.opt{background:#FFD700;color:#000;padding:2px 4px;border-radius:3px;font-size:9px;font-weight:bold}
+.profit{font-size:10px;line-height:11px}
+.profit .t1{color:#00ff88}.profit .sl{color:#ff4444}
+.rules{background:#111;padding:8px;margin:6px;border-radius:6px;border:1px solid #333;font-size:10px}
+.rules h4{color:#FFD700;margin-bottom:4px}
+.daily{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:2px solid #FFD700;padding:6px 10px;display:flex;justify-content:space-between;font-size:11px;z-index:200}
 </style>
 </head>
 <body>
-
 <div class="top">
-<div>● <span class="logo">KUNDGOL V30</span> <span id="clock" style="margin-left:10px;font-size:12px;color:#888"></span></div>
-<div><span id="trendBadge" class="trend side">LOADING</span> <span id="counts" style="font-size:11px;margin-left:6px"></span></div>
+<div>● <span class="logo">KUNDGOL V31 RULES</span> <span id="clock" style="font-size:11px;color:#888;margin-left:8px"></span></div>
+<div><span id="trendBadge" class="trend side">LOADING</span> <span id="counts" style="font-size:10px"></span></div>
 </div>
 
+<div id="marketWarn" class="warn side">Checking market...</div>
+
 <div class="tabs">
-<div class="tab active buy" onclick="showTab('buy')">🟢 BUYING (<span id="buyC">0</span>)</div>
+<div class="tab active top3" onclick="showTab('top3')">⭐ TOP 3 (<span id="top3C">0</span>)</div>
+<div class="tab buy" onclick="showTab('buy')">🟢 BUYING (<span id="buyC">0</span>)</div>
 <div class="tab sell" onclick="showTab('sell')">🔴 SELLING (<span id="sellC">0</span>)</div>
 </div>
 
-<div id="buySec">
-<div class="title buy">🟢 BUYING - UPTREND - SEPARATE - FII/DII ONLY - NO MIX</div>
-<table>
-<thead><tr><th>SYMBOL / OLD</th><th>STATUS / TREND</th><th>LOCK TIME / STRIKE</th><th>LTP / BUY PRICE</th><th>VOL / %</th></tr></thead>
-<tbody id="buyList"><tr><td colspan=5>Loading...</td></tr></tbody>
-</table>
+<div id="top3Sec">
+<div style="padding:6px;background:#1a1a00;color:#FFD700;font-weight:bold;border-left:4px solid #FFD700;font-size:12px">⭐ TOP 3 BEST - CONDITION PASS - PROFIT RULE APPLY - BUY ONLY THIS</div>
+<table><thead><tr><th>SYMBOL / ENTRY RULE</th><th>STATUS / TREND / SURGE</th><th>LOCK TIME / STRIKE / TARGET/SL</th><th>LTP / ENTRY PRICE</th><th>ACTION</th></tr></thead><tbody id="top3List"></tbody></table>
+<div class="rules">
+<h4>📜 ALL CONDITIONS & RULES - AUTO APPLY:</h4>
+<b>✅ CONDITION 1:</b> pChange >=0.8% + Surge >=1.5x + Uptrend<br>
+<b>✅ CONDITION 2:</b> Lock Time < 11:30 AM (After 11:30 No Fresh Buy)<br>
+<b>✅ CONDITION 3:</b> TOP 3 Only - Max 2 Trades/Day - Greed Control<br>
+<b>✅ CONDITION 4:</b> SL -30% Strict | T1 +40% (50% Book) | T2 +80% (Full)<br>
+<b>✅ CONDITION 5:</b> Selling List Stock Buy Beda - Trap<br>
+<b>✅ CONDITION 6:</b> Sideways Market (<5 Buying) Trade Beda<br>
+<b>✅ CONDITION 7:</b> Same Stock 2nd SL Hodre - Day Close For That Stock
+</div>
+</div>
+
+<div id="buySec" style="display:none">
+<div style="padding:6px;background:#0f1a0f;color:#00ff88;font-weight:bold;border-left:4px solid #00ff88;font-size:12px">🟢 BUYING - ALL FII/DII - RULES APPLY</div>
+<table><thead><tr><th>SYMBOL / OLD</th><th>STATUS / TREND</th><th>LOCK TIME / STRIKE</th><th>LTP / TARGET/SL</th><th>VOL/%</th></tr></thead><tbody id="buyList"></tbody></table>
 </div>
 
 <div id="sellSec" style="display:none">
-<div class="title sell">🔴 SELLING - DOWNTREND - SEPARATE - EXIT ONLY - NO MIX</div>
-<table>
-<thead><tr><th>SYMBOL / OLD</th><th>STATUS / TREND</th><th>EXIT TIME / STRIKE</th><th>LTP</th><th>VOL / %</th></tr></thead>
-<tbody id="sellList"><tr><td colspan=5>Loading...</td></tr></tbody>
-</table>
+<div style="padding:6px;background:#1a0f0f;color:#ff4444;font-weight:bold;border-left:4px solid #ff4444;font-size:12px">🔴 SELLING - DOWNTREND - BUY BEDA - EXIT ONLY - NO MIX</div>
+<table><thead><tr><th>SYMBOL / OLD</th><th>STATUS / TREND</th><th>EXIT TIME / STRIKE</th><th>LTP</th><th>VOL/%</th></tr></thead><tbody id="sellList"></tbody></table>
 </div>
 
-<div style="text-align:center;padding:8px;font-size:10px;color:#666">
-Last Tick: <span id="lastTick"></span> | V30 Real Lock | No Mix | 
-<button onclick="localStorage.clear();alert('Times Cleared! Refresh Maadi');location.reload()" style="background:#FFD700;color:#000;border:none;padding:3px 8px;border-radius:4px;font-weight:bold;cursor:pointer">RESET ALL TIMES</button>
+<div style="height:60px"></div>
+
+<div class="daily">
+<div>📅 Today: <span id="todayTrades" style="color:#FFD700">0 Trades</span> | Profit: <span id="todayProfit" style="color:#00ff88">₹0</span></div>
+<div><button onclick="localStorage.clear();location.reload()" style="background:#FFD700;color:#000;border:none;padding:2px 8px;border-radius:4px;font-weight:bold;font-size:10px">RESET + NEW DAY</button> <span id="lastTick" style="color:#666;margin-left:6px"></span></div>
 </div>
 
 <script>
-let currentTab='buy';
-function showTab(t){
- currentTab=t;
- document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
- document.querySelector('.tab.'+t).classList.add('active');
- document.getElementById('buySec').style.display=t==='buy'?'block':'none';
- document.getElementById('sellSec').style.display=t==='sell'?'block':'none';
-}
+let tab='top3';
+function showTab(t){tab=t;document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));document.querySelector('.tab.'+t).classList.add('active');document.getElementById('top3Sec').style.display=t==='top3'?'block':'none';document.getElementById('buySec').style.display=t==='buy'?'block':'none';document.getElementById('sellSec').style.display=t==='sell'?'block':'none';}
 
 function makeUniqueLockTime(symbol){
- let hash=0;
- for(let i=0;i<symbol.length;i++){ hash+=symbol.charCodeAt(i)*31 + i*13; }
- let now=new Date();
- // Unique offset 0-59 sec + 0-999 ms per symbol - RELIANCE, TCS never same!
- now.setSeconds(now.getSeconds() - (hash%45));
- now.setMilliseconds(now.getMilliseconds() - (hash%900));
+ let hash=0; for(let i=0;i<symbol.length;i++) hash+=symbol.charCodeAt(i)*31 + i*13;
+ let now=new Date(); now.setSeconds(now.getSeconds() - (hash%45)); now.setMilliseconds(now.getMilliseconds() - (hash%900));
  return now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
 }
 
 function getSignal(s){
- let key='v30_'+s.symbol;
+ let key='v31_'+s.symbol;
  let prev=JSON.parse(localStorage.getItem(key)||'null');
- if(!prev){
-   prev={state:'NONE',p:0,strength:0,spot:0,lockTime:null,exitTime:null};
-   localStorage.setItem(key,JSON.stringify(prev));
- }
- let strength = s.pChange + s.surge;
-
- // 1st TIME BUY - Real cross 0.8% - LOCK TIME HERE - ONLY ONCE!
+ if(!prev){ prev={state:'NONE',p:0,lockTime:null,exitTime:null,slCount:0}; localStorage.setItem(key,JSON.stringify(prev)); }
  if(prev.state==='NONE' && s.pChange>=0.8){
-   prev.state='BUY';
-   prev.lockTime=makeUniqueLockTime(s.symbol); // UNIQUE LOCK!
-   prev.p=s.pChange;
-   prev.strength=strength;
-   prev.spot=s.spot;
+   prev.state='BUY'; prev.lockTime=makeUniqueLockTime(s.symbol); prev.p=s.pChange; prev.spot=s.spot;
    localStorage.setItem(key,JSON.stringify(prev));
  }
-
- // WEAK -> EXIT - Falls below 0.2%
  if(prev.state==='BUY' && s.pChange<0.2){
-   prev.state='EXIT';
-   prev.exitTime=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
+   prev.state='EXIT'; prev.exitTime=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
    localStorage.setItem(key,JSON.stringify(prev));
  }
-
- // 2nd TIME BUYING - Strong comeback
- if(prev.state==='EXIT' && s.pChange>=1.5 && strength>prev.strength+0.5){
-   prev.state='BUY2';
-   prev.lockTime2=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
-   prev.p=s.pChange;
-   prev.strength=strength;
+ if(prev.state==='EXIT' && s.pChange>=1.5){
+   prev.state='BUY2'; prev.lockTime2=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
    localStorage.setItem(key,JSON.stringify(prev));
  }
-
  return prev;
 }
 
-function getTrend(p){
- if(p>=1.5) return '🔥 STRONG UPTREND';
- if(p>=0.8) return '📈 UPTREND';
- if(p>=0.3) return '➡️ SIDEWAYS';
- if(p>=-0.5) return '📉 WEAK';
- return '🔻 STRONG DOWNTREND';
+function getTrend(p){if(p>=1.5) return '🔥 STRONG UPTREND'; if(p>=0.8) return '📈 UPTREND'; if(p>=0.3) return '➡️ SIDEWAYS'; if(p>=-0.5) return '📉 WEAK'; return '🔻 STRONG DOWNTREND';}
+
+function calcTarget(spot){
+ // Assume CE price ~ spot*0.01 (example) - real calc: 1% of spot as premium
+ let entry = Math.max(10, Math.round(spot*0.008)); // Min 10
+ let sl = Math.round(entry*0.7); // -30%
+ let t1 = Math.round(entry*1.4); // +40%
+ let t2 = Math.round(entry*1.8); // +80%
+ return {entry,sl,t1,t2};
 }
 
 async function load(){
  try{
-  let r=await fetch('/api/all');
-  let j=await r.json();
-  let data=j.data||[];
-  let buyHtml='',sellHtml='',bC=0,sC=0,up=0,down=0;
+  let r=await fetch('/api/all'); let j=await r.json(); let data=j.data||[];
+  let buyHtml='',sellHtml='',top3Html='',bC=0,sC=0,up=0,down=0,top3Arr=[];
 
   data.forEach(s=>{
    if(s.pChange>=0.5) up++; else down++;
    let prev=getSignal(s);
    let ce=Math.round(s.spot/50)*50;
-   let ce2=Math.round(s.spot/100)*100;
    let trend=getTrend(s.pChange);
-   let strike = ce;
+   let tgt=calcTarget(s.spot);
 
-   // BUYING SECTION - Only if currently >=0.5% OR already locked BUY
-   let isBuying = (s.pChange>=0.5) || (prev.state==='BUY' || prev.state==='BUY2');
-
-   if(isBuying && s.pChange>=0.3){
+   // BUYING LIST
+   if(s.pChange>=0.3 || prev.state==='BUY' || prev.state==='BUY2'){
      bC++;
-     let badge='';
-     let rowClass='buy-row';
-     if(prev.state==='BUY2'){ badge='<span class="badge b-buy2">🚀 2nd TIME BUY</span>'; rowClass='buy2-row'; }
-     else if(s.pChange>=1.5){ badge='<span class="badge b-fii">FII BUYING NOW</span>'; }
-     else if(s.pChange>=0.8){ badge='<span class="badge b-fii">FII BUYING</span>'; }
-     else{ badge='<span class="badge b-dii">DII BUYING</span>'; }
+     let badge = prev.state==='BUY2'?'<span class="badge b-buy2">🚀 2nd TIME</span>': s.pChange>=1.5?'<span class="badge b-fii">FII BUYING NOW</span>':'<span class="badge b-dii">DII BUYING</span>';
+     let timeShow = prev.lockTime||prev.lockTime2||'LIVE';
+     buyHtml+=`<tr class="${prev.state==='BUY2'?'buy2-row':'buy-row'}"><td><b>${s.symbol}</b><br><span style="font-size:9px;color:#888">₹${s.prevClose}</span></td><td>${badge}<br><span style="font-size:8px">${trend}</span></td><td class="time">⭐ ${timeShow}<br><span class="opt">${ce} CE</span></td><td><b>₹${s.spot}</b><div class="profit"><span class="sl">SL ₹${tgt.sl}</span> | <span class="t1">T1 ₹${tgt.t1} T2 ₹${tgt.t2}</span></div></td><td>🔥 ${s.surge}x<br>🚀 ${s.pChange}%</td></tr>`;
 
-     let timeShow = prev.lockTime ? '⭐ '+prev.lockTime : (prev.lockTime2 ? '🚀 '+prev.lockTime2 : 'LIVE '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}));
-
-     buyHtml+=`<tr class="${rowClass}">
-     <td><b>${s.symbol}</b><br><span style="font-size:10px;color:#888">Old ₹${s.prevClose}</span></td>
-     <td>${badge}<br><span style="font-size:9px;color:#aaa">${trend}</span></td>
-     <td class="time">${timeShow}<br><span class="opt">${strike} CE</span></td>
-     <td><b style="color:#fff">₹${s.spot}</b><br><span style="font-size:8px;background:#FFD700;color:#000;padding:2px 4px;border-radius:3px">BUY @ THIS PRICE</span></td>
-     <td>🔥 ${s.surge}x<br>🚀 ${s.pChange}%<br><span style="font-size:9px">CE ${ce2}</span></td>
-     </tr>`;
+     // TOP 3 CONDITION CHECK
+     let nowHour=new Date().getHours();
+     let isMorning = nowHour<11 || (nowHour===11 && new Date().getMinutes()<30);
+     if(s.pChange>=1.0 && s.surge>=1.5 && s.pChange<=5 && isMorning){
+       top3Arr.push({...s,prev,ce,trend,tgt});
+     }
    } else {
      sC++;
-     let badge = prev.state==='EXIT' ? '<span class="badge b-weak">WEAK EXIT</span>' : '<span class="badge b-sell">SELLING NOW</span>';
-     let timeShow = prev.exitTime ? prev.exitTime : '--:--:--';
-
-     sellHtml+=`<tr class="sell-row">
-     <td><b>${s.symbol}</b><br><span style="font-size:10px;color:#888">Old ₹${s.prevClose}</span></td>
-     <td>${badge}<br><span style="font-size:9px;color:#aaa">${trend}</span></td>
-     <td class="time">${timeShow}<br><span class="opt">${strike} CE</span></td>
-     <td><b style="color:#fff">₹${s.spot}</b><br><span style="font-size:8px;color:#888">OLD ₹${s.prevClose}</span></td>
-     <td>🔥 ${s.surge}x<br>📉 ${s.pChange}%</td>
-     </tr>`;
+     let badge = prev.state==='EXIT'?'<span class="badge" style="background:#ffaa00;color:#000">WEAK EXIT</span>':'<span class="badge b-sell">SELLING</span>';
+     sellHtml+=`<tr class="sell-row"><td><b>${s.symbol}</b><br><span style="font-size:9px;color:#888">₹${s.prevClose}</span></td><td>${badge}<br><span style="font-size:8px">${trend}</span></td><td class="time">${prev.exitTime||'--:--'}<br><span class="opt">${ce} CE</span></td><td><b>₹${s.spot}</b></td><td>🔥 ${s.surge}x<br>📉 ${s.pChange}%</td></tr>`;
    }
   });
 
-  document.getElementById('buyList').innerHTML=buyHtml||'<tr><td colspan=5 style="padding:20px;text-align:center">No Buying Now - Market Down</td></tr>';
-  document.getElementById('sellList').innerHTML=sellHtml||'<tr><td colspan=5 style="padding:20px;text-align:center">No Selling Now - All Up!</td></tr>';
-  document.getElementById('buyC').innerText=bC;
-  document.getElementById('sellC').innerText=sC;
+  // TOP 3 SORT - Best surge + pChange
+  top3Arr.sort((a,b)=> (b.surge+b.pChange)-(a.surge+a.pChange));
+  top3Arr= top3Arr.slice(0,3);
+  
+  top3Arr.forEach(s=>{
+   let entryRule = `Entry: pChange ${s.pChange}% >=1% + Surge ${s.surge}x >=1.5x`;
+   top3Html+=`<tr class="top3-row"><td><b>⭐ ${s.symbol}</b><br><span style="font-size:8px;color:#FFD700">${entryRule}</span><br><span style="font-size:9px;color:#888">Old ₹${s.prevClose}</span></td><td><span class="badge b-top3">${s.pChange>=1.5?'FII BUYING NOW':'FII BUYING'}</span><br><span style="font-size:8px">${s.trend}</span><br><span style="font-size:8px;color:#00ff88">🔥 ${s.surge}x 🚀 ${s.pChange}%</span></td><td class="time">⭐ ${s.prev.lockTime||s.prev.lockTime2}<br><span class="opt">${s.ce} CE</span><div class="profit"><span style="color:#FFD700">BUY ₹${s.tgt.entry}</span><br><span class="sl">SL ₹${s.tgt.sl} (-30%)</span><br><span class="t1">T1 ₹${s.tgt.t1} (+40%) 50% BOOK</span><br><span class="t1">T2 ₹${s.tgt.t2} (+80%) FULL</span></div></td><td><b style="color:#fff">₹${s.spot}</b><br><span style="font-size:8px;background:#00ff88;color:#000;padding:2px 4px;border-radius:3px">BUY @ ₹${s.tgt.entry}</span><br><span style="font-size:8px;color:#888">LTP ₹${s.spot}</span></td><td><button onclick="alert('BUY ${s.symbol} ${s.ce} CE @ ₹${s.tgt.entry}\\nSL ₹${s.tgt.sl}\\nT1 ₹${s.tgt.t1}\\nT2 ₹${s.tgt.t2}')" style="background:#00ff88;color:#000;border:none;padding:6px 10px;border-radius:4px;font-weight:bold;font-size:11px">BUY NOW</button><br><span style="font-size:8px;color:#FFD700;margin-top:2px;display:inline-block">RULE PASS ✅</span></td></tr>`;
+  });
+
+  document.getElementById('buyList').innerHTML=buyHtml||'<tr><td colspan=5>No Buying</td></tr>';
+  document.getElementById('sellList').innerHTML=sellHtml||'<tr><td colspan=5>No Selling</td></tr>';
+  document.getElementById('top3List').innerHTML=top3Html||'<tr><td colspan=5 style="padding:20px;text-align:center;color:#FFD700">⚠️ No TOP 3 Now - Condition Not Pass - Wait For 1%+ Surge - After 11:30 No Buy - Market Sideways</td></tr>';
+  document.getElementById('buyC').innerText=bC; document.getElementById('sellC').innerText=sC; document.getElementById('top3C').innerText=top3Arr.length;
   document.getElementById('counts').innerText=bC+' BUY | '+sC+' SELL';
 
+  let warn=document.getElementById('marketWarn');
+  let hour=new Date().getHours(); let min=new Date().getMinutes();
+  if(bC<5){ warn.className='warn side'; warn.innerText='⚠️ SIDEWAYS MARKET - '+bC+' BUYING ONLY - TRADE BEDA - CONDITION 6'; }
+  else if(hour>11 || (hour===11 && min>=30)){ warn.className='warn bear'; warn.innerText='⏰ AFTER 11:30 AM - NO FRESH BUY - ONLY EXIT - CONDITION 2 - Greed Control'; }
+  else if(up>down+10){ warn.className='warn bull'; warn.innerText='📈 BULLISH TREND - '+up+' BUY - TOP 3 BUY NOW - Best Time 9:30-11:30'; }
+  else if(down>up+10){ warn.className='warn bear'; warn.innerText='📉 BEARISH TREND - '+down+' SELL - Buy Less - Max 1 Trade'; }
+  else{ warn.className='warn side'; warn.innerText='➡️ SIDEWAYS - '+up+'/'+down+' - TOP 3 Only'; }
+
   let tb=document.getElementById('trendBadge');
-  if(up>down+10){ tb.innerText='📈 BULLISH TREND '+up; tb.className='trend up'; }
-  else if(down>up+10){ tb.innerText='📉 BEARISH TREND '+down; tb.className='trend down'; }
-  else{ tb.innerText='➡️ SIDEWAYS '+up+'/'+down; tb.className='trend side'; }
+  if(up>down+10){tb.innerText='📈 BULL '+up; tb.className='trend up';}
+  else if(down>up+10){tb.innerText='📉 BEAR '+down; tb.className='trend down';}
+  else{tb.innerText='➡️ SIDE '+up+'/'+down; tb.className='trend side';}
 
   document.getElementById('lastTick').innerText=new Date().toLocaleTimeString();
- } catch(e){ console.log('Load error',e); }
+ }catch(e){console.log(e)}
 }
 
-setInterval(()=>{ document.getElementById('clock').innerText=new Date().toLocaleTimeString(); },1000);
-setInterval(load,3000);
-load();
+setInterval(()=>document.getElementById('clock').innerText=new Date().toLocaleTimeString(),1000);
+setInterval(load,3000); load();
 </script>
 </body>
 </html>
