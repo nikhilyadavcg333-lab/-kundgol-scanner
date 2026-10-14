@@ -1,60 +1,46 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>V46 PRICE MOMENTUM</title>
-<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}body{background:#060a0f;color:#d6e2ec;padding:8px}.hd{background:linear-gradient(90deg,#00ff88,#00d4ff);color:#000;padding:12px;border-radius:12px;font-weight:900;display:flex;justify-content:space-between}.timer{background:#000;color:#00ff88;padding:5px 10px;border-radius:15px;font-size:11px;font-weight:900}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}.card{background:#0f1922;border:1px solid #1c2e3f;padding:8px;border-radius:10px;text-align:center}.formula{background:#0f1922;border:2px solid #00ff88;border-radius:10px;padding:6px;margin:6px 0;display:flex;gap:5px;flex-wrap:wrap;font-size:9px;align-items:center}.fchk{background:#071017;border:1px solid #1c2e3f;color:#fff;padding:4px 7px;border-radius:6px;font-size:10px}.ctrl{display:flex;gap:6px;margin-bottom:8px}.ctrl input,.ctrl select{background:#0f1922;border:1px solid #1c2e3f;color:#fff;padding:8px;border-radius:8px;font-size:12px;flex:1}.tbl{background:#0f1922;border:1px solid #1c2e3f;border-radius:12px;overflow:hidden}.th{padding:10px;background:#0a141e;display:flex;justify-content:space-between;color:#00ff88;font-size:11px}table{width:100%;border-collapse:collapse;font-size:10px}th{background:#071017;padding:5px 2px;color:#5f7a8e;font-size:8px}td{padding:7px 2px;border-bottom:1px solid #15212e;text-align:center}.sym{font-weight:800;color:#fff;text-align:left}.strength-bar{height:10px;background:#1a2332;border-radius:5px;overflow:hidden;margin:3px 0}.strength-fill{height:100%;transition:all 0.6s}.up{color:#00ff88}.down{color:#ff4d6d}.tag{font-size:8px;padding:3px 6px;border-radius:6px;font-weight:900}.buy{background:#00ff88;color:#000}.sell{background:#ff4d6d;color:#fff}.bull-box{background:#0a1f14;padding:4px;border-radius:6px}.bear-box{background:#1f0a14;padding:4px;border-radius:6px}.load{text-align:center;padding:20px;color:#4a667a}.blink{animation:blink 1s infinite}@keyframes blink{50%{opacity:0.3}}.alert-sound{position:fixed;top:0;left:0;width:0;height:0}</style></head><body>
-<div class="hd"><span>🔥 V46 PRICE MOMENTUM</span><div style="display:flex;gap:6px"><span id="liveTime" class="timer">00:00:00</span><span id="nextRefresh" class="timer" style="color:#ffcc00">60s</span></div></div>
-<div class="grid"><div class="card"><h3>BULL >65%</h3><b id="cBull" style="color:#00ff88">0</b></div><div class="card"><h3>BEAR <35%</h3><b id="cBear" style="color:#ff4d6d">0</b></div><div class="card"><h3>NEUTRAL</h3><b id="cNeu" style="color:#ffcc00">0</b></div><div class="card"><h3>LIVE P&L</h3><b id="cPnl" style="color:#00d4ff">--</b></div></div>
-<div class="formula"><b style="color:#00ff88">⚡ V46:</b> Base(Deals+₹Cr+Buy%) + Price% x3 <label class="fchk"><input type="checkbox" id="f1" checked> x5+Deals</label><label class="fchk"><input type="checkbox" id="f2" checked> ₹200Cr+</label><label class="fchk"><input type="checkbox" id="fLive" checked> 🔴 Live Price ON</label><label class="fchk"><input type="checkbox" id="fSound"> 🔊 80%+ Alert</label></div>
-<div class="ctrl"><input id="search" placeholder="🔍 Symbol..."><select id="sort"><option value="strength">Strength High</option><option value="pchange">Price % High</option></select></div>
-<div class="tbl"><div class="th"><span id="title">V46 MOMENTUM - PRICE ADJUSTED</span><span id="lastUpdate" style="font-size:9px"></span></div>
-<div style="max-height:74vh;overflow:auto"><table><thead><tr><th>#</th><th style="text-align:left">SYMBOL<br>Deals/₹Cr/LTP</th><th>STRENGTH<br>METER</th><th>LIVE PRICE<br>% Change</th><th>🐂 BULL CE</th><th>🐻 BEAR PE</th><th>SIGNAL</th></tr></thead><tbody id="body"><tr><td colspan=7 class=load>Loading V46 Momentum...</td></tr></tbody></table></div></div>
-<audio id="alertAudio" preload="auto"><source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg"></audio>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>V46 LIVE ONLY</title>
+<style>*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI}body{background:#060a0f;color:#d6e2ec;padding:8px}.hd{background:linear-gradient(90deg,#00ff88,#00d4ff);color:#000;padding:12px;border-radius:12px;font-weight:900;display:flex;justify-content:space-between}.timer{background:#000;color:#00ff88;padding:5px 10px;border-radius:15px;font-size:11px;font-weight:900}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}.card{background:#0f1922;border:1px solid #1c2e3f;padding:8px;border-radius:10px;text-align:center}.formula{background:#0f1922;border:2px solid #00ff88;border-radius:10px;padding:6px;margin:6px 0;display:flex;gap:5px;flex-wrap:wrap;font-size:9px}.fchk{background:#071017;border:1px solid #1c2e3f;color:#fff;padding:4px 7px;border-radius:6px;font-size:10px}.ctrl{display:flex;gap:6px;margin-bottom:8px}.ctrl input,.ctrl select{background:#0f1922;border:1px solid #1c2e3f;color:#fff;padding:8px;border-radius:8px;flex:1}.tbl{background:#0f1922;border:1px solid #1c2e3f;border-radius:12px;overflow:hidden}.th{padding:10px;background:#0a141e;display:flex;justify-content:space-between;color:#00ff88;font-size:11px}table{width:100%;border-collapse:collapse;font-size:10px}th{background:#071017;padding:5px 2px;color:#5f7a8e;font-size:8px}td{padding:7px 2px;border-bottom:1px solid #15212e;text-align:center}.sym{font-weight:800;color:#fff;text-align:left}.strength-bar{height:10px;background:#1a2332;border-radius:5px;overflow:hidden;margin:3px 0}.strength-fill{height:100%}.tag{font-size:8px;padding:3px 6px;border-radius:6px;font-weight:900}.buy{background:#00ff88;color:#000}.sell{background:#ff4d6d;color:#fff}.bull-box{background:#0a1f14;padding:4px;border-radius:6px}.bear-box{background:#1f0a14;padding:4px;border-radius:6px}.load{text-align:center;padding:30px;color:#ffcc00;font-size:12px}</style></head><body>
+<div class="hd"><span>🔥 V46 LIVE MARKET ONLY</span><div style="display:flex;gap:6px"><span id="liveTime" class="timer">00:00:00</span><span id="nextRefresh" class="timer" style="color:#ffcc00">60s</span></div></div>
+<div class="grid"><div class="card"><h3>BULL >65%</h3><b id="cBull" style="color:#00ff88">0</b></div><div class="card"><h3>BEAR <35%</h3><b id="cBear" style="color:#ff4d6d">0</b></div><div class="card"><h3>NEUTRAL</h3><b id="cNeu" style="color:#ffcc00">0</b></div><div class="card"><h3>LIVE COUNT</h3><b id="cPnl" style="color:#00d4ff">0</b></div></div>
+<div class="formula"><b style="color:#00ff88">⚡ LIVE ONLY:</b> NSE Block Deals Real Time <label class="fchk"><input type="checkbox" id="f1"> x5+Deals</label><label class="fchk"><input type="checkbox" id="f2"> ₹200Cr+</label><label class="fchk"><input type="checkbox" id="fLive" checked> Live Price ON</label></div>
+<div class="ctrl"><input id="search" placeholder="🔍 Symbol..."><select id="sort"><option value="strength">Strength High</option><option value="pchange">Price %</option></select></div>
+<div class="tbl"><div class="th"><span id="title">Waiting for LIVE market...</span><span id="lastUpdate"></span></div>
+<div style="max-height:74vh;overflow:auto"><table><thead><tr><th>#</th><th style="text-align:left">SYMBOL Deals/₹Cr/LTP</th><th>STRENGTH</th><th>LIVE %</th><th>🐂 BULL CE</th><th>🐻 BEAR PE</th><th>SIGNAL</th></tr></thead><tbody id="body"><tr><td colspan=7 class=load>⏳ Fetching LIVE NSE Block Deals...<br><small>Market 9:15-3:30 only live data</small></td></tr></tbody></table></div></div>
 <script>
-let FII=[],ALL=[],LIVE={},sec=60;
+let FII=[],LIVE={},sec=60;
 function tick(){document.getElementById('liveTime').innerText=new Date().toLocaleTimeString('en-IN',{hour12:false});} setInterval(tick,1000); tick();
 function countdown(){sec--; document.getElementById('nextRefresh').innerText=sec+'s'; if(sec<=0){sec=60; load();}} setInterval(countdown,1000);
 async function load(){
- document.getElementById('lastUpdate').innerText='Updating...';
+ document.getElementById('lastUpdate').innerText='Fetching NSE...';
  try{
-  let fr=await fetch('/api/block-deals'); let fj=await fr.json(); FII=fj.data||[];
-  try{let syms=FII.map(f=>f.symbol).slice(0,20).join(','); if(syms){let qr=await fetch('/api/quotes?syms='+syms); LIVE=await qr.json();}}catch(e){}
+  let fr=await fetch('/api/block-deals'); let fj=await fr.json();
+  if(!fj.data || fj.data.length===0){
+   document.getElementById('body').innerHTML=`<tr><td colspan=7 class=load>📭 ${fj.message||'No Live Block Deals Today'}<br><br>Market Hours: 9:15 AM - 3:30 PM IST<br>After hours lo data iralla<br><br>Next refresh ${sec}s</td></tr>`;
+   document.getElementById('title').innerText='LIVE: No Deals - Market Closed?';
+   document.getElementById('cPnl').innerText='0';
+   return;
+  }
+  FII=fj.data;
+  // Live quotes
+  LIVE={}; try{ let syms=FII.map(f=>f.symbol).slice(0,10).join(','); if(syms){ let qr=await fetch('/api/quotes?syms='+syms); LIVE=await qr.json(); } }catch(e){}
   render();
-  document.getElementById('lastUpdate').innerText='Live: '+new Date().toLocaleTimeString('en-IN');
- }catch(e){document.getElementById('lastUpdate').innerText='Error';} sec=60;
+  document.getElementById('lastUpdate').innerText='LIVE: '+new Date().toLocaleTimeString('en-IN')+' | '+fj.count+' deals';
+ }catch(e){
+  document.getElementById('body').innerHTML=`<tr><td colspan=7 class=load>❌ NSE Live Fetch Failed<br><small>${e.message}</small><br>Retrying in ${sec}s</td></tr>`;
+ } sec=60;
 }
-function calcStrength(s,livePChange){
- let deals=s.deals||1, cr=s.totalCr||0, buy=s.buyCnt||0, total=(s.buyCnt+s.sellCnt)||1;
- let buyPct=(buy/total)*100, base=0;
- base+=Math.min(40,deals*3); base+=Math.min(30,cr/50); base+=buyPct*0.3;
- let priceAdj=0; if(livePChange!==undefined){priceAdj=livePChange*3;} // -5% => -15, +2% => +6
- let final=Math.min(100,Math.max(0,Math.round(base+priceAdj)));
- return {base:Math.round(base),final,adj:priceAdj};
-}
+function calcStrength(s,pCh){ let buyPct=(s.buyCnt/(s.buyCnt+s.sellCnt||1))*100; let base=Math.min(40,(s.deals||1)*3)+Math.min(30,(s.totalCr||0)/50)+(buyPct*0.3); let adj=(pCh||0)*3; let final=Math.min(100,Math.max(0,Math.round(base+adj))); return {base:Math.round(base),final,adj}; }
 function render(){
  let q=document.getElementById('search').value.toUpperCase(); let f1=document.getElementById('f1').checked,f2=document.getElementById('f2').checked,fLive=document.getElementById('fLive').checked;
- let raw=FII.map(f=>({symbol:f.symbol,spot:parseFloat(f.price)||0,valueCr:parseFloat(f.value||0),type:f.type||'BUY'}));
- let map=new Map(); raw.forEach(r=>{if(!map.has(r.symbol)){map.set(r.symbol,{symbol:r.symbol,spot:r.spot,deals:1,totalCr:r.valueCr,buyCnt:r.type.includes('BUY')?1:0,sellCnt:r.type.includes('SELL')?1:0});}else{let g=map.get(r.symbol); g.deals++; g.totalCr+=r.valueCr; if(r.type.includes('BUY')) g.buyCnt++; else g.sellCnt++;}});
- let data=Array.from(map.values()).map(s=>{
-  let live=LIVE[s.symbol]; let pChange=live?live.pChange:0; let ltp=live?live.ltp:s.spot;
-  let st=calcStrength(s,fLive?pChange:0);
-  return {...s,ltp,pChange:pChange||0,strength:st.final,baseStr:st.base,adj:st.adj};
- });
- if(f1) data=data.filter(s=>s.deals>=5); if(f2) data=data.filter(s=>s.totalCr>=200);
- if(q) data=data.filter(s=>s.symbol.includes(q));
- let sort=document.getElementById('sort').value; if(sort==='strength') data.sort((a,b)=>b.strength-a.strength); else data.sort((a,b)=>b.pChange-a.pChange);
+ let map=new Map(); FII.forEach(r=>{ if(!map.has(r.symbol)){ map.set(r.symbol,{symbol:r.symbol,spot:r.price,deals:1,totalCr:r.value||0,buyCnt:r.type.includes('BUY')?1:0,sellCnt:r.type.includes('SELL')?1:0}); } else { let g=map.get(r.symbol); g.deals++; g.totalCr+=r.value||0; } });
+ let data=Array.from(map.values()).map(s=>{ let live=LIVE[s.symbol]||{ltp:s.spot,pChange:0}; let pCh=fLive?live.pChange:0; let st=calcStrength(s,pCh); return {...s,ltp:live.ltp||s.spot,pChange:live.pChange||0,strength:st.final,baseStr:st.base,adj:st.adj}; });
+ if(f1) data=data.filter(s=>s.deals>=5); if(f2) data=data.filter(s=>s.totalCr>=200); if(q) data=data.filter(s=>s.symbol.includes(q));
+ data.sort((a,b)=>b.strength-a.strength);
  let bull=data.filter(s=>s.strength>=65).length,bear=data.filter(s=>s.strength<=35).length,neu=data.length-bull-bear;
- document.getElementById('cBull').innerText=bull; document.getElementById('cBear').innerText=bear; document.getElementById('cNeu').innerText=neu;
- let avgP=data.length? (data.reduce((a,b)=>a+b.pChange,0)/data.length).toFixed(2):0; document.getElementById('cPnl').innerText=avgP+'%'; document.getElementById('cPnl').style.color=avgP>=0?'#00ff88':'#ff4d6d';
- document.getElementById('title').innerText=`V46 MOMENTUM - ${data.length} Stocks | Bull:${bull} Bear:${bear} | Live:${fLive?'ON':'OFF'}`;
- if(document.getElementById('fSound').checked && data.some(s=>s.strength>=80)){try{document.getElementById('alertAudio').play();}catch(e){}}
- if(!data.length){document.getElementById('body').innerHTML='<tr><td colspan=7 class=load>No Data</td></tr>';return;}
- let h=''; data.forEach((s,i)=>{
-  let ce=Math.round(s.ltp/50)*50||s.spot; let pe=ce; let tgtCE=Math.round(s.ltp*1.03); let slCE=Math.round(s.ltp*0.985); let tgtPE=Math.round(s.ltp*0.97); let slPE=Math.round(s.ltp*1.015);
-  let col=s.strength>=65?'#00ff88':s.strength<=35?'#ff4d6d':'#ffcc00';
-  let pCol=s.pChange>=0?'#00ff88':'#ff4d6d';
-  let sig=s.strength>=65?`<span class="tag buy">🔥 BUY CE ${s.strength}%</span>`:s.strength<=35?`<span class="tag sell">🐻 BUY PE ${s.strength}%</span>`:`<span class="tag" style="background:#333;color:#ffcc00">WAIT ${s.strength}%</span>`;
-  let bullB=s.strength>=65?'border:2px solid #00ff88;opacity:1':'opacity:0.25'; let bearB=s.strength<=35?'border:2px solid #ff4d6d;opacity:1':'opacity:0.25';
-  h+=`<tr><td>${i+1}</td><td class="sym">${s.symbol}<br><small>${s.deals}D ₹${s.totalCr.toFixed(0)}Cr</small><br><small>LTP ₹${s.ltp.toFixed(2)}</small></td><td><b style="color:${col}">${s.strength}%</b><div class="strength-bar"><div class="strength-fill" style="width:${s.strength}%;background:${col}"></div></div><small>Base ${s.baseStr}% ${s.adj>=0?'+':''}${s.adj.toFixed(0)}% price</small></td><td><b style="color:${pCol}">${s.pChange>=0?'+':''}${s.pChange.toFixed(2)}%</b><br><small style="color:${pCol}">${s.pChange>=0?'🟢 UP':'🔴 DOWN'}</small><br><small>${fLive?'LIVE':'OFF'}</small></td><td><div class="bull-box" style="${bullB}"><b>CE ${ce}</b><br><span class="up">TGT ${tgtCE}</span><br><span class="down">SL ${slCE}</span></div></td><td><div class="bear-box" style="${bearB}"><b>PE ${pe}</b><br><span class="down">TGT ${tgtPE}</span><br><span class="up">SL ${slPE}</span></div></td><td>${sig}<br><small>Adj ${s.adj.toFixed(0)}%</small></td></tr>`;
- }); document.getElementById('body').innerHTML=h;
+ document.getElementById('cBull').innerText=bull; document.getElementById('cBear').innerText=bear; document.getElementById('cNeu').innerText=neu; document.getElementById('cPnl').innerText=data.length;
+ document.getElementById('title').innerText=`LIVE MARKET - ${data.length} Stocks | Bull:${bull} Bear:${bear}`;
+ let h=''; data.forEach((s,i)=>{ let ce=Math.round(s.ltp/50)*50||300; let tgtCE=Math.round(s.ltp*1.03); let slCE=Math.round(s.ltp*0.985); let tgtPE=Math.round(s.ltp*0.97); let slPE=Math.round(s.ltp*1.015); let col=s.strength>=65?'#00ff88':s.strength<=35?'#ff4d6d':'#ffcc00'; let pCol=s.pChange>=0?'#00ff88':'#ff4d6d'; let sig=s.strength>=65?`<span class="tag buy">BUY CE ${s.strength}%</span>`:s.strength<=35?`<span class="tag sell">BUY PE ${s.strength}%</span>`:`<span class="tag" style="background:#333;color:#ffcc00">WAIT ${s.strength}%</span>`; let bullB=s.strength>=65?'border:2px solid #00ff88':'opacity:0.25'; let bearB=s.strength<=35?'border:2px solid #ff4d6d':'opacity:0.25'; h+=`<tr><td>${i+1}</td><td class="sym">${s.symbol}<br><small>${s.deals}D ₹${s.totalCr.toFixed(0)}Cr</small><br><small>LTP ₹${s.ltp.toFixed(1)}</small></td><td><b style="color:${col}">${s.strength}%</b><div class="strength-bar"><div class="strength-fill" style="width:${s.strength}%;background:${col}"></div></div><small>Base ${s.baseStr}% ${s.adj>=0?'+':''}${s.adj.toFixed(0)}%</small></td><td><b style="color:${pCol}">${s.pChange>=0?'+':''}${s.pChange.toFixed(2)}%</b></td><td><div class="bull-box" style="${bullB}"><b>CE ${ce}</b><br>TGT ${tgtCE}<br>SL ${slCE}</div></td><td><div class="bear-box" style="${bearB}"><b>PE ${ce}</b><br>TGT ${tgtPE}<br>SL ${slPE}</div></td><td>${sig}</td></tr>`; }); document.getElementById('body').innerHTML=h;
 }
-['search','sort','f1','f2','fLive','fSound'].forEach(id=>document.getElementById(id).addEventListener(id==='search'?'input':'change',render));
+['search','sort','f1','f2','fLive'].forEach(id=>document.getElementById(id).addEventListener(id==='search'?'input':'change',render));
 load(); setInterval(load,60000);
 </script></body></html>
