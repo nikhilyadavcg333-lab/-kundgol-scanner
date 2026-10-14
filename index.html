@@ -65,11 +65,10 @@ function getStatus(s){
 }
 function render(){
  let d=[];
- if(cur=='buy') d=all.filter(x=>x.pChange>0 && x.surge>=1.5).sort((a,b)=>b.surge-a.surge);
+ if(cur=='buy') d=all.filter(x=>x.pChange>0 && x.surge>=2).sort((a,b)=>b.surge-a.surge);
  else if(cur=='dii') d=all.filter(x=>x.pChange>0 && x.surge>=1.0 && x.surge<2.0).sort((a,b)=>b.pChange-a.pChange);
  else if(cur=='sell') d=all.filter(x=>x.pChange<0).sort((a,b)=>a.pChange-b.pChange);
  else d=all.sort((a,b)=>b.surge-a.surge);
- 
  document.getElementById('tbody').innerHTML=d.map(s=>{
   let st=getStatus(s); let ce=Math.ceil(s.spot/50)*50; let pe=Math.floor(s.spot/50)*50;
   return `<tr class="${s.pChange>0?'buying':'selling'}">
