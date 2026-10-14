@@ -1,43 +1,55 @@
-<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>V50 ULTIMATE BEAR</title>
-<style>
-body{background:#0a0a0a;color:#fff;font-family:system-ui;margin:0;padding:10px}
-.card{background:#161616;border-radius:14px;padding:14px;margin:10px 0;border:1px solid #222}
-.top{display:flex;justify-content:space-between;align-items:center}
-.score{font-size:38px;color:#00ff88;font-weight:900}
-.badge{background:#00ff8820;color:#00ff88;border:1px solid #00ff88;padding:4px 10px;border-radius:20px;font-size:12px}
-.sector-bar{display:flex;gap:8px;overflow-x:auto;padding:12px 0}
-.sector{min-width:110px;padding:10px;border-radius:14px;text-align:center;font-weight:bold}
-.green{background:#00ff88;color:#000}.red{background:#ff4444;color:#fff}
-.winner{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;border-radius:14px;padding:14px;margin:10px 0}
-button{background:#00ff88;color:#000;border:none;padding:12px 18px;border-radius:10px;font-weight:900;cursor:pointer}
-input{padding:12px;border-radius:10px;border:1px solid #333;background:#111;color:#fff}
-.box{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.small{font-size:12px;color:#aaa}.big{font-size:14px;font-weight:bold;color:#00ff88}
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V50 ULTIMATE</title>
+<style>body{background:#0a0f1c;color:#fff;font-family:Arial;padding:10px}
+.top{display:flex;overflow-x:auto;gap:8px}
+.card{min-width:110px;padding:10px;border-radius:10px;text-align:center;font-weight:700}
+.bull{background:#00ff88;color:#000}.bear{background:#ff4444}
+.box{background:#111827;padding:15px;border-radius:12px;margin-top:12px;border:1px solid #333}
+input{padding:12px;width:60%;border-radius:8px;border:none;background:#1f2937;color:#fff}
+button{padding:12px 18px;border-radius:8px;border:none;font-weight:700;cursor:pointer}
+.scan{background:#00ff88}.bearwin{background:#ffd700}
+.v50{font-size:42px;font-weight:900;color:#00ff88}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.btn{padding:12px;border-radius:8px;text-align:center;font-weight:700}
+.ce{border:1px solid #00ff88}.tgt{border:1px solid #00ff88;color:#00ff88}.sl{border:1px solid #ff4444;color:#ff4444}
 </style></head><body>
-<h2 style="margin:0">V50 ULTIMATE</h2><div class="small">STOCK SCANNER • LIVE • BEAR MARKET MODE</div>
-<div id="sectors" class="sector-bar">Loading sectors...</div>
-<div style="display:flex;gap:8px;margin:10px 0"><input id="sym" value="RELIANCE" placeholder="SYMBOL"><button onclick="loadV50()">SCAN</button><button onclick="loadWinners()" style="background:#ffaa00">BEAR WINNERS 🏆</button></div>
-<div id="out"></div>
+<div class="top" id="sectors"></div>
+<div class="box">
+ <input id="sym" placeholder="hdfc bank, sbi, reliance"><button class="scan" onclick="scan()">SCAN</button>
+ <button class="bearwin" onclick="bear()">BEAR WINNERS 🏆</button>
+ <div id="out" style="margin-top:15px"></div>
+ <div id="bearout"></div>
+</div>
 <script>
-let PORT=location.port||10000;
 async function loadSectors(){
- let r=await fetch('/api/sectors').then(r=>r.json());
- document.getElementById('sectors').innerHTML=r.sectors.map(s=>`<div class="sector ${s.change>0?'green':'red'}">${s.name.replace('NIFTY ','')}<br>${s.change>0?'+':''}${s.change}%<br><small>${s.change>0?'↑ BULL':'↓ BEAR'}</small></div>`).join('');
+ let r=await fetch('/api/sectors'); let d=await r.json();
+ document.getElementById('sectors').innerHTML=d.sectors.map(s=>`<div class="card ${s.status=='BULL'?'bull':'bear'}">${s.name}<br>${s.change}%<br>${s.status=='BULL'?'↑ BULL':'↓ BEAR'}</div>`).join('');
 }
-async function loadV50(){
- let s=document.getElementById('sym').value.toUpperCase()||'RELIANCE';
- let r=await fetch(`/api/v50/${s}`).then(r=>r.json());
+async function scan(){
+ let s=document.getElementById('sym').value||'SBIN';
+ let r=await fetch('/api/v50/'+s); let d=await r.json();
  document.getElementById('out').innerHTML=`
- <div class="card"><div class="top"><div><div class="small">${s} • NSE • EQ</div><div>V50 Score</div><div class="score">${r.v50}%</div></div><div><span class="badge">${r.signal}</span><div style="margin-top:10px;background:#222;height:10px;border-radius:10px;width:150px"><div style="background:#00ff88;height:10px;width:${r.v50}%;border-radius:10px"></div></div></div></div>
- <div class="box"><div><div class="small">LTP</div><div class="big">₹${r.chart.ltp} ${r.chart.change}% ▲</div></div><div><div class="small">Trend</div><div class="big">${r.chart.trend}</div></div><div><div class="small">Candle</div><div class="big">${r.chart.candle}</div></div><div><div class="small">Order Flow</div><div class="big">BUY ${r.flow.buy}% • ${r.flow.status}</div></div></div>
- <div class="box" style="margin-top:12px"><div style="background:#111;border:1px solid #333;border-radius:10px;padding:10px;text-align:center">CE<br><b>${r.ce} CE</b></div><div style="background:#111;border:1px solid #00ff88;border-radius:10px;padding:10px;text-align:center">TGT<br><b style="color:#00ff88">${r.tgt}</b></div><div style="background:#111;border:1px solid #ff4444;border-radius:10px;padding:10px;text-align:center">SL<br><b style="color:#ff4444">${r.sl}</b></div></div>
- <div style="display:flex;gap:10px;margin-top:12px"><button style="flex:1;background:#111;color:#00ff88;border:1px solid #00ff88">VIEW CHART</button><button style="flex:1">PLACE ORDER</button></div>
- </div>`;
+  <div>${d.symbol} • NSE • EQ</div>
+  <div>V50 Score</div><div class="v50">${d.v50}%</div>
+  <div>LTP ₹${d.chart?.ltp||0} ${d.chart?.change||0}% • ${d.signal}</div>
+  <div class="grid">
+   <div>Trend<br><b>${d.chart?.trend||''}</b></div>
+   <div>Order Flow<br><b>BUY ${d.flow?.buy||0}% • ${d.flow?.status||''}</b></div>
+   <div>Candle<br><b>${d.chart?.candle||''}</b></div>
+   <div>Source<br><b>${d.chart?.source||''}</b></div>
+  </div>
+  <div class="grid" style="margin-top:15px">
+   <div class="btn ce">CE<br>${d.ce}</div>
+   <div class="btn tgt">TGT<br>${d.tgt}</div>
+   <div class="btn sl">SL<br>${d.sl}</div>
+   <div class="btn ce" style="background:#00ff88;color:#000" onclick="alert('Order Placed ${d.symbol} ${d.ce}')">PLACE ORDER</div>
+  </div>
+  <div style="margin-top:10px;font-size:12px;color:#aaa">PCR: ${d.option?.pcr||1} • ${d.option?.trend||''} • Flow: ${d.flow?.source||''}<br>News: ${(d.news||[]).map(n=>n.title).join(' | ')}</div>
+ `;
 }
-async function loadWinners(){
- let r=await fetch('/api/bear-winners').then(r=>r.json());
- document.getElementById('out').innerHTML=`<h3>BEAR MARKET WINNERS - Nifty ${r.niftyChange}% but Positive Stocks</h3>`+r.winners.map(w=>`<div class="winner"><div style="display:flex;justify-content:space-between"><b>✅ ${w.symbol}</b><span>Action • CE BUY</span></div><div style="display:flex;gap:20px;margin-top:8px"><div>Stock<br><b>+${w.stockChange}% ↑</b></div><div>RS<br><b>+${w.rs}% ↑</b></div><div>V50<br><b>${w.v50}%</b></div></div><div class="small" style="color:#000;margin-top:6px">${w.reason}</div></div>`).join('')+(r.winners.length==0?'<p>No winners - Full red day, WAIT!</p>':'');
+async function bear(){
+ let r=await fetch('/api/bear-winners'); let d=await r.json();
+ document.getElementById('bearout').innerHTML=`<h3>BEAR WINNERS Nifty ${d.niftyChange}% (${d.count})</h3>`+d.winners.map(w=>`<div style="background:#111827;padding:8px;margin:5px;border-radius:8px">🏆 ${w.symbol} | Change ${w.stockChange}% | RS +${w.rs}% | V50 ${w.v50}%<br><small>${w.reason}</small> <button onclick="document.getElementById('sym').value='${w.symbol}';scan()">SCAN</button></div>`).join('');
 }
-loadSectors(); loadV50();
-setInterval(loadSectors,60000);
+loadSectors(); setInterval(loadSectors,60000);
 </script></body></html>
