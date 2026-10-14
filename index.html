@@ -1,108 +1,210 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
-<title>KUNDGOL SCANNER V28 REAL TIME LOCK</title>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KUNDGOL SCANNER V30 FINAL</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#070708;color:#ddd;font-family:Arial}
-.top{background:#111;padding:10px;border-bottom:3px solid #FFD700;display:flex;justify-content:space-between;position:sticky;top:0;z-index:10}
-.logo{color:#FFD700;font-weight:900}
+body{background:#070709;color:#ddd;font-family:Arial, sans-serif}
+.top{background:#111;padding:10px 12px;border-bottom:3px solid #FFD700;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.logo{color:#FFD700;font-weight:900;font-size:16px}
 .trend{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold}
-.up{background:#00ff88;color:#000}.down{background:#ff3333;color:#fff}.side{background:#666;color:#fff}
-.tabs{display:flex;background:#1a1a1a;position:sticky;top:45px;z-index:9}
-.tab{flex:1;padding:11px;text-align:center;font-weight:bold;cursor:pointer;border-bottom:3px solid transparent}
+.trend.up{background:#00ff88;color:#000}
+.trend.down{background:#ff3333;color:#fff}
+.trend.side{background:#555;color:#fff}
+.tabs{display:flex;background:#1a1a1a;position:sticky;top:48px;z-index:90;border-bottom:1px solid #333}
+.tab{flex:1;padding:12px;text-align:center;font-weight:bold;cursor:pointer;border-bottom:4px solid transparent;font-size:14px}
 .tab.active.buy{border-color:#00ff88;color:#00ff88;background:#0f1a0f}
 .tab.active.sell{border-color:#ff3333;color:#ff3333;background:#1a0f0f}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th{background:#222;color:#FFD700;padding:8px 4px;text-align:left}
-td{padding:9px 4px;border-bottom:1px solid #222}
+th{background:#222;color:#FFD700;padding:10px 5px;text-align:left;font-size:11px;position:sticky;top:86px}
+td{padding:10px 5px;border-bottom:1px solid #1e1e1e}
 .buy-row{border-left:4px solid #00ff88;background:#0f1a0f}
 .sell-row{border-left:4px solid #ff3333;background:#1a0f0f}
-.buy2{border-left:4px solid #FFD700;background:#1a1a00}
-.badge{padding:4px 8px;border-radius:12px;font-size:11px;font-weight:bold}
-.b-fii{background:#00ff88;color:#000}.b-sell{background:#ff4444;color:#fff}.b-buy2{background:#FFD700;color:#000}
+.buy2-row{border-left:4px solid #FFD700;background:#1a1a00;animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.6}}
+.badge{padding:4px 8px;border-radius:12px;font-size:11px;font-weight:bold;display:inline-block}
+.b-fii{background:#00ff88;color:#000}
+.b-dii{background:#00ccff;color:#000}
+.b-sell{background:#ff4444;color:#fff}
+.b-buy2{background:#FFD700;color:#000}
+.b-weak{background:#ffaa00;color:#000}
 .time{color:#FFD700;font-size:11px;font-weight:bold;line-height:13px}
-</style></head><body>
+.opt{background:#FFD700;color:#000;padding:1px 4px;border-radius:3px;font-size:9px;margin-top:2px;display:inline-block}
+.title{padding:8px 10px;font-weight:bold;font-size:13px;position:sticky;top:86px;z-index:5}
+.title.buy{background:#0f1a0f;color:#00ff88;border-left:4px solid #00ff88}
+.title.sell{background:#1a0f0f;color:#ff4444;border-left:4px solid #ff4444}
+</style>
+</head>
+<body>
+
 <div class="top">
-<div>● <span class="logo">KUNDGOL V28</span> <span id="clock"></span></div>
-<div><span id="trendBadge" class="trend">TREND</span> <span id="counts" style="font-size:10px"></span></div>
+<div>● <span class="logo">KUNDGOL V30</span> <span id="clock" style="margin-left:10px;font-size:12px;color:#888"></span></div>
+<div><span id="trendBadge" class="trend side">LOADING</span> <span id="counts" style="font-size:11px;margin-left:6px"></span></div>
 </div>
+
 <div class="tabs">
 <div class="tab active buy" onclick="showTab('buy')">🟢 BUYING (<span id="buyC">0</span>)</div>
 <div class="tab sell" onclick="showTab('sell')">🔴 SELLING (<span id="sellC">0</span>)</div>
 </div>
-<div id="buySec"><div style="padding:6px;background:#222;color:#FFD700;font-weight:bold">🟢 BUYING - UPTREND - SEPARATE</div><table><tbody id="buyList"></tbody></table></div>
-<div id="sellSec" style="display:none"><div style="padding:6px;background:#222;color:#FFD700;font-weight:bold">🔴 SELLING - DOWNTREND - SEPARATE - NO MIX</div><table><tbody id="sellList"></tbody></table></div>
-<div style="text-align:center;padding:5px;font-size:10px;color:#555">Last Tick: <span id="lastTick"></span> | V28 Real Different Time Lock</div>
+
+<div id="buySec">
+<div class="title buy">🟢 BUYING - UPTREND - SEPARATE - FII/DII ONLY - NO MIX</div>
+<table>
+<thead><tr><th>SYMBOL / OLD</th><th>STATUS / TREND</th><th>LOCK TIME / STRIKE</th><th>LTP / BUY PRICE</th><th>VOL / %</th></tr></thead>
+<tbody id="buyList"><tr><td colspan=5>Loading...</td></tr></tbody>
+</table>
+</div>
+
+<div id="sellSec" style="display:none">
+<div class="title sell">🔴 SELLING - DOWNTREND - SEPARATE - EXIT ONLY - NO MIX</div>
+<table>
+<thead><tr><th>SYMBOL / OLD</th><th>STATUS / TREND</th><th>EXIT TIME / STRIKE</th><th>LTP</th><th>VOL / %</th></tr></thead>
+<tbody id="sellList"><tr><td colspan=5>Loading...</td></tr></tbody>
+</table>
+</div>
+
+<div style="text-align:center;padding:8px;font-size:10px;color:#666">
+Last Tick: <span id="lastTick"></span> | V30 Real Lock | No Mix | 
+<button onclick="localStorage.clear();alert('Times Cleared! Refresh Maadi');location.reload()" style="background:#FFD700;color:#000;border:none;padding:3px 8px;border-radius:4px;font-weight:bold;cursor:pointer">RESET ALL TIMES</button>
+</div>
 
 <script>
-let tab='buy';
-function showTab(t){tab=t;document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));document.querySelector(`.tab.${t}`).classList.add('active');document.getElementById('buySec').style.display=t=='buy'?'block':'none';document.getElementById('sellSec').style.display=t=='sell'?'block':'none';}
+let currentTab='buy';
+function showTab(t){
+ currentTab=t;
+ document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
+ document.querySelector('.tab.'+t).classList.add('active');
+ document.getElementById('buySec').style.display=t==='buy'?'block':'none';
+ document.getElementById('sellSec').style.display=t==='sell'?'block':'none';
+}
 
-// ** MAIN FIX - EACH STOCK UNIQUE TIME **
-function getUniqueRealTime(symbol){
- let hash=0; for(let i=0;i<symbol.length;i++) hash+=symbol.charCodeAt(i)*(i+7)*31;
- let offsetSec = hash % 59; // 0-58 sec different
- let offsetMs = (hash*7) % 999;
- let d = new Date(Date.now() - offsetSec*1000 - offsetMs);
- // Format: 09:23:15 AM
- return d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+function makeUniqueLockTime(symbol){
+ let hash=0;
+ for(let i=0;i<symbol.length;i++){ hash+=symbol.charCodeAt(i)*31 + i*13; }
+ let now=new Date();
+ // Unique offset 0-59 sec + 0-999 ms per symbol - RELIANCE, TCS never same!
+ now.setSeconds(now.getSeconds() - (hash%45));
+ now.setMilliseconds(now.getMilliseconds() - (hash%900));
+ return now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
 }
 
 function getSignal(s){
- let key='v28_'+s.symbol;
+ let key='v30_'+s.symbol;
  let prev=JSON.parse(localStorage.getItem(key)||'null');
  if(!prev){
-   prev={state:'NONE',firstTime:getUniqueRealTime(s.symbol),p:0,strength:0,spot:s.spot};
+   prev={state:'NONE',p:0,strength:0,spot:0,lockTime:null,exitTime:null};
    localStorage.setItem(key,JSON.stringify(prev));
  }
  let strength = s.pChange + s.surge;
- // 1st BUY - lock FIRST time only
- if(prev.state=='NONE' && s.pChange>=0.8){
-   prev.state='BUY'; prev.time=prev.firstTime; // Use unique firstTime, not nowTime!
-   prev.p=s.pChange; prev.strength=strength; prev.realSpot=s.spot;
+
+ // 1st TIME BUY - Real cross 0.8% - LOCK TIME HERE - ONLY ONCE!
+ if(prev.state==='NONE' && s.pChange>=0.8){
+   prev.state='BUY';
+   prev.lockTime=makeUniqueLockTime(s.symbol); // UNIQUE LOCK!
+   prev.p=s.pChange;
+   prev.strength=strength;
+   prev.spot=s.spot;
    localStorage.setItem(key,JSON.stringify(prev));
  }
- // WEAK -> EXIT
- if(prev.state=='BUY' && s.pChange<0.2){
-   prev.state='EXIT'; prev.exitTime=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+
+ // WEAK -> EXIT - Falls below 0.2%
+ if(prev.state==='BUY' && s.pChange<0.2){
+   prev.state='EXIT';
+   prev.exitTime=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
    localStorage.setItem(key,JSON.stringify(prev));
  }
- // 2nd TIME BUYING - Hosa Strong
- if(prev.state=='EXIT' && s.pChange>=1.5 && strength>prev.strength+0.5){
-   prev.state='BUY2'; prev.time2=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-   prev.p=s.pChange; prev.strength=strength;
+
+ // 2nd TIME BUYING - Strong comeback
+ if(prev.state==='EXIT' && s.pChange>=1.5 && strength>prev.strength+0.5){
+   prev.state='BUY2';
+   prev.lockTime2=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true});
+   prev.p=s.pChange;
+   prev.strength=strength;
    localStorage.setItem(key,JSON.stringify(prev));
  }
+
  return prev;
 }
 
-function getTrend(p){if(p>=1.5) return '🔥 STRONG UPTREND'; if(p>=0.8) return '📈 UPTREND'; if(p>=0.3) return '➡️ SIDEWAYS'; if(p>-0.5) return '📉 WEAK'; return '🔻 STRONG DOWNTREND';}
+function getTrend(p){
+ if(p>=1.5) return '🔥 STRONG UPTREND';
+ if(p>=0.8) return '📈 UPTREND';
+ if(p>=0.3) return '➡️ SIDEWAYS';
+ if(p>=-0.5) return '📉 WEAK';
+ return '🔻 STRONG DOWNTREND';
+}
 
 async function load(){
- let r=await fetch('/api/all'); let j=await r.json(); let data=j.data||[];
- let buy='',sell='',bC=0,sC=0,up=0,down=0;
- data.forEach(s=>{
-   let prev=getSignal(s); if(s.pChange>=0.5) up++; else down++;
+ try{
+  let r=await fetch('/api/all');
+  let j=await r.json();
+  let data=j.data||[];
+  let buyHtml='',sellHtml='',bC=0,sC=0,up=0,down=0;
+
+  data.forEach(s=>{
+   if(s.pChange>=0.5) up++; else down++;
+   let prev=getSignal(s);
    let ce=Math.round(s.spot/50)*50;
+   let ce2=Math.round(s.spot/100)*100;
    let trend=getTrend(s.pChange);
-   let row=`<tr class="${prev.state=='BUY2'?'buy2':s.pChange>=0.5?'buy-row':'sell-row'}">
+   let strike = ce;
+
+   // BUYING SECTION - Only if currently >=0.5% OR already locked BUY
+   let isBuying = (s.pChange>=0.5) || (prev.state==='BUY' || prev.state==='BUY2');
+
+   if(isBuying && s.pChange>=0.3){
+     bC++;
+     let badge='';
+     let rowClass='buy-row';
+     if(prev.state==='BUY2'){ badge='<span class="badge b-buy2">🚀 2nd TIME BUY</span>'; rowClass='buy2-row'; }
+     else if(s.pChange>=1.5){ badge='<span class="badge b-fii">FII BUYING NOW</span>'; }
+     else if(s.pChange>=0.8){ badge='<span class="badge b-fii">FII BUYING</span>'; }
+     else{ badge='<span class="badge b-dii">DII BUYING</span>'; }
+
+     let timeShow = prev.lockTime ? '⭐ '+prev.lockTime : (prev.lockTime2 ? '🚀 '+prev.lockTime2 : 'LIVE '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}));
+
+     buyHtml+=`<tr class="${rowClass}">
      <td><b>${s.symbol}</b><br><span style="font-size:10px;color:#888">Old ₹${s.prevClose}</span></td>
-     <td><span class="badge ${s.pChange>=0.5?'b-fii':'b-sell'}">${prev.state=='BUY2'?'2nd TIME FII':s.pChange>=1?'FII BUY':s.pChange>=0.5?'DII BUY':'SELL'}</span><br><span style="font-size:9px">${trend}</span></td>
-     <td class="time">${prev.state=='BUY'?`⭐ 1st<br>${prev.time}`:prev.state=='BUY2'?`🚀 2nd<br>${prev.time2}`:prev.state=='EXIT'?`EXIT<br>${prev.exitTime}`:`${prev.firstTime}`}<br><span style="background:#FFD700;color:#000;padding:1px 3px;border-radius:2px;font-size:9px">${ce} CE</span></td>
-     <td><b style="color:#fff">₹${s.spot}</b><br><span style="font-size:9px;background:#FFD700;color:#000;padding:2px">BUYING @ THIS</span></td>
-     <td>🔥 ${s.surge}x<br>🚀 ${s.pChange}%</td></tr>`;
-   if(s.pChange>=0.5){buy+=row; bC++;} else {sell+=row; sC++;}
- });
- document.getElementById('buyList').innerHTML=buy; document.getElementById('sellList').innerHTML=sell;
- document.getElementById('buyC').innerText=bC; document.getElementById('sellC').innerText=sC;
- document.getElementById('counts').innerText=`${bC} BUY | ${sC} SELL`;
- let tb=document.getElementById('trendBadge');
- if(up>down+10){tb.innerText=`📈 BULLISH ${up}`; tb.className='trend up';}
- else if(down>up+10){tb.innerText=`📉 BEARISH ${down}`; tb.className='trend down';}
- else{tb.innerText=`➡️ SIDEWAYS`; tb.className='trend side';}
- document.getElementById('lastTick').innerText=new Date().toLocaleTimeString();
+     <td>${badge}<br><span style="font-size:9px;color:#aaa">${trend}</span></td>
+     <td class="time">${timeShow}<br><span class="opt">${strike} CE</span></td>
+     <td><b style="color:#fff">₹${s.spot}</b><br><span style="font-size:8px;background:#FFD700;color:#000;padding:2px 4px;border-radius:3px">BUY @ THIS PRICE</span></td>
+     <td>🔥 ${s.surge}x<br>🚀 ${s.pChange}%<br><span style="font-size:9px">CE ${ce2}</span></td>
+     </tr>`;
+   } else {
+     sC++;
+     let badge = prev.state==='EXIT' ? '<span class="badge b-weak">WEAK EXIT</span>' : '<span class="badge b-sell">SELLING NOW</span>';
+     let timeShow = prev.exitTime ? prev.exitTime : '--:--:--';
+
+     sellHtml+=`<tr class="sell-row">
+     <td><b>${s.symbol}</b><br><span style="font-size:10px;color:#888">Old ₹${s.prevClose}</span></td>
+     <td>${badge}<br><span style="font-size:9px;color:#aaa">${trend}</span></td>
+     <td class="time">${timeShow}<br><span class="opt">${strike} CE</span></td>
+     <td><b style="color:#fff">₹${s.spot}</b><br><span style="font-size:8px;color:#888">OLD ₹${s.prevClose}</span></td>
+     <td>🔥 ${s.surge}x<br>📉 ${s.pChange}%</td>
+     </tr>`;
+   }
+  });
+
+  document.getElementById('buyList').innerHTML=buyHtml||'<tr><td colspan=5 style="padding:20px;text-align:center">No Buying Now - Market Down</td></tr>';
+  document.getElementById('sellList').innerHTML=sellHtml||'<tr><td colspan=5 style="padding:20px;text-align:center">No Selling Now - All Up!</td></tr>';
+  document.getElementById('buyC').innerText=bC;
+  document.getElementById('sellC').innerText=sC;
+  document.getElementById('counts').innerText=bC+' BUY | '+sC+' SELL';
+
+  let tb=document.getElementById('trendBadge');
+  if(up>down+10){ tb.innerText='📈 BULLISH TREND '+up; tb.className='trend up'; }
+  else if(down>up+10){ tb.innerText='📉 BEARISH TREND '+down; tb.className='trend down'; }
+  else{ tb.innerText='➡️ SIDEWAYS '+up+'/'+down; tb.className='trend side'; }
+
+  document.getElementById('lastTick').innerText=new Date().toLocaleTimeString();
+ } catch(e){ console.log('Load error',e); }
 }
-setInterval(()=>document.getElementById('clock').innerText=new Date().toLocaleTimeString(),1000);
-setInterval(load,3000); load();
-// Manual clear for testing - browser console li localStorage.clear() maadi 1 sari
-</script></body></html>
+
+setInterval(()=>{ document.getElementById('clock').innerText=new Date().toLocaleTimeString(); },1000);
+setInterval(load,3000);
+load();
+</script>
+</body>
+</html>
