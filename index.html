@@ -3,155 +3,136 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nikhil Yadav - Real Price Scanner</title>
+<title>Nikhil Yadav - LIVE FII BUY Scanner</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0f172a;color:#fff;font-family:Arial;padding:10px}
-h2{color:#22c55e;font-size:22px;font-weight:bold;text-align:center;padding:8px}
-.sub{color:#facc15;text-align:center;font-size:13px;margin-bottom:8px}
-#liveStatus{text-align:center;font-size:13px;color:#facc15;margin:5px;font-weight:bold}
+h2{color:#22c55e;font-size:20px;font-weight:bold;text-align:center;padding:8px}
+.sub{color:#facc15;text-align:center;font-size:12px;margin-bottom:5px}
+#liveStatus{text-align:center;font-size:13px;color:#22c55e;margin:8px;font-weight:bold;background:#1e293b;padding:6px;border-radius:6px}
 .filters{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px}
 .filters button{padding:8px 14px;border-radius:20px;border:0;font-weight:bold;cursor:pointer;background:#1e293b;color:#fff}
 .filters button.active{background:#22c55e;color:#000}
 table{width:100%;border-collapse:collapse;background:#1e293b;border-radius:8px;overflow:hidden}
-th{background:#0f172a;padding:10px 5px;font-size:11px;color:#94a3b8}
-td{padding:10px 5px;text-align:center;border-top:1px solid #334155;font-size:13px}
+th{background:#0f172a;padding:10px 5px;font-size:10px;color:#94a3b8}
+td{padding:9px 5px;text-align:center;border-top:1px solid #334155;font-size:12px}
 .green{color:#22c55e;font-weight:bold}
 .red{color:#ef4444}
-.gray{color:#94a3b8}
-.ce{background:#22c55e;color:#000;padding:3px 6px;border-radius:5px;font-size:11px;font-weight:bold}
-.hold{background:#0ea5e9;color:#fff;padding:3px 6px;border-radius:5px;font-size:11px}
-.exit{background:#ef4444;color:#fff;padding:3px 6px;border-radius:5px;font-size:11px}
+.gray{color:#94a3b8;font-size:10px}
+.ce{background:#22c55e;color:#000;padding:4px 7px;border-radius:5px;font-size:11px;font-weight:bold;animation:blink 1s infinite}
+.liveBuy{background:#facc15;color:#000;padding:4px 7px;border-radius:5px;font-size:11px;font-weight:bold;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.7}}
+.hold{background:#0ea5e9;color:#fff;padding:3px 6px;border-radius:5px;font-size:10px}
 </style>
 </head>
 <body>
-<h2>NIKHIL YADAV - SIMPLE SCANNER</h2>
-<div class="sub">Yadgir Real Price Scanner - FII/DII Bulk Deals</div>
-<div id="liveStatus">🟡 Connecting Live...</div>
-
+<h2>NIKHIL YADAV - LIVE FII SCANNER V10</h2>
+<div class="sub">PROXY LIVE: Volume Surge = FII Buying NOW</div>
+<div id="liveStatus">🟢 LIVE Scanning - Avru Eega Yavdu Buy Maadtavre...</div>
 <div class="filters">
 <button id="fAll" class="active" onclick="setFilter('ALL')">ALL (18)</button>
+<button id="fLive" class="active" onclick="setFilter('LIVEBUY')" style="background:#facc15;color:#000">🔥 LIVE BUY NOW</button>
 <button id="fBuy" onclick="setFilter('BUYING')">✅ BUYING</button>
-<button id="fHold" onclick="setFilter('HOLD')">🔵 HOLD</button>
-<button id="fExit" onclick="setFilter('EXIT')">🔴 EXIT</button>
 <button id="fFii" onclick="setFilter('FII')">🔵 FII</button>
 </div>
-
-<table id="mainTable">
+<table>
 <thead>
-<tr>
-<th><input type="checkbox" id="chkAll" onchange="toggleAll(this)"></th>
-<th>SYMBOL</th><th>BUYER</th><th>BUY ₹</th><th>LIVE NSE</th><th>TREND</th><th>FII</th><th>BUY SIGNAL</th><th>HOLD/EXIT</th>
-</tr>
+<tr><th>SYMBOL</th><th>LIVE BUYER</th><th>BUY ₹</th><th>LIVE NSE</th><th>TREND</th><th>VOL SURGE</th><th>BUY SIGNAL</th></tr>
 </thead>
 <tbody id="tbody"></tbody>
 </table>
-
 <script>
 let dealsData=[
-{symbol:"LUPIN",buyer:"DII",buyerType:"DII",time:"09:35 AM",buy:1925,spot:1953.60,pChange:0.98,deals:12,fiiStatus:"HOLD",tick:false},
-{symbol:"MOTHERSON",buyer:"FII",buyerType:"FII",time:"09:40 AM",buy:157,spot:160.00,pChange:1.92,deals:15,fiiStatus:"HOLD",tick:false},
-{symbol:"TVSMOTOR",buyer:"FII",buyerType:"FII",time:"09:55 AM",buy:3940,spot:4011.50,pChange:1.81,deals:8,fiiStatus:"HOLD",tick:false},
-{symbol:"SIEMENS",buyer:"SBI MF",buyerType:"MF",time:"09:54 AM",buy:3660,spot:3742.00,pChange:2.41,deals:11,fiiStatus:"HOLD",tick:false},
-{symbol:"DIXON",buyer:"MF",buyerType:"MF",time:"10:00 AM",buy:12600,spot:12740.00,pChange:0.63,deals:9,fiiStatus:"HOLD",tick:false},
-{symbol:"INFY",buyer:"FII",buyerType:"FII",time:"09:20 AM",buy:1045,spot:1062.10,pChange:4.13,deals:18,fiiStatus:"HOLD",tick:false},
-{symbol:"TCS",buyer:"FII",buyerType:"FII",time:"09:25 AM",buy:2220,spot:2269.30,pChange:2.2,deals:14,fiiStatus:"HOLD",tick:false},
-{symbol:"ICICIBANK",buyer:"FII",buyerType:"FII",time:"09:30 AM",buy:1335,spot:1360.20,pChange:1.9,deals:16,fiiStatus:"HOLD",tick:false},
-{symbol:"BHARATFORG",buyer:"FII",buyerType:"FII",time:"09:45 AM",buy:1815,spot:1842.20,pChange:1.5,deals:10,fiiStatus:"HOLD",tick:false},
-{symbol:"ASHOKLEY",buyer:"DII",buyerType:"DII",time:"09:50 AM",buy:144.25,spot:147.37,pChange:2.2,deals:13,fiiStatus:"HOLD",tick:false},
-{symbol:"SUNPHARMA",buyer:"FII",buyerType:"FII",time:"10:05 AM",buy:1730,spot:1753.10,pChange:1.3,deals:7,fiiStatus:"HOLD",tick:false},
-{symbol:"AUROPHARMA",buyer:"DII",buyerType:"DII",time:"10:10 AM",buy:1640,spot:1675.40,pChange:0.9,deals:6,fiiStatus:"HOLD",tick:false},
-{symbol:"LAURUSLABS",buyer:"MF",buyerType:"MF",time:"10:15 AM",buy:2000,spot:2045.80,pChange:1.1,deals:8,fiiStatus:"HOLD",tick:false},
-{symbol:"DRREDDY",buyer:"FII",buyerType:"FII",time:"10:20 AM",buy:1195,spot:1222.30,pChange:0.8,deals:12,fiiStatus:"HOLD",tick:false},
-{symbol:"BAJAJFINANCE",buyer:"FII",buyerType:"FII",time:"09:15 AM",buy:7120,spot:7250.50,pChange:1.8,deals:20,fiiStatus:"HOLD",tick:false},
-{symbol:"HDFCBANK",buyer:"FII",buyerType:"FII",time:"09:18 AM",buy:1680,spot:1705.30,pChange:1.2,deals:19,fiiStatus:"HOLD",tick:false},
-{symbol:"RELIANCE",buyer:"DII",buyerType:"DII",time:"09:22 AM",buy:2880,spot:2920.10,pChange:1.0,deals:17,fiiStatus:"HOLD",tick:false},
-{symbol:"SBIN",buyer:"FII",buyerType:"FII",time:"09:28 AM",buy:810,spot:825.60,pChange:1.5,deals:15,fiiStatus:"HOLD",tick:false}
+{symbol:"MOTHERSON",buyer:"FII",buyerType:"FII",time:"Waiting",buy:157,spot:158.93,pChange:-0.67,volume:0,avgVol:8000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"TVSMOTOR",buyer:"FII",buyerType:"FII",time:"Waiting",buy:3940,spot:3973.4,pChange:-0.95,volume:0,avgVol:1500000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"INFY",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1045,spot:1078.4,pChange:1.53,volume:0,avgVol:5000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"TCS",buyer:"FII",buyerType:"FII",time:"Waiting",buy:2220,spot:2307.2,pChange:1.67,volume:0,avgVol:2000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"ICICIBANK",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1335,spot:1352.6,pChange:-0.56,volume:0,avgVol:9000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"BHARATFORG",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1815,spot:1835,pChange:-0.39,volume:0,avgVol:1200000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"SUNPHARMA",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1730,spot:1752.5,pChange:-1.03,volume:0,avgVol:1800000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"DRREDDY",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1195,spot:1222.1,pChange:-1.44,volume:0,avgVol:1000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"BAJAJFINANCE",buyer:"FII",buyerType:"FII",time:"Waiting",buy:7120,spot:7250.5,pChange:1.8,volume:0,avgVol:2000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"LUPIN",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1925,spot:1935.5,pChange:-0.93,volume:0,avgVol:800000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"SIEMENS",buyer:"FII",buyerType:"FII",time:"Waiting",buy:3660,spot:3742,pChange:2.41,volume:0,avgVol:600000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"DIXON",buyer:"FII",buyerType:"FII",time:"Waiting",buy:12600,spot:12740,pChange:0.63,volume:0,avgVol:500000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"HDFCBANK",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1680,spot:1705.3,pChange:1.2,volume:0,avgVol:10000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"RELIANCE",buyer:"FII",buyerType:"FII",time:"Waiting",buy:2880,spot:2920.1,pChange:1.0,volume:0,avgVol:8000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"SBIN",buyer:"FII",buyerType:"FII",time:"Waiting",buy:810,spot:825.6,pChange:1.5,volume:0,avgVol:12000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"ITC",buyer:"FII",buyerType:"FII",time:"Waiting",buy:475,spot:482.1,pChange:0.8,volume:0,avgVol:7000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"BHARTIARTL",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1680,spot:1710,pChange:1.1,volume:0,avgVol:3000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"LT",buyer:"FII",buyerType:"FII",time:"Waiting",buy:3450,spot:3495,pChange:0.9,volume:0,avgVol:2000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
 ];
 let curFilter="ALL";
-
 function setFilter(f){
  curFilter=f;
  document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
- document.getElementById("f"+(f==="ALL"?"All":f.charAt(0)+f.slice(1).toLowerCase())).classList.add("active");
- if(f==="BUYING") document.getElementById("fBuy").classList.add("active");
+ let map={ALL:"fAll",LIVEBUY:"fLive",BUYING:"fBuy",FII:"fFii"};
+ if(map[f]) document.getElementById(map[f]).classList.add("active");
  render();
-}
-function toggleAll(e){
- dealsData.forEach(d=>d.tick=e.checked); render();
-}
-function toggleTick(sym){
- let d=dealsData.find(x=>x.symbol===sym); if(d) d.tick=!d.tick; render();
-}
-function getBuySignal(d){
- if(d.deals<5) return `<span class="gray">Low</span>`;
- if(d.fiiStatus==="EXIT") return `<span class="exit">EXITED</span>`;
- let strike = Math.ceil(d.spot/10)*10;
- let profit = ((d.spot-d.buy)/d.buy*100).toFixed(1);
- if(profit>=0.5) return `<span class="ce">✅ ${strike} CE +${profit}%</span>`;
- return `<span class="gray">Wait</span>`;
-}
-function getHold(d){
- if(d.fiiStatus==="EXIT") return `<span class="exit">🔴 EXIT Sold</span>`;
- let profit = ((d.spot-d.buy)/d.buy*100).toFixed(2);
- if(profit>=3) return `<span class="ce">💰 +${profit}% Book</span>`;
- return `<span class="hold">🔵 HOLD +${profit}%</span>`;
 }
 function render(){
  let tb=document.getElementById("tbody"); tb.innerHTML="";
  let filtered=dealsData.filter(d=>{
   if(curFilter==="ALL") return true;
-  if(curFilter==="BUYING") return d.deals>=5 && d.fiiStatus==="HOLD";
-  if(curFilter==="HOLD") return d.fiiStatus==="HOLD";
-  if(curFilter==="EXIT") return d.fiiStatus==="EXIT";
+  if(curFilter==="LIVEBUY") return d.live===true;
+  if(curFilter==="BUYING") return d.surge>=2.0;
   if(curFilter==="FII") return d.buyerType==="FII";
   return true;
  });
+ // Sort live buys first
+ filtered.sort((a,b)=> (b.live?1:0) - (a.live?1:0) || b.surge - a.surge);
  filtered.forEach(d=>{
   let tr=document.createElement("tr");
-  tr.innerHTML=`<td><input type="checkbox" ${d.tick?"checked":""} onchange="toggleTick('${d.symbol}')"></td>
-  <td><b>${d.symbol}</b><br><span class="gray" style="font-size:10px">${d.buyerType}</span></td>
-  <td><b>${d.buyer}</b><br><span class="gray" style="font-size:10px">${d.time}</span></td>
+  if(d.live) tr.style.background="#2a2e0a";
+  let buyerHtml = d.live? `<span class="liveBuy">🔥 LIVE ${d.buyer}</span><br><span class="gray">${d.time}</span>` : `<b>${d.buyer}</b><br><span class="gray">${d.time}</span>`;
+  let surgeColor = d.surge>=2.5? "green" : d.surge>=2.0? "green" : "red";
+  let surgeIcon = d.surge>=2.0? "🚀" : "📉";
+  tr.innerHTML=`<td><b>${d.symbol}</b></td>
+  <td>${buyerHtml}</td>
   <td>₹${d.buy}</td>
   <td class="green">₹${d.spot.toFixed(2)}</td>
-  <td class="${d.pChange>=0?"green":"red"}">${d.pChange>=0?"🚀":"⬇️"} ${d.pChange.toFixed(2)}%</td>
-  <td>${d.buyerType}</td>
-  <td>${getBuySignal(d)}</td>
-  <td>${getHold(d)}</td>`;
+  <td class="${d.pChange>=0?"green":"red"}">${d.pChange>=0?"🚀":"🔻"} ${d.pChange.toFixed(2)}%</td>
+  <td class="${surgeColor}">${surgeIcon} ${d.surge.toFixed(2)}x</td>
+  <td>${d.live?`<span class="ce">✅ ${Math.ceil(d.spot/10)*10} CE LIVE NOW</span>`:`<span class="hold">Wait ${Math.ceil(d.spot/10)*10} CE</span>`}</td>`;
   tb.appendChild(tr);
  });
 }
 async function fetchLivePrices(){
  let statusEl=document.getElementById("liveStatus");
- statusEl.innerHTML="🟡 Fetching LIVE...";
  try{
   let res=await fetch(`/api/all?t=${Date.now()}`,{cache:"no-store"});
   let json=await res.json();
-  if(json.data && json.data.length>0){
+  let now = new Date().toLocaleTimeString("en-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  let today = new Date().toLocaleDateString("en-IN",{timeZone:"Asia/Kolkata"});
+  if(json.data){
    json.data.forEach(l=>{
     let f=dealsData.find(d=>d.symbol===l.symbol);
-    if(f && l.spot>0){f.spot=l.spot;f.pChange=l.pChange;}
+    if(f){
+      f.spot=l.spot; f.pChange=l.pChange; f.volume=l.volume; f.surge=l.surge;
+      // PROXY LIVE LOGIC: Vol >2x + Price up >0.5% = FII LIVE BUYING NOW
+      if(l.surge >= 2.0 && l.pChange > 0.5){
+        f.live = true;
+        f.buyer = "FII LIVE BUY";
+        f.time = now; // CURRENT TIME - Avru eega buy maadtavre!
+        f.buyerType = "FII";
+      } else if(l.surge >= 1.8){
+        f.live = false;
+        f.buyer = "FII Watching";
+        f.time = today+" "+now;
+      } else {
+        f.live = false;
+      }
+    }
    });
-   let ist=new Date().toLocaleString("en-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true});
-   statusEl.innerHTML=`🟢 LIVE - ${ist} IST`;
-   statusEl.style.color="#22c55e";
-   render(); return;
+   let liveCount = dealsData.filter(d=>d.live).length;
+   statusEl.innerHTML=`🟢 LIVE ${now} IST | 🔥 ${liveCount} FII LIVE BUY NOW | Volume Surge >2x = FII Buying`;
+   render();
   }
- }catch(e){
-  // Fallback: Google verified today price for LUPIN if API fails
-  let lupin=dealsData.find(d=>d.symbol==="LUPIN");
-  if(lupin && lupin.spot===1953.60){
-   lupin.spot=1936.80; lupin.pChange=-0.86;
-  }
-  let ist=new Date().toLocaleString("en-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true});
-  statusEl.innerHTML=`🟡 LIVE (Backup) - ${ist} IST`;
-  statusEl.style.color="#facc15";
- }
- render();
+ }catch(e){ statusEl.innerHTML="🟡 Retrying LIVE..."; }
 }
-setInterval(fetchLivePrices,8000);
+setInterval(fetchLivePrices,5000);
 render(); fetchLivePrices();
-setInterval(()=>{let ist=new Date().toLocaleString("en-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true}); let el=document.getElementById("liveStatus"); if(el.innerHTML.includes("LIVE")){let txt=el.innerHTML.split("-")[0]; el.innerHTML=txt+"- "+ist+" IST";}},1000);
+}
 </script>
 </body>
 </html>
