@@ -1,154 +1,188 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KUNDGOL V32 REAL FII FIXED</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KUNDGOL SCANNER - YALLA BEKU</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#070709;color:#ddd;font-family:Arial}
-.top{background:#111;padding:8px 10px;border-bottom:3px solid #FFD700;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
-.logo{color:#FFD700;font-weight:900}
-.trend{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:bold}
-.up{background:#00ff88;color:#000}.down{background:#ff3333;color:#fff}.side{background:#555;color:#fff}
-.warn{padding:6px;text-align:center;font-weight:bold;font-size:12px}
-.warn.bull{background:#0f1a0f;color:#00ff88;border:1px solid #00ff88}
-.warn.bear{background:#1a0f0f;color:#ff4444;border:1px solid #ff4444}
-.warn.side{background:#1a1a00;color:#FFD700;border:1px solid #FFD700}
-.realFii{background:#001a0f;border:2px solid #00ff88;padding:8px;margin:6px;border-radius:8px;font-size:11px;color:#00ff88}
-.tabs{display:flex;background:#1a1a1a;position:sticky;top:46px;z-index:90}
-.tab{flex:1;padding:10px;text-align:center;font-weight:bold;cursor:pointer;border-bottom:4px solid transparent;font-size:13px}
-.tab.active.buy{border-color:#00ff88;color:#00ff88;background:#0f1a0f}
-.tab.active.sell{border-color:#ff3333;color:#ff3333;background:#1a0f0f}
-.tab.top3.active{border-color:#FFD700;color:#FFD700;background:#1a1a00}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th{background:#222;color:#FFD700;padding:8px 4px;text-align:left;font-size:10px;position:sticky;top:82px}
-td{padding:8px 4px;border-bottom:1px solid #1e1e1e}
-.buy-row{border-left:4px solid #00ff88;background:#0f1a0f}
-.buy2-row{border-left:4px solid #FFD700;background:#1a1a00}
-.sell-row{border-left:4px solid #ff3333;background:#1a0f0f}
-.top3-row{border-left:4px solid #FFD700;background:#1a1a00;box-shadow:0 0 8px #FFD70044}
-.real-row{border-left:6px solid #00ff88!important;background:linear-gradient(90deg,#001a00,#0f1a0f)!important;box-shadow:0 0 15px #00ff8844!important}
-.badge{padding:3px 6px;border-radius:10px;font-size:10px;font-weight:bold;display:inline-block}
-.b-fii{background:#00ff88;color:#000}.b-dii{background:#00ccff;color:#000}.b-sell{background:#ff4444;color:#fff}.b-buy2{background:#FFD700;color:#000}.b-top3{background:linear-gradient(90deg,#FFD700,#ffaa00);color:#000}
-.b-real{background:#00ff88;color:#000;border:2px solid #FFD700;animation:blink 0.8s infinite}
-@keyframes blink{50%{opacity:0.6}}
-.time{color:#FFD700;font-size:10px;font-weight:bold}
-.opt{background:#FFD700;color:#000;padding:2px 4px;border-radius:3px;font-size:9px;font-weight:bold}
-.profit{font-size:10px;line-height:11px}
-.profit .t1{color:#00ff88}.profit .sl{color:#ff4444}
-.rules{background:#111;padding:8px;margin:6px;border-radius:6px;border:1px solid #333;font-size:10px}
-.rules h4{color:#FFD700;margin-bottom:4px}
-.daily{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:2px solid #FFD700;padding:6px 10px;display:flex;justify-content:space-between;font-size:11px;z-index:200}
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+  body{background:#0a0e13;color:#e0e6eb;padding:10px}
+  .header{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;padding:12px 15px;border-radius:12px;font-weight:900;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .header h1{font-size:18px}
+  .badge{background:#000;color:#00ff88;padding:4px 10px;border-radius:20px;font-size:12px}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+  .stat-card{background:#111a23;border:1px solid #1e2f3f;padding:10px;border-radius:10px;text-align:center}
+  .stat-card h3{font-size:13px;color:#8aa0b3}
+  .stat-card b{font-size:20px;color:#00ff88}
+  .controls{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+  .controls input, .controls select{background:#111a23;border:1px solid #1e2f3f;color:#fff;padding:8px 10px;border-radius:8px;font-size:13px}
+  .controls input{flex:1;min-width:120px}
+  .section{background:#111a23;border:1px solid #1e2f3f;border-radius:12px;margin-bottom:12px;overflow:hidden}
+  .section-head{padding:10px 12px;font-weight:800;font-size:14px;display:flex;justify-content:space-between;align-items:center;background:#0f1a24}
+  .buy-head{color:#00ff88;border-left:4px solid #00ff88}
+  .sell-head{color:#ff4567;border-left:4px solid #ff4567}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{background:#0a121a;padding:8px 6px;color:#6b8498;text-align:left;font-size:11px;position:sticky;top:0}
+  td{padding:8px 6px;border-bottom:1px solid #1a2733}
+  .sym{font-weight:800;color:#fff}
+  .up{color:#00ff88}
+  .down{color:#ff4567}
+  .fii-tag{background:#00ff88;color:#000;font-size:9px;padding:2px 5px;border-radius:4px;font-weight:900;margin-left:4px}
+  .blk-tag{background:#ffcc00;color:#000;font-size:9px;padding:2px 5px;border-radius:4px;font-weight:900}
+  .ce-box{background:#1a2733;padding:2px 6px;border-radius:4px;font-weight:700}
+  #top3Section{display:none !important;}
+  .loading{text-align:center;padding:30px;color:#5a7a8a}
 </style>
 </head>
 <body>
-<div class="top">
-<div>● <span class="logo">KUNDGOL V32 REAL FII</span> <span id="clock" style="font-size:11px;color:#888;margin-left:8px"></span></div>
-<div><span id="trendBadge" class="trend side">LOADING</span> <span id="counts" style="font-size:10px"></span></div>
+
+<div class="header">
+  <h1>🚀 KUNDGOL SCANNER - V37 YALLA BEKU</h1>
+  <div class="badge" id="liveBadge">LIVE • REAL NSE</div>
 </div>
-<div id="marketWarn" class="warn side">Checking market...</div>
-<div id="realFiiBox" class="realFii">Loading Real FII...</div>
-<div class="tabs">
-<div class="tab active top3" onclick="showTab('top3')">⭐ TOP 3 (<span id="top3C">0</span>)</div>
-<div class="tab buy" onclick="showTab('buy')">🟢 BUYING (<span id="buyC">0</span>)</div>
-<div class="tab sell" onclick="showTab('sell')">🔴 SELLING (<span id="sellC">0</span>)</div>
+
+<div class="stats">
+  <div class="stat-card"><h3>ALL STOCKS</h3><b id="allCount">0</b></div>
+  <div class="stat-card"><h3>REAL BULK/BLOCK</h3><b id="fiiCount">0</b></div>
 </div>
-<div id="top3Sec">
-<div style="padding:6px;background:#1a1a00;color:#FFD700;font-weight:bold;border-left:4px solid #FFD700;font-size:12px">⭐ TOP 3 REAL FII + FII BUYING - V32 FIXED</div>
-<table><thead><tr><th>SYMBOL / RULE</th><th>STATUS / REAL FII / TREND</th><th>LOCK / STRIKE / TARGET</th><th>LTP / ENTRY</th><th>ACTION</th></tr></thead><tbody id="top3List"></tbody></table>
-<div class="rules">
-<h4>📜 V32 REAL FII RULES - FIXED:</h4>
-<b>✅ REAL FII:</b> NSE Bulk Deal - Always TOP 1 Even If Market Down<br>
-<b>✅ POSSIBLE FII:</b> pChange >=0.8% + Surge >=1.0x<br>
-<b>✅ PRIORITY:</b> REAL FII = 100% CONFIRM - Market Down Adru Show<br>
-<b>✅ SL -30% | T1 +40% | T2 +80%</b>
+
+<div class="controls">
+  <input type="text" id="searchInput" placeholder="🔍 Symbol search... (RELIANCE, TCS)">
+  <select id="sortSelect">
+    <option value="pChange_desc">% High to Low</option>
+    <option value="pChange_asc">% Low to High</option>
+    <option value="surge_desc">Surge High</option>
+    <option value="volume_desc">Volume High</option>
+  </select>
+  <select id="filterSelect">
+    <option value="all">YALLA - All 500</option>
+    <option value="buy">BUY Only (Green)</option>
+    <option value="sell">SELL Only (Red)</option>
+    <option value="fii">REAL BULK Only</option>
+  </select>
 </div>
+
+<!-- TOP 3 - HIDDEN - NO CONCEPT -->
+<div id="top3Section" style="display:none !important;"></div>
+
+<!-- YALLA BEKU - ALL STOCKS IN ONE TABLE -->
+<div class="section">
+  <div class="section-head buy-head">
+    <span>📈 YALLA STOCKS - ALL <span id="buyingCount">(0)</span></span>
+    <span id="timeNow" style="font-size:10px;color:#6b8498"></span>
+  </div>
+  <div style="max-height:85vh;overflow:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th><th>SYMBOL</th><th>SPOT</th><th>%</th><th>SURGE</th><th>VOL</th><th>CE</th><th>TGT</th><th>REAL BULK</th>
+        </tr>
+      </thead>
+      <tbody id="buyingBody">
+        <tr><td colspan="9" class="loading">Loading REAL NSE Data...</td></tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-<div id="buySec" style="display:none">
-<div style="padding:6px;background:#0f1a0f;color:#00ff88;font-weight:bold;border-left:4px solid #00ff88;font-size:12px">🟢 BUYING</div>
-<table><thead><tr><th>SYMBOL</th><th>STATUS / REAL</th><th>TIME / STRIKE</th><th>LTP / TARGET</th><th>VOL/%</th></tr></thead><tbody id="buyList"></tbody></table>
-</div>
-<div id="sellSec" style="display:none">
-<div style="padding:6px;background:#1a0f0f;color:#ff4444;font-weight:bold;border-left:4px solid #ff4444;font-size:12px">🔴 SELLING</div>
-<table><thead><tr><th>SYMBOL</th><th>STATUS</th><th>TIME / STRIKE</th><th>LTP</th><th>VOL/%</th></tr></thead><tbody id="sellList"></tbody></table>
-</div>
-<div style="height:60px"></div>
-<div class="daily">
-<div>📅 REAL FII: <span id="realCount" style="color:#00ff88">0 Live</span> | <span id="todayTrades" style="color:#FFD700">0 Trades</span></div>
-<div><button onclick="localStorage.clear();location.reload()" style="background:#FFD700;color:#000;border:none;padding:2px 8px;border-radius:4px;font-weight:bold;font-size:10px">RESET</button> <span id="lastTick" style="color:#666;margin-left:6px"></span></div>
-</div>
+
 <script>
-let tab='top3';
-function showTab(t){tab=t;document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));document.querySelector('.tab.'+t).classList.add('active');document.getElementById('top3Sec').style.display=t==='top3'?'block':'none';document.getElementById('buySec').style.display=t==='buy'?'block':'none';document.getElementById('sellSec').style.display=t==='sell'?'block':'none';}
-function makeUniqueLockTime(symbol){ let hash=0; for(let i=0;i<symbol.length;i++) hash+=symbol.charCodeAt(i)*31 + i*13; let now=new Date(); now.setSeconds(now.getSeconds() - (hash%45)); return now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}); }
-function getSignal(s){ let key='v32_'+s.symbol; let prev=JSON.parse(localStorage.getItem(key)||'null'); if(!prev){ prev={state:'NONE',p:0,lockTime:null,exitTime:null}; localStorage.setItem(key,JSON.stringify(prev)); } if(prev.state==='NONE' && s.pChange>=0.8){ prev.state='BUY'; prev.lockTime=makeUniqueLockTime(s.symbol); prev.p=s.pChange; localStorage.setItem(key,JSON.stringify(prev)); } if(prev.state==='BUY' && s.pChange<0.2){ prev.state='EXIT'; prev.exitTime=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}); localStorage.setItem(key,JSON.stringify(prev)); } if(prev.state==='EXIT' && s.pChange>=1.5){ prev.state='BUY2'; prev.lockTime2=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}); localStorage.setItem(key,JSON.stringify(prev)); } return prev; }
-function getTrend(p){if(p>=1.5) return '🔥 STRONG UPTREND'; if(p>=0.8) return '📈 UPTREND'; if(p>=0.3) return '➡️ SIDEWAYS'; if(p>=-0.5) return '📉 WEAK'; return '🔻 DOWNTREND';}
-function calcTarget(spot){ let entry=Math.max(10,Math.round(spot*0.008)); let sl=Math.round(entry*0.7); let t1=Math.round(entry*1.4); let t2=Math.round(entry*1.8); return {entry,sl,t1,t2}; }
-async function load(){
- try{
-  let r=await fetch('/api/all'); let j=await r.json(); let data=j.data||[];
-  let rf=await fetch('/api/real-fii'); let rj=await rf.json().catch(()=>({data:[]})); let fiiData=rj.data||[];
-  let fiiMap={}; fiiData.forEach(f=> fiiMap[f.symbol]=f);
-  let buyHtml='',sellHtml='',top3Html='',bC=0,sC=0,up=0,down=0,top3Arr=[];
-  let box=document.getElementById('realFiiBox');
-  if(fiiData.length>0){
-    box.style.display='block'; box.style.background='#001a0f'; box.style.borderColor='#00ff88'; box.style.color='#00ff88';
-    box.innerHTML='🔥 <b>REAL FII LIVE BULK ('+fiiData.length+'):</b> '+fiiData.map(f=> `✅ <b>${f.symbol}</b> ${f.client?.substring(0,20)} ${f.type} ₹${f.value}Cr @ ₹${f.price}`).join(' | ');
-    document.getElementById('realCount').innerText=fiiData.length+' Live';
-  } else {
-    box.style.display='block'; box.style.background='#1a1a00'; box.style.borderColor='#FFD700'; box.style.color='#FFD700';
-    box.innerHTML='⏳ REAL FII: No Bulk Yet - Possible FII Active';
-  }
-  data.forEach(s=>{
-   let realFii=fiiMap[s.symbol];
-   // FIX: Force Real FII to show even if market down
-   if(realFii){
-     s.pChange = Math.max(parseFloat(s.pChange), 1.25);
-     s.surge = Math.max(parseFloat(s.surge), 1.6);
-   }
-   if(s.pChange>=0.5) up++; else down++;
-   let prev=getSignal(s); let ce=Math.round(s.spot/50)*50; let trend=getTrend(s.pChange); let tgt=calcTarget(s.spot);
-   // BUYING CONDITION - REAL FII ALWAYS BUYING
-   if(s.pChange>=0.3 || prev.state==='BUY' || prev.state==='BUY2' || realFii){
-     bC++;
-     let badge = realFii? `<span class="badge b-real">🔥 REAL FII ${realFii.type} ₹${realFii.value}Cr</span>` : prev.state==='BUY2'?'<span class="badge b-buy2">🚀 2nd TIME</span>': s.pChange>=1.5?'<span class="badge b-fii">FII BUYING NOW</span>':'<span class="badge b-dii">DII BUYING</span>';
-     let realInfo = realFii? `<br><span style="font-size:8px;color:#00ff88">${realFii.client?.substring(0,15)}</span>`:'';
-     buyHtml+=`<tr class="${realFii?'real-row':prev.state==='BUY2'?'buy2-row':'buy-row'}"><td><b>${s.symbol}</b>${realInfo}</td><td>${badge}<br><span style="font-size:8px">${trend}</span></td><td class="time">⭐ ${prev.lockTime||'LIVE'}<br><span class="opt">${ce} CE</span></td><td><b>₹${s.spot}</b><div class="profit"><span class="sl">SL ₹${tgt.sl}</span> | <span class="t1">T1 ₹${tgt.t1}</span></div></td><td>🔥 ${s.surge}x<br>🚀 ${s.pChange}%</td></tr>`;
-     // TOP 3 - REAL FII ALWAYS PUSH
-     if((s.pChange>=0.8 && s.surge>=1.0) || realFii){ top3Arr.push({...s,prev,ce,trend,tgt,realFii}); }
-   } else {
-     sC++;
-     sellHtml+=`<tr class="sell-row"><td><b>${s.symbol}</b></td><td><span class="badge b-sell">SELLING</span><br><span style="font-size:8px">${trend}</span></td><td class="time">${prev.exitTime||'--'}<br><span class="opt">${ce} CE</span></td><td><b>₹${s.spot}</b></td><td>🔥 ${s.surge}x<br>📉 ${s.pChange}%</td></tr>`;
-   }
-  });
-  // Sort: Real FII first
-  top3Arr.sort((a,b)=>{ let ar=a.realFii?100:0; let br=b.realFii?100:0; return (br+b.surge+b.pChange)-(ar+a.surge+a.pChange); });
-  top3Arr=top3Arr.slice(0,3);
-  top3Arr.forEach(s=>{
-   let realTxt = s.realFii? `🔥 REAL: ${s.realFii.client} ${s.realFii.type} ₹${s.realFii.value}Cr @ ₹${s.realFii.price}` : `Entry: ${s.pChange}% >=0.8% + Surge ${s.surge}x`;
-   top3Html+=`<tr class="${s.realFii?'real-row':'top3-row'}"><td><b>⭐ ${s.symbol}</b><br><span style="font-size:8px;color:${s.realFii?'#00ff88':'#FFD700'}">${realTxt}</span><br><span style="font-size:9px;color:#888">Old ₹${s.prevClose}</span></td><td>${s.realFii?`<span class="badge b-real">REAL FII ₹${s.realFii.value}Cr</span>`:`<span class="badge b-top3">${s.pChange>=1.5?'FII BUYING NOW':'FII BUYING'}</span>`}<br><span style="font-size:8px">${s.trend}</span><br><span style="font-size:8px;color:#00ff88">🔥 ${s.surge}x 🚀 ${s.pChange}%</span></td><td class="time">⭐ ${s.prev.lockTime||'LIVE'}<br><span class="opt">${s.ce} CE</span><div class="profit"><span style="color:#FFD700">BUY ₹${s.tgt.entry}</span><br><span class="sl">SL ₹${s.tgt.sl}</span><br><span class="t1">T1 ₹${s.tgt.t1} T2 ₹${s.tgt.t2}</span></div></td><td><b>₹${s.spot}</b><br><span style="font-size:8px;background:${s.realFii?'#00ff88':'#FFD700'};color:#000;padding:2px 4px;border-radius:3px">BUY @ ₹${s.tgt.entry}</span></td><td><button onclick="alert('BUY ${s.symbol} ${s.ce} CE @ ₹${s.tgt.entry}\\n${s.realFii?`REAL FII: ${s.realFii.client} ₹${s.realFii.value}Cr\\n`:''}SL ₹${s.tgt.sl}\\nT1 ₹${s.tgt.t1}\\nT2 ₹${s.tgt.t2}')" style="background:${s.realFii?'#00ff88':'#FFD700'};color:#000;border:none;padding:6px 10px;border-radius:4px;font-weight:bold;font-size:11px">${s.realFii?'REAL BUY':'BUY NOW'}</button><br><span style="font-size:8px;color:${s.realFii?'#00ff88':'#FFD700'}">${s.realFii?'100% CONFIRM ✅':'RULE PASS ✅'}</span></td></tr>`;
-  });
-  document.getElementById('buyList').innerHTML=buyHtml||'<tr><td colspan=5>No Buying</td></tr>';
-  document.getElementById('sellList').innerHTML=sellHtml||'<tr><td colspan=5>No Selling</td></tr>';
-  document.getElementById('top3List').innerHTML=top3Html||'<tr><td colspan=5 style="padding:20px;text-align:center;color:#FFD700">⚠️ No TOP 3 Now - Wait - Real FII Check</td></tr>';
-  document.getElementById('buyC').innerText=bC; document.getElementById('sellC').innerText=sC; document.getElementById('top3C').innerText=top3Arr.length;
-  document.getElementById('counts').innerText=bC+' BUY | '+sC+' SELL';
-  let warn=document.getElementById('marketWarn');
-  if(fiiData.length>0){ warn.className='warn bull'; warn.innerText='🔥 REAL FII LIVE: '+fiiData.length+' Bulk Deals Today - TOP 3 Confirm! Market Down Adru BUY!'; }
-  else if(bC<5){ warn.className='warn side'; warn.innerText='⚠️ SIDEWAYS - '+bC+' BUYING ONLY - Real FII Wait'; }
-  else if(up>down+10){ warn.className='warn bull'; warn.innerText='📈 BULLISH - '+up+' BUY - TOP 3 BUY'; }
-  else{ warn.className='warn side'; warn.innerText='➡️ SIDEWAYS - '+up+'/'+down+' - TOP 3 Only'; }
-  let tb=document.getElementById('trendBadge');
-  if(fiiData.length>0){tb.innerText='🔥 REAL FII '+fiiData.length; tb.className='trend up';}
-  else if(up>down+10){tb.innerText='📈 BULL '+up; tb.className='trend up';}
-  else if(down>up+10){tb.innerText='📉 BEAR '+down; tb.className='trend down';}
-  else{tb.innerText='➡️ SIDE '+up+'/'+down; tb.className='trend side';}
-  document.getElementById('lastTick').innerText=new Date().toLocaleTimeString();
- }catch(e){console.log(e)}
+let ALL_DATA = [];
+let FII_DATA = [];
+let timer = null;
+
+function calcTarget(spot){
+  let t = Math.round((spot * 1.03)/5)*5;
+  return t;
 }
-setInterval(()=>document.getElementById('clock').innerText=new Date().toLocaleTimeString(),1000);
-setInterval(load,5000); load();
+
+async function loadFII(){
+  try{
+    let r = await fetch('/api/block-deals');
+    let j = await r.json();
+    FII_DATA = j.data || [];
+    document.getElementById('fiiCount').innerText = j.count || 0;
+    document.getElementById('liveBadge').innerText = `LIVE • ${j.mode || 'REAL NSE'} • ${j.count} DEALS`;
+  }catch(e){ console.log('FII Error', e); }
+}
+
+async function loadAll(){
+  try{
+    document.getElementById('buyingBody').innerHTML = '<tr><td colspan="9" class="loading">Fetching NIFTY 500 + REAL BULK...</td></tr>';
+    await loadFII();
+    let r = await fetch('/api/all');
+    let j = await r.json();
+    ALL_DATA = j.data || [];
+    renderAll();
+  }catch(e){
+    document.getElementById('buyingBody').innerHTML = `<tr><td colspan="9" class="loading">Error: ${e.message}</td></tr>`;
+  }
+}
+
+function renderAll(){
+  let search = document.getElementById('searchInput').value.toUpperCase();
+  let sort = document.getElementById('sortSelect').value;
+  let filter = document.getElementById('filterSelect').value;
+
+  let data = [...ALL_DATA];
+
+  // Search
+  if(search) data = data.filter(s=> s.symbol.includes(search));
+
+  // Filter - YALLA BEKU
+  if(filter==='buy') data = data.filter(s=> s.pChange >=0);
+  if(filter==='sell') data = data.filter(s=> s.pChange <0);
+  if(filter==='fii') data = data.filter(s=> FII_DATA.find(f=> f.symbol===s.symbol));
+
+  // Sort
+  if(sort==='pChange_desc') data.sort((a,b)=> b.pChange - a.pChange);
+  if(sort==='pChange_asc') data.sort((a,b)=> a.pChange - b.pChange);
+  if(sort==='surge_desc') data.sort((a,b)=> (b.surge||0)-(a.surge||0));
+  if(sort==='volume_desc') data.sort((a,b)=> (b.volume||0)-(a.volume||0));
+
+  document.getElementById('allCount').innerText = data.length;
+  document.getElementById('buyingCount').innerText = `(${data.length})`;
+  document.getElementById('timeNow').innerText = new Date().toLocaleTimeString('en-IN');
+
+  if(data.length===0){
+    document.getElementById('buyingBody').innerHTML = '<tr><td colspan="9" class="loading">No Data - Market Closed?</td></tr>';
+    return;
+  }
+
+  let html = '';
+  data.forEach((s,i)=>{
+    let fii = FII_DATA.find(f=> f.symbol===s.symbol);
+    let ce = Math.round(s.spot/50)*50;
+    let tgt = calcTarget(s.spot);
+    let trendCls = s.pChange>=0 ? 'up' : 'down';
+    let pct = `<span class="${trendCls}">${s.pChange>=0?'+':''}${s.pChange.toFixed(2)}%</span>`;
+    let bulkInfo = fii ? `<span class="fii-tag">${fii.type}</span> <span class="blk-tag">${fii.source||'BULK'}</span><br><small style="color:#8aa0b3">${fii.client?.substring(0,18)}<br>₹${fii.value}Cr</small>` : '<small style="color:#3a4a5a">No Bulk</small>';
+
+    html += `<tr>
+      <td>${i+1}</td>
+      <td class="sym">${s.symbol}${fii?'<span class="fii-tag">REAL</span>':''}</td>
+      <td>${s.spot.toFixed(2)}</td>
+      <td>${pct}</td>
+      <td class="${trendCls}">${(s.surge||0).toFixed(2)}x</td>
+      <td>${(s.volume/100000).toFixed(1)}L</td>
+      <td><span class="ce-box">${ce}</span></td>
+      <td class="up">${tgt}</td>
+      <td>${bulkInfo}</td>
+    </tr>`;
+  });
+
+  document.getElementById('buyingBody').innerHTML = html;
+}
+
+document.getElementById('searchInput').addEventListener('input', renderAll);
+document.getElementById('sortSelect').addEventListener('change', renderAll);
+document.getElementById('filterSelect').addEventListener('change', renderAll);
+
+loadAll();
+timer = setInterval(loadAll, 120000); // 2 min refresh
+
+// Hide Top3 if exists
+let topEl = document.getElementById('top3Section');
+if(topEl) topEl.style.display='none';
 </script>
 </body>
 </html>
