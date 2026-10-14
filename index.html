@@ -9,7 +9,7 @@
 body{background:#0f172a;color:#fff;font-family:Arial;padding:10px}
 h2{color:#22c55e;font-size:20px;font-weight:bold;text-align:center;padding:8px}
 .sub{color:#facc15;text-align:center;font-size:12px;margin-bottom:5px}
-#liveStatus{text-align:center;font-size:13px;color:#22c55e;margin:8px;font-weight:bold;background:#1e293b;padding:6px;border-radius:6px}
+#liveStatus{text-align:center;font-size:13px;color:#22c55e;margin:8px;font-weight:bold;background:#1e293b;padding:8px;border-radius:6px}
 .filters{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px}
 .filters button{padding:8px 14px;border-radius:20px;border:0;font-weight:bold;cursor:pointer;background:#1e293b;color:#fff}
 .filters button.active{background:#22c55e;color:#000}
@@ -19,9 +19,8 @@ td{padding:9px 5px;text-align:center;border-top:1px solid #334155;font-size:12px
 .green{color:#22c55e;font-weight:bold}
 .red{color:#ef4444}
 .gray{color:#94a3b8;font-size:10px}
-.ce{background:#22c55e;color:#000;padding:4px 7px;border-radius:5px;font-size:11px;font-weight:bold;animation:blink 1s infinite}
-.liveBuy{background:#facc15;color:#000;padding:4px 7px;border-radius:5px;font-size:11px;font-weight:bold;animation:blink 1s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0.7}}
+.ce{background:#22c55e;color:#000;padding:4px 7px;border-radius:5px;font-size:11px;font-weight:bold}
+.liveBuy{background:#facc15;color:#000;padding:4px 7px;border-radius:5px;font-size:11px;font-weight:bold}
 .hold{background:#0ea5e9;color:#fff;padding:3px 6px;border-radius:5px;font-size:10px}
 </style>
 </head>
@@ -31,7 +30,7 @@ td{padding:9px 5px;text-align:center;border-top:1px solid #334155;font-size:12px
 <div id="liveStatus">🟢 LIVE Scanning - Avru Eega Yavdu Buy Maadtavre...</div>
 <div class="filters">
 <button id="fAll" class="active" onclick="setFilter('ALL')">ALL (18)</button>
-<button id="fLive" class="active" onclick="setFilter('LIVEBUY')" style="background:#facc15;color:#000">🔥 LIVE BUY NOW</button>
+<button id="fLive" onclick="setFilter('LIVEBUY')" style="background:#facc15;color:#000">🔥 LIVE BUY NOW</button>
 <button id="fBuy" onclick="setFilter('BUYING')">✅ BUYING</button>
 <button id="fFii" onclick="setFilter('FII')">🔵 FII</button>
 </div>
@@ -43,24 +42,24 @@ td{padding:9px 5px;text-align:center;border-top:1px solid #334155;font-size:12px
 </table>
 <script>
 let dealsData=[
-{symbol:"MOTHERSON",buyer:"FII",buyerType:"FII",time:"Waiting",buy:157,spot:158.93,pChange:-0.67,volume:0,avgVol:8000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"TVSMOTOR",buyer:"FII",buyerType:"FII",time:"Waiting",buy:3940,spot:3973.4,pChange:-0.95,volume:0,avgVol:1500000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"INFY",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1045,spot:1078.4,pChange:1.53,volume:0,avgVol:5000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"TCS",buyer:"FII",buyerType:"FII",time:"Waiting",buy:2220,spot:2307.2,pChange:1.67,volume:0,avgVol:2000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"ICICIBANK",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1335,spot:1352.6,pChange:-0.56,volume:0,avgVol:9000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"BHARATFORG",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1815,spot:1835,pChange:-0.39,volume:0,avgVol:1200000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"SUNPHARMA",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1730,spot:1752.5,pChange:-1.03,volume:0,avgVol:1800000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"DRREDDY",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1195,spot:1222.1,pChange:-1.44,volume:0,avgVol:1000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"BAJAJFINANCE",buyer:"FII",buyerType:"FII",time:"Waiting",buy:7120,spot:7250.5,pChange:1.8,volume:0,avgVol:2000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"LUPIN",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1925,spot:1935.5,pChange:-0.93,volume:0,avgVol:800000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"SIEMENS",buyer:"FII",buyerType:"FII",time:"Waiting",buy:3660,spot:3742,pChange:2.41,volume:0,avgVol:600000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"DIXON",buyer:"FII",buyerType:"FII",time:"Waiting",buy:12600,spot:12740,pChange:0.63,volume:0,avgVol:500000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"HDFCBANK",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1680,spot:1705.3,pChange:1.2,volume:0,avgVol:10000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"RELIANCE",buyer:"FII",buyerType:"FII",time:"Waiting",buy:2880,spot:2920.1,pChange:1.0,volume:0,avgVol:8000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"SBIN",buyer:"FII",buyerType:"FII",time:"Waiting",buy:810,spot:825.6,pChange:1.5,volume:0,avgVol:12000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"ITC",buyer:"FII",buyerType:"FII",time:"Waiting",buy:475,spot:482.1,pChange:0.8,volume:0,avgVol:7000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"BHARTIARTL",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1680,spot:1710,pChange:1.1,volume:0,avgVol:3000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
-{symbol:"LT",buyer:"FII",buyerType:"FII",time:"Waiting",buy:3450,spot:3495,pChange:0.9,volume:0,avgVol:2000000,surge:0,fiiStatus:"HOLD",tick:false,live:false},
+{symbol:"MOTHERSON",buyer:"FII",buyerType:"FII",time:"Waiting",buy:157,spot:158.93,pChange:-0.67,volume:0,avgVol:8000000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"TVSMOTOR",buyer:"FII",buyerType:"FII",time:"Waiting",buy:3940,spot:3973.4,pChange:-0.95,volume:0,avgVol:1500000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"INFY",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1045,spot:1078.4,pChange:1.53,volume:0,avgVol:5000000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"TCS",buyer:"FII",buyerType:"FII",time:"Waiting",buy:2220,spot:2307.2,pChange:1.67,volume:0,avgVol:2000000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"ICICIBANK",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1335,spot:1352.6,pChange:-0.56,volume:0,avgVol:9000000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"BHARATFORG",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1815,spot:1835,pChange:-0.39,volume:0,avgVol:1200000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"SUNPHARMA",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1730,spot:1752.5,pChange:-1.03,volume:0,avgVol:1800000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"DRREDDY",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1195,spot:1222.1,pChange:-1.44,volume:0,avgVol:1000000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"BAJAJFINANCE",buyer:"FII",buyerType:"FII",time:"Waiting",buy:7120,spot:7250.5,pChange:1.8,volume:0,avgVol:2000000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"LUPIN",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1925,spot:1935.5,pChange:-0.93,volume:0,avgVol:800000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"SIEMENS",buyer:"FII",buyerType:"FII",time:"Waiting",buy:3660,spot:3742,pChange:2.41,volume:0,avgVol:600000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"DIXON",buyer:"FII",buyerType:"FII",time:"Waiting",buy:12600,spot:12740,pChange:0.63,volume:0,avgVol:500000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"HDFCBANK",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1680,spot:1705.3,pChange:1.2,volume:0,avgVol:10000000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"RELIANCE",buyer:"FII",buyerType:"FII",time:"Waiting",buy:2880,spot:2920.1,pChange:1.0,volume:0,avgVol:8000000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"SBIN",buyer:"FII",buyerType:"FII",time:"Waiting",buy:810,spot:825.6,pChange:1.5,volume:0,avgVol:12000000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"ITC",buyer:"FII",buyerType:"FII",time:"Waiting",buy:475,spot:482.1,pChange:0.8,volume:0,avgVol:7000000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"BHARTIARTL",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1680,spot:1710,pChange:1.1,volume:0,avgVol:3000000,surge:0,fiiStatus:"HOLD",live:false},
+{symbol:"LT",buyer:"FII",buyerType:"FII",time:"Waiting",buy:3450,spot:3495,pChange:0.9,volume:0,avgVol:2000000,surge:0,fiiStatus:"HOLD",live:false}
 ];
 let curFilter="ALL";
 function setFilter(f){
@@ -71,7 +70,8 @@ function setFilter(f){
  render();
 }
 function render(){
- let tb=document.getElementById("tbody"); tb.innerHTML="";
+ let tb=document.getElementById("tbody");
+ tb.innerHTML="";
  let filtered=dealsData.filter(d=>{
   if(curFilter==="ALL") return true;
   if(curFilter==="LIVEBUY") return d.live===true;
@@ -79,13 +79,12 @@ function render(){
   if(curFilter==="FII") return d.buyerType==="FII";
   return true;
  });
- // Sort live buys first
  filtered.sort((a,b)=> (b.live?1:0) - (a.live?1:0) || b.surge - a.surge);
  filtered.forEach(d=>{
   let tr=document.createElement("tr");
   if(d.live) tr.style.background="#2a2e0a";
   let buyerHtml = d.live? `<span class="liveBuy">🔥 LIVE ${d.buyer}</span><br><span class="gray">${d.time}</span>` : `<b>${d.buyer}</b><br><span class="gray">${d.time}</span>`;
-  let surgeColor = d.surge>=2.5? "green" : d.surge>=2.0? "green" : "red";
+  let surgeColor = d.surge>=2.0? "green" : "red";
   let surgeIcon = d.surge>=2.0? "🚀" : "📉";
   tr.innerHTML=`<td><b>${d.symbol}</b></td>
   <td>${buyerHtml}</td>
@@ -93,7 +92,7 @@ function render(){
   <td class="green">₹${d.spot.toFixed(2)}</td>
   <td class="${d.pChange>=0?"green":"red"}">${d.pChange>=0?"🚀":"🔻"} ${d.pChange.toFixed(2)}%</td>
   <td class="${surgeColor}">${surgeIcon} ${d.surge.toFixed(2)}x</td>
-  <td>${d.live?`<span class="ce">✅ ${Math.ceil(d.spot/10)*10} CE LIVE NOW</span>`:`<span class="hold">Wait ${Math.ceil(d.spot/10)*10} CE</span>`}</td>`;
+  <td>${d.live?`<span class="ce">✅ ${Math.ceil(d.spot/10)*10} CE LIVE</span>`:`<span class="hold">Wait ${Math.ceil(d.spot/10)*10} CE</span>`}</td>`;
   tb.appendChild(tr);
  });
 }
@@ -103,36 +102,34 @@ async function fetchLivePrices(){
   let res=await fetch(`/api/all?t=${Date.now()}`,{cache:"no-store"});
   let json=await res.json();
   let now = new Date().toLocaleTimeString("en-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",second:"2-digit"});
-  let today = new Date().toLocaleDateString("en-IN",{timeZone:"Asia/Kolkata"});
   if(json.data){
    json.data.forEach(l=>{
     let f=dealsData.find(d=>d.symbol===l.symbol);
     if(f){
       f.spot=l.spot; f.pChange=l.pChange; f.volume=l.volume; f.surge=l.surge;
-      // PROXY LIVE LOGIC: Vol >2x + Price up >0.5% = FII LIVE BUYING NOW
       if(l.surge >= 2.0 && l.pChange > 0.5){
         f.live = true;
         f.buyer = "FII LIVE BUY";
-        f.time = now; // CURRENT TIME - Avru eega buy maadtavre!
+        f.time = now;
         f.buyerType = "FII";
       } else if(l.surge >= 1.8){
         f.live = false;
         f.buyer = "FII Watching";
-        f.time = today+" "+now;
+        f.time = now;
       } else {
         f.live = false;
       }
     }
    });
    let liveCount = dealsData.filter(d=>d.live).length;
-   statusEl.innerHTML=`🟢 LIVE ${now} IST | 🔥 ${liveCount} FII LIVE BUY NOW | Volume Surge >2x = FII Buying`;
+   statusEl.innerHTML=`🟢 LIVE ${now} IST | 🔥 ${liveCount} FII LIVE BUY NOW | Vol>2x = FII Buying`;
    render();
   }
  }catch(e){ statusEl.innerHTML="🟡 Retrying LIVE..."; }
 }
 setInterval(fetchLivePrices,5000);
-render(); fetchLivePrices();
-}
+render();
+fetchLivePrices();
 </script>
 </body>
 </html>
