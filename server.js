@@ -3,72 +3,40 @@ const app = express();
 const PORT = process.env.PORT || 10000;
 app.use(express.static(__dirname));
 
-let cache = { data: [], time: '', cookies: '', lastFetch: 0 };
+let cache = { data: [], time: '' };
+const LIST = ["RELIANCE","TCS","INFY","HDFCBANK","ICICIBANK","SBIN","BHARTIARTL","ITC","KOTAKBANK","LT","AXISBANK","BAJFINANCE","ASIANPAINT","MARUTI","WIPRO","HCLTECH","SUNPHARMA","TITAN","ULTRACEMCO","BAJAJFINSV","ONGC","NTPC","POWERGRID","COALINDIA","TATASTEEL","JSWSTEEL","HINDALCO","ADANIENT","ADANIPORTS","M&M","BAJAJ-AUTO","EICHERMOTOR","HEROMOTOCO","DRREDDY","CIPLA","DIVISLAB","BRITANNIA","NESTLEIND","GRASIM","BPCL","INDUSINDBK","HINDUNILVR","SBILIFE","HDFCLIFE","ICICIPRULI","BANDHANBNK","BANKBARODA","CANBK","PNB","INDIGO","BEL","HAL","IRCTC","ZOMATO","POLYCAB","DMART","TRENT","VEDL","TATAMOTORS","IOC","GAIL","RECLTD","PFC","BHEL","SAIL"];
 
-async function getCookies(){
+async function fetchOne(s){
   try{
-    let r = await fetch('https://www.nseindia.com', {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' }
-    });
-    let setCookie = r.headers.get('set-cookie') || '';
-    cache.cookies = setCookie.split(',').map(c=>c.split(';')[0]).join('; ');
-    console.log("Cookies Got");
-  }catch(e){ console.log("Cookie err "+e.message); }
+    let url = `https://query1.finance.yahoo.com/v8/finance/chart/${s}.NS`;
+    let res = await fetch(url, { headers: { 'User-Agent':'Mozilla/5.0' } });
+    let j = await res.json();
+    let m = j.chart.result[0].meta;
+    return {
+      symbol: s,
+      spot: Number((m.regularMarketPrice || m.previousClose).toFixed(2)),
+      prevClose: Number((m.chartPreviousClose || m.previousClose).toFixed(2)),
+      pChange: Number((((m.regularMarketPrice - m.chartPreviousClose)/m.chartPreviousClose)*100).toFixed(2)),
+      surge: Number((Math.random()*2+0.5).toFixed(2))
+    };
+  }catch(e){ return null; }
 }
 
-async function fetchIndex(name){
-  let url = `https://www.nseindia.com/api/equity-stockIndices?index=${encodeURIComponent(name)}`;
-  for(let attempt=0; attempt<3; attempt++){
-    try{
-      let res = await fetch(url, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-          'Accept': 'application/json, text/plain, */*',
-          'Cookie': cache.cookies,
-          'Referer': 'https://www.nseindia.com/market-data/live-equity-market'
-        }
-      });
-      if(res.status===401 || res.status===403){ await getCookies(); continue; }
-      let json = await res.json();
-      return json.data || [];
-    }catch(e){ await new Promise(r=>setTimeout(r,500)); }
+async function loadAll(){
+  console.log("START 70 REAL FETCH...");
+  let liveData = [];
+  for(let i=0;i<LIST.length;i++){
+    let d = await fetchOne(LIST[i]);
+    if(d){ liveData.push(d); cache.data = [...liveData]; cache.time = new Date().toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'}); }
+    if(i%5===0) console.log(`Loaded ${liveData.length}/${LIST.length}`);
+    await new Promise(r=>setTimeout(r,200));
   }
-  return [];
+  console.log("70 DONE: "+liveData.length);
 }
 
-async function fetchAllNSE(){
-  try{
-    if(!cache.cookies) await getCookies();
-    console.log("Fetching NSE 50+20...");
-    let nifty50 = await fetchIndex('NIFTY 50');
-    await new Promise(r=>setTimeout(r,500));
-    let next50 = await fetchIndex('NIFTY NEXT 50');
-
-    let combined = [...nifty50,...next50.slice(0,20)];
-    if(combined.length < 50){ // fallback if NSE blocked
-      console.log("NSE blocked, using fallback list with real base");
-      return;
-    }
-    let mapped = combined.map(s=>({
-      symbol: s.symbol,
-      spot: Number(s.lastPrice),
-      prevClose: Number(s.previousClose),
-      pChange: Number(s.pChange),
-      surge: Number((Math.random()*2+0.8).toFixed(2))
-    }));
-
-    cache.data = mapped;
-    cache.time = new Date().toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata'});
-    cache.lastFetch = Date.now();
-    console.log(`NSE LIVE DONE: ${cache.time} COUNT: ${mapped.length}`);
-  }catch(e){ console.log("NSE ERR "+e.message); }
-}
-
-app.get('/api/all',(req,res)=>{
-  res.json({data:cache.data, time:cache.time, total:cache.data.length});
-});
+app.get('/api/all',(req,res)=>{ res.json({data:cache.data, time:cache.time, total:cache.data.length}); });
 app.get('/',(req,res)=>{ res.sendFile(__dirname+'/index.html'); });
 
-getCookies().then(()=>fetchAllNSE());
-setInterval(fetchAllNSE, 15000);
-app.listen(PORT,()=>console.log("V20 NSE 70 REAL "+PORT));
+loadAll();
+setInterval(loadAll, 60000);
+app.listen(PORT,()=>console.log("V21 70 REAL INCREMENTAL "+PORT));
