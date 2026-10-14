@@ -3,133 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nikhil Yadav - LIVE FII BUY Scanner</title>
+<title>Nikhil Yadav - FII BUY + STOP Tracker V12.1</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0f172a;color:#fff;font-family:Arial;padding:10px}
-h2{color:#22c55e;font-size:20px;font-weight:bold;text-align:center;padding:8px}
-.sub{color:#facc15;text-align:center;font-size:12px;margin-bottom:5px}
-#liveStatus{text-align:center;font-size:13px;color:#22c55e;margin:8px;font-weight:bold;background:#1e293b;padding:8px;border-radius:6px}
-.filters{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px}
-.filters button{padding:8px 14px;border-radius:20px;border:0;font-weight:bold;cursor:pointer;background:#1e293b;color:#fff}
-.filters button.active{background:#22c55e;color:#000}
-table{width:100%;border-collapse:collapse;background:#1e293b;border-radius:8px;overflow:hidden}
-th{background:#0f172a;padding:10px 5px;font-size:10px;color:#94a3b8}
-td{padding:9px 5px;text-align:center;border-top:1px solid #334155;font-size:12px}
-.green{color:#22c55e;font-weight:bold}
-.red{color:#ef4444}
-.gray{color:#94a3b8;font-size:10px}
-.ce{background:#22c55e;color:#000;padding:4px 7px;border-radius:5px;font-size:11px;font-weight:bold}
-.liveBuy{background:#facc15;color:#000;padding:4px 7px;border-radius:5px;font-size:11px;font-weight:bold}
-.hold{background:#0ea5e9;color:#fff;padding:3px 6px;border-radius:5px;font-size:10px}
+h2{color:#22c55e;font-size:18px;text-align:center;padding:10px}
+.sub{color:#facc15;text-align:center;font-size:12px;margin-bottom:8px}
+#liveStatus{text-align:center;font-size:14px;font-weight:bold;padding:12px;border-radius:8px;margin:8px}
+.liveBG{background:#facc15;color:#000}
+.stopBG{background:#ef4444;color:#fff}
+.waitBG{background:#334155;color:#fff}
+table{width:100%;border-collapse:collapse;background:#1e293b;border-radius:8px;overflow:hidden;margin-top:10px}
+th{background:#0f172a;padding:12px 4px;font-size:11px;color:#facc15;text-align:center}
+td{padding:12px 4px;text-align:center;border-top:1px solid #334155;font-size:12px}
+.buying{background:#1a2e05}
+.stopped{background:#3f1010}
+.ceLive{background:#22c55e;color:#000;padding:6px 8px;border-radius:6px;font-weight:bold;font-size:11px}
+.ceStop{background:#ef4444;color:#fff;padding:6px 8px;border-radius:6px;font-weight:bold;font-size:11px}
+.livePrice{color:#facc15;font-weight:bold;font-size:14px}
+.stopPrice{color:#ef4444;font-weight:bold;font-size:14px}
 </style>
 </head>
 <body>
-<h2>NIKHIL YADAV - LIVE FII SCANNER V10</h2>
-<div class="sub">PROXY LIVE: Volume Surge = FII Buying NOW</div>
-<div id="liveStatus">🟢 LIVE Scanning - Avru Eega Yavdu Buy Maadtavre...</div>
-<div class="filters">
-<button id="fAll" class="active" onclick="setFilter('ALL')">ALL (18)</button>
-<button id="fLive" onclick="setFilter('LIVEBUY')" style="background:#facc15;color:#000">🔥 LIVE BUY NOW</button>
-<button id="fBuy" onclick="setFilter('BUYING')">✅ BUYING</button>
-<button id="fFii" onclick="setFilter('FII')">🔵 FII</button>
-</div>
+<h2>🔥 NIKHIL YADAV - FII BUY + STOP TRACKER V12.1</h2>
+<div class="sub">Yava Price Ge Buy Maadtavre + Stop Maadidaga Stop Buying</div>
+<div id="liveStatus" class="waitBG">🟢 Scanning LIVE...</div>
 <table>
 <thead>
-<tr><th>SYMBOL</th><th>LIVE BUYER</th><th>BUY ₹</th><th>LIVE NSE</th><th>TREND</th><th>VOL SURGE</th><th>BUY SIGNAL</th></tr>
+<tr><th>SYMBOL</th><th>STATUS + TIME</th><th>BUYING / STOP PRICE</th><th>VOL / TREND</th><th>SIGNAL</th></tr>
 </thead>
 <tbody id="tbody"></tbody>
 </table>
+
 <script>
-let dealsData=[
-{symbol:"MOTHERSON",buyer:"FII",buyerType:"FII",time:"Waiting",buy:157,spot:158.93,pChange:-0.67,volume:0,avgVol:8000000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"TVSMOTOR",buyer:"FII",buyerType:"FII",time:"Waiting",buy:3940,spot:3973.4,pChange:-0.95,volume:0,avgVol:1500000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"INFY",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1045,spot:1078.4,pChange:1.53,volume:0,avgVol:5000000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"TCS",buyer:"FII",buyerType:"FII",time:"Waiting",buy:2220,spot:2307.2,pChange:1.67,volume:0,avgVol:2000000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"ICICIBANK",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1335,spot:1352.6,pChange:-0.56,volume:0,avgVol:9000000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"BHARATFORG",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1815,spot:1835,pChange:-0.39,volume:0,avgVol:1200000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"SUNPHARMA",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1730,spot:1752.5,pChange:-1.03,volume:0,avgVol:1800000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"DRREDDY",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1195,spot:1222.1,pChange:-1.44,volume:0,avgVol:1000000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"BAJAJFINANCE",buyer:"FII",buyerType:"FII",time:"Waiting",buy:7120,spot:7250.5,pChange:1.8,volume:0,avgVol:2000000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"LUPIN",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1925,spot:1935.5,pChange:-0.93,volume:0,avgVol:800000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"SIEMENS",buyer:"FII",buyerType:"FII",time:"Waiting",buy:3660,spot:3742,pChange:2.41,volume:0,avgVol:600000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"DIXON",buyer:"FII",buyerType:"FII",time:"Waiting",buy:12600,spot:12740,pChange:0.63,volume:0,avgVol:500000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"HDFCBANK",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1680,spot:1705.3,pChange:1.2,volume:0,avgVol:10000000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"RELIANCE",buyer:"FII",buyerType:"FII",time:"Waiting",buy:2880,spot:2920.1,pChange:1.0,volume:0,avgVol:8000000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"SBIN",buyer:"FII",buyerType:"FII",time:"Waiting",buy:810,spot:825.6,pChange:1.5,volume:0,avgVol:12000000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"ITC",buyer:"FII",buyerType:"FII",time:"Waiting",buy:475,spot:482.1,pChange:0.8,volume:0,avgVol:7000000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"BHARTIARTL",buyer:"FII",buyerType:"FII",time:"Waiting",buy:1680,spot:1710,pChange:1.1,volume:0,avgVol:3000000,surge:0,fiiStatus:"HOLD",live:false},
-{symbol:"LT",buyer:"FII",buyerType:"FII",time:"Waiting",buy:3450,spot:3495,pChange:0.9,volume:0,avgVol:2000000,surge:0,fiiStatus:"HOLD",live:false}
-];
-let curFilter="ALL";
-function setFilter(f){
- curFilter=f;
- document.querySelectorAll(".filters button").forEach(b=>b.classList.remove("active"));
- let map={ALL:"fAll",LIVEBUY:"fLive",BUYING:"fBuy",FII:"fFii"};
- if(map[f]) document.getElementById(map[f]).classList.add("active");
- render();
-}
+// COMPLETE JAVASCRIPT CODE - BUYING + STOP LOGIC
+let dealsData = [];
+let lastStatus = {};
+let stopHistory = {};
+
 function render(){
- let tb=document.getElementById("tbody");
- tb.innerHTML="";
- let filtered=dealsData.filter(d=>{
-  if(curFilter==="ALL") return true;
-  if(curFilter==="LIVEBUY") return d.live===true;
-  if(curFilter==="BUYING") return d.surge>=2.0;
-  if(curFilter==="FII") return d.buyerType==="FII";
-  return true;
+ let tb = document.getElementById("tbody");
+ tb.innerHTML = "";
+ let allToShow = [];
+
+ dealsData.forEach(d=>{
+   let isBuying = d.surge >= 1.8 && d.pChange > 0.3;
+   let wasBuying = lastStatus[d.symbol] === true;
+
+   if(isBuying){
+     allToShow.push({...d, state:"BUYING"});
+     lastStatus[d.symbol] = true;
+   } else if(wasBuying &&!isBuying){
+     stopHistory[d.symbol] = {price: d.spot, time: d.time, surge: d.surge, buy: d.buy};
+     lastStatus[d.symbol] = false;
+     allToShow.push({...d, state:"STOPPED", stopPrice: stopHistory[d.symbol].price, stopTime: stopHistory[d.symbol].time});
+   } else if(stopHistory[d.symbol] &&!isBuying){
+     allToShow.push({...d, state:"STOPPED", stopPrice: stopHistory[d.symbol].price, stopTime: stopHistory[d.symbol].time, buy: stopHistory[d.symbol].buy});
+   }
  });
- filtered.sort((a,b)=> (b.live?1:0) - (a.live?1:0) || b.surge - a.surge);
- filtered.forEach(d=>{
-  let tr=document.createElement("tr");
-  if(d.live) tr.style.background="#2a2e0a";
-  let buyerHtml = d.live? `<span class="liveBuy">🔥 LIVE ${d.buyer}</span><br><span class="gray">${d.time}</span>` : `<b>${d.buyer}</b><br><span class="gray">${d.time}</span>`;
-  let surgeColor = d.surge>=2.0? "green" : "red";
-  let surgeIcon = d.surge>=2.0? "🚀" : "📉";
-  tr.innerHTML=`<td><b>${d.symbol}</b></td>
-  <td>${buyerHtml}</td>
-  <td>₹${d.buy}</td>
-  <td class="green">₹${d.spot.toFixed(2)}</td>
-  <td class="${d.pChange>=0?"green":"red"}">${d.pChange>=0?"🚀":"🔻"} ${d.pChange.toFixed(2)}%</td>
-  <td class="${surgeColor}">${surgeIcon} ${d.surge.toFixed(2)}x</td>
-  <td>${d.live?`<span class="ce">✅ ${Math.ceil(d.spot/10)*10} CE LIVE</span>`:`<span class="hold">Wait ${Math.ceil(d.spot/10)*10} CE</span>`}</td>`;
+
+ allToShow.sort((a,b)=>{
+   if(a.state==="BUYING" && b.state==="STOPPED") return -1;
+   if(a.state==="STOPPED" && b.state==="BUYING") return 1;
+   return b.surge - a.surge;
+ });
+
+ if(allToShow.length === 0){
+   tb.innerHTML = `<tr><td colspan=5 style="padding:40px;color:#94a3b8;font-size:14px">⏳ Eega Yavdu FII Buy Maadta Illa...<br>Surge >1.8x Aadaga Auto Barutte<br>5 Sec Auto Refresh...</td></tr>`;
+   return;
+ }
+
+ allToShow.forEach(d=>{
+  let tr = document.createElement("tr");
+  if(d.state === "BUYING"){
+    tr.className = "buying";
+    tr.innerHTML = `<td><b style="font-size:14px">${d.symbol}</b><br><span style="font-size:10px;color:#94a3b8">Old Buy ₹${d.buy}</span></td>
+    <td><span style="background:#22c55e;color:#000;padding:5px 10px;border-radius:12px;font-weight:bold;font-size:11px">🔥 BUYING NOW</span><br><span style="font-size:10px;color:#facc15">${d.time}</span></td>
+    <td><span class="livePrice">₹${d.spot.toFixed(2)}</span><br><span style="font-size:10px;background:#facc15;color:#000;padding:3px 6px;border-radius:4px">BUYING @ THIS PRICE</span></td>
+    <td style="color:#22c55e"><b>🔥 ${d.surge.toFixed(2)}x</b><br><span style="font-size:11px">🚀 ${d.pChange.toFixed(2)}%</span></td>
+    <td><span class="ceLive">BUY ${Math.ceil(d.spot/10)*10} CE</span><br><span style="font-size:10px">Entry ₹${d.spot.toFixed(2)}</span></td>`;
+  } else {
+    tr.className = "stopped";
+    let stopP = d.stopPrice || d.spot;
+    let stopT = d.stopTime || d.time;
+    tr.innerHTML = `<td><b style="font-size:14px">${d.symbol}</b><br><span style="font-size:10px;color:#94a3b8">Old Buy ₹${d.buy||d.buy}</span></td>
+    <td><span style="background:#ef4444;color:#fff;padding:5px 10px;border-radius:12px;font-weight:bold;font-size:11px">🛑 STOP BUYING</span><br><span style="font-size:10px;color:#fca5a5">Stopped: ${stopT}</span></td>
+    <td><span class="stopPrice">₹${stopP.toFixed(2)}</span><br><span style="font-size:10px;background:#ef4444;color:#fff;padding:3px 6px;border-radius:4px">STOPPED @ THIS</span></td>
+    <td style="color:#ef4444"><b>📉 ${d.surge.toFixed(2)}x</b><br><span style="font-size:11px">Vol Down</span></td>
+    <td><span class="ceStop">EXIT / BOOK</span><br><span style="font-size:10px">Book Profit</span></td>`;
+  }
   tb.appendChild(tr);
  });
 }
+
 async function fetchLivePrices(){
- let statusEl=document.getElementById("liveStatus");
+ let statusEl = document.getElementById("liveStatus");
  try{
-  let res=await fetch(`/api/all?t=${Date.now()}`,{cache:"no-store"});
-  let json=await res.json();
-  let now = new Date().toLocaleTimeString("en-IN",{timeZone:"Asia/Kolkata",hour:"2-digit",minute:"2-digit",second:"2-digit"});
-  if(json.data){
-   json.data.forEach(l=>{
-    let f=dealsData.find(d=>d.symbol===l.symbol);
-    if(f){
-      f.spot=l.spot; f.pChange=l.pChange; f.volume=l.volume; f.surge=l.surge;
-      if(l.surge >= 2.0 && l.pChange > 0.5){
-        f.live = true;
-        f.buyer = "FII LIVE BUY";
-        f.time = now;
-        f.buyerType = "FII";
-      } else if(l.surge >= 1.8){
-        f.live = false;
-        f.buyer = "FII Watching";
-        f.time = now;
-      } else {
-        f.live = false;
-      }
-    }
-   });
-   let liveCount = dealsData.filter(d=>d.live).length;
-   statusEl.innerHTML=`🟢 LIVE ${now} IST | 🔥 ${liveCount} FII LIVE BUY NOW | Vol>2x = FII Buying`;
+  let res = await fetch(`/api/all?t=${Date.now()}`, {cache:"no-store"});
+  let json = await res.json();
+  let now = new Date().toLocaleTimeString("en-IN", {timeZone:"Asia/Kolkata", hour:"2-digit", minute:"2-digit", second:"2-digit"});
+  if(json.data && json.data.length>0){
+   dealsData = json.data.map(l=>({
+     symbol:l.symbol,
+     buy:l.buy,
+     spot:l.spot,
+     pChange:l.pChange,
+     surge:l.surge,
+     time:now,
+     volume:l.volume
+   }));
+   let buyingCount = dealsData.filter(d=> d.surge>=1.8 && d.pChange>0.3).length;
+   let stoppedCount = Object.keys(stopHistory).filter(k=> lastStatus[k]===false).length;
+   if(buyingCount>0){
+     statusEl.className = "liveBG";
+     statusEl.innerHTML = `🔥 LIVE ${now} IST | ${buyingCount} BUYING NOW @ PRICE SHOWN | ${stoppedCount} STOPPED`;
+   } else if(stoppedCount>0){
+     statusEl.className = "stopBG";
+     statusEl.innerHTML = `🛑 LIVE ${now} IST | 0 BUYING | ${stoppedCount} JUST STOPPED @ PRICE - BOOK PROFIT`;
+   } else {
+     statusEl.className = "waitBG";
+     statusEl.innerHTML = `⏳ LIVE ${now} IST | Scanning ${json.data.length} Stocks - No Buying Yet`;
+   }
    render();
   }
- }catch(e){ statusEl.innerHTML="🟡 Retrying LIVE..."; }
+ }catch(e){
+   statusEl.innerHTML = "🟡 Retrying Connection...";
+   statusEl.className = "waitBG";
+ }
 }
-setInterval(fetchLivePrices,5000);
-render();
+
+setInterval(fetchLivePrices, 5000);
 fetchLivePrices();
+setInterval(()=>{ stopHistory={}; lastStatus={}; }, 30*60*1000);
 </script>
 </body>
 </html>
