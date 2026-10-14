@@ -3,82 +3,78 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FII BUY SELL Separate</title>
+<title>NIKHIL YADAV - V15 ULTIMATE</title>
 <style>
-body{margin:0;background:#000;color:#fff;font-family:Arial;padding:8px}
-.header{background:#111;padding:12px;border-radius:10px;text-align:center;border:1px solid #222;margin-bottom:10px}
-.live{color:#00ff00;animation:blink 1s infinite} @keyframes blink{50%{opacity:0.3}}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.col{background:#111;border-radius:10px;padding:8px;border:1px solid #222}
-.col-buy{border-top:3px solid #00ff88}
-.col-sell{border-top:3px solid #ff3333}
-.title{font-weight:bold;padding:8px;text-align:center;border-radius:6px;margin-bottom:8px;font-size:15px}
-.t-buy{background:#00ff8822;color:#00ff88}
-.t-sell{background:#ff333322;color:#ff5555}
-.item{background:#1c1c1c;margin:5px 0;padding:8px 10px;border-radius:6px;display:flex;justify-content:space-between;font-size:13px}
-.item b{color:#fff}
-.b-price{color:#00ff88;font-weight:bold}
-.s-price{color:#ff5555;font-weight:bold}
+body{margin:0;background:#0a1931;color:#fff;font-family:Arial}
+.header{background:linear-gradient(90deg,#0a1931,#102a5a);padding:12px;text-align:center;border-bottom:2px solid #ffcc00}
+.title{color:#00ff88;font-size:18px;font-weight:bold}
+.sub{color:#ffcc00;font-size:13px;margin-top:4px}
+.livebar{background:#ffcc00;color:#000;padding:8px;text-align:center;font-weight:bold;border-radius:20px;margin:10px;font-size:14px}
+.tabs{display:flex;gap:8px;padding:0 10px;justify-content:center}
+.tab{padding:8px 16px;border-radius:20px;border:1px solid #333;cursor:pointer;font-size:13px;font-weight:bold}
+.tab.active{border-color:#00ff88;color:#00ff88;background:#00ff8820}
+.tab.sell.active{border-color:#ff4444;color:#ff4444;background:#ff444420}
+table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px}
+th{background:#111;color:#ffcc00;padding:10px 5px;font-size:11px}
+td{padding:10px 5px;border-bottom:1px solid #222;text-align:center}
+tr.buying{background:linear-gradient(90deg,#0a2e1a,#0f3d22)}
+tr.selling{background:linear-gradient(90deg,#2e0a0a,#3d0f0f)}
+.badge{padding:3px 8px;border-radius:12px;font-size:11px;font-weight:bold}
+.b-buy{background:#00ff8840;color:#00ff88;border:1px solid #00ff88}
+.b-sell{background:#ff444440;color:#ff8888;border:1px solid #ff4444}
+.price{font-weight:bold;font-size:14px}
 .old{color:#888;font-size:11px}
-.badge{font-size:10px;padding:2px 5px;border-radius:4px}
-.bg{background:#00ff8820;color:#00ff88}
-.bs{background:#ff333320;color:#ff5555}
-.allbox{margin-top:10px;background:#111;border-radius:10px;padding:10px;border:1px solid #222}
-.allgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
-@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.opt{background:#ffcc0020;color:#ffcc00;padding:2px 6px;border-radius:4px;font-size:11px}
 </style>
 </head>
 <body>
 <div class="header">
-<b>NIKHIL YADAV TRACKER <span class="live">● LIVE</span></b> <span id="t" style="color:#888;font-size:12px;margin-left:10px"></span>
-<div style="font-size:11px;color:#666;margin-top:4px">70 Stocks Live Price | Auto 10s</div>
+<div class="title">🔥 NIKHIL YADAV - FII BUY + STOP TRACKER V15 ULTIMATE</div>
+<div class="sub">Yava Price Ge Buy Maadtavre + Stop Maadidaga Stop + Options + Saparate</div>
+</div>
+<div class="livebar" id="livebar">🔥 LIVE Loading... | 70 Stocks</div>
+<div class="tabs">
+<div class="tab active" onclick="showTab('buy')" id="tbuy">🔥 BUYING (0)</div>
+<div class="tab sell" onclick="showTab('sell')" id="tsell">🛑 SELLING (0)</div>
+<div class="tab" onclick="showTab('all')" id="tall">📊 ALL 70</div>
 </div>
 
-<div class="grid">
-<div class="col col-buy">
-<div class="title t-buy" id="bt">🔥 BUYING STOCKS (0)</div>
-<div id="bl">Loading...</div>
-</div>
-<div class="col col-sell">
-<div class="title t-sell" id="st">🛑 SELLING STOCKS (0)</div>
-<div id="sl">Loading...</div>
-</div>
-</div>
-
-<div class="allbox">
-<div style="font-weight:bold;margin-bottom:8px;text-align:center">📊 ALL 70 STOCKS LIVE PRICE</div>
-<div class="allgrid" id="all">Loading 70...</div>
-</div>
+<table>
+<thead>
+<tr><th>SYMBOL<br><span style="font-size:9px">Old Buy</span></th><th>STATUS + TIME<br><span style="font-size:9px">FII/DII</span></th><th>BUYING / STOP PRICE<br><span style="font-size:9px">LIVE PRICE</span></th><th>VOL / TREND<br><span style="font-size:9px">Surge</span></th><th>OPTIONS<br><span style="font-size:9px">CE/PE</span></th></tr>
+</thead>
+<tbody id="tbody"><tr><td colspan="5" style="padding:30px;color:#555">Loading 70 stocks live...</td></tr></tbody>
+</table>
 
 <script>
+let all=[], cur='buy';
+function showTab(t){cur=t; document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active')); document.getElementById('t'+t).classList.add('active'); render();}
+function render(){
+ let d = cur=='buy'? all.filter(x=>x.pChange>0).sort((a,b)=>b.surge-a.surge) : cur=='sell'? all.filter(x=>x.pChange<0).sort((a,b)=>a.pChange-b.pChange) : all.sort((a,b)=>b.surge-a.surge);
+ document.getElementById('tbody').innerHTML = d.map(s=>{
+  let isBuy = s.pChange>0;
+  let status = isBuy? (s.surge>2? '🔥 FII BUYING NOW' : 'BUYING NOW') : (s.surge>2? '💥 FII SELLING' : 'SELLING NOW');
+  let ce = Math.ceil(s.spot/50)*50;
+  let pe = Math.floor(s.spot/50)*50;
+  return `<tr class="${isBuy?'buying':'selling'}">
+   <td><b>${s.symbol}</b><br><span class="old">Old ₹${s.buy.toFixed(0)}</span></td>
+   <td><span class="badge ${isBuy?'b-buy':'b-sell'}">${status}</span><br><span style="font-size:11px;color:#aaa">${new Date().toLocaleTimeString()}</span></td>
+   <td><span class="price">₹${s.spot.toFixed(2)}</span><br><span class="opt">BUYING @ THIS PRICE</span></td>
+   <td>🔥 ${s.surge.toFixed(2)}x<br>🚀 ${s.pChange>0?'+':''}${s.pChange.toFixed(2)}%</td>
+   <td><span class="opt">CE ${ce}</span><br><span class="opt" style="background:#ff444420">PE ${pe}</span></td>
+  </tr>`
+ }).join('');
+}
 async function load(){
- let r=await fetch('/api/all',{cache:'no-store'});
- let j=await r.json();
- let d=j.data||[];
- document.getElementById('t').innerText=j.time;
- 
- let buy = d.filter(x=> x.pChange > 0).sort((a,b)=> b.pChange - a.pChange);
- let sell = d.filter(x=> x.pChange < 0).sort((a,b)=> a.pChange - b.pChange);
- 
- document.getElementById('bt').innerText=`🔥 BUYING STOCKS (${buy.length}) - SEPARATE`;
- document.getElementById('st').innerText=`🛑 SELLING STOCKS (${sell.length}) - SEPARATE`;
- 
- document.getElementById('bl').innerHTML=buy.map(s=>`
-  <div class="item">
-   <div><b>${s.symbol}</b><br><span class="old">Old ₹${s.buy.toFixed(1)}</span></div>
-   <div style="text-align:right"><span class="b-price">₹${s.spot.toFixed(2)}</span><br><span class="badge bg">+${s.pChange.toFixed(2)}% BUY</span></div>
-  </div>`).join('') || '<div style="color:#555;text-align:center;padding:20px">No Buying</div>';
- 
- document.getElementById('sl').innerHTML=sell.map(s=>`
-  <div class="item">
-   <div><b>${s.symbol}</b><br><span class="old">Old ₹${s.buy.toFixed(1)}</span></div>
-   <div style="text-align:right"><span class="s-price">₹${s.spot.toFixed(2)}</span><br><span class="badge bs">${s.pChange.toFixed(2)}% SELL</span></div>
-  </div>`).join('') || '<div style="color:#555;text-align:center;padding:20px">No Selling</div>';
- 
- document.getElementById('all').innerHTML=d.map(s=>`
-  <div style="background:#1a1a1a;padding:6px;border-radius:5px;font-size:12px;display:flex;justify-content:space-between">
-   <b>${s.symbol}</b><span style="color:${s.pChange>0?'#00ff88':'#ff5555'}">₹${s.spot.toFixed(1)} ${s.pChange>0?'▲':'▼'}${Math.abs(s.pChange).toFixed(1)}%</span>
-  </div>`).join('');
+ try{
+  let r=await fetch('/api/all',{cache:'no-store'});
+  let j=await r.json(); all=j.data||[];
+  document.getElementById('livebar').innerText=`🔥 LIVE ${j.time} | ${all.filter(x=>x.pChange>0).length} BUYING NOW @ PRICE SHOWN | ${all.filter(x=>x.pChange<0).length} SELLING | TOTAL 70`;
+  document.getElementById('tbuy').innerText=`🔥 BUYING (${all.filter(x=>x.pChange>0).length})`;
+  document.getElementById('tsell').innerText=`🛑 SELLING (${all.filter(x=>x.pChange<0).length})`;
+  document.getElementById('tall').innerText=`📊 ALL 70`;
+  render();
+ }catch(e){}
 }
 load(); setInterval(load,10000);
 </script>
