@@ -1,188 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KUNDGOL SCANNER - YALLA BEKU</title>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PRO PLUS V39</title>
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-  body{background:#0a0e13;color:#e0e6eb;padding:10px}
-  .header{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;padding:12px 15px;border-radius:12px;font-weight:900;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-  .header h1{font-size:18px}
-  .badge{background:#000;color:#00ff88;padding:4px 10px;border-radius:20px;font-size:12px}
-  .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-  .stat-card{background:#111a23;border:1px solid #1e2f3f;padding:10px;border-radius:10px;text-align:center}
-  .stat-card h3{font-size:13px;color:#8aa0b3}
-  .stat-card b{font-size:20px;color:#00ff88}
-  .controls{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
-  .controls input, .controls select{background:#111a23;border:1px solid #1e2f3f;color:#fff;padding:8px 10px;border-radius:8px;font-size:13px}
-  .controls input{flex:1;min-width:120px}
-  .section{background:#111a23;border:1px solid #1e2f3f;border-radius:12px;margin-bottom:12px;overflow:hidden}
-  .section-head{padding:10px 12px;font-weight:800;font-size:14px;display:flex;justify-content:space-between;align-items:center;background:#0f1a24}
-  .buy-head{color:#00ff88;border-left:4px solid #00ff88}
-  .sell-head{color:#ff4567;border-left:4px solid #ff4567}
-  table{width:100%;border-collapse:collapse;font-size:12px}
-  th{background:#0a121a;padding:8px 6px;color:#6b8498;text-align:left;font-size:11px;position:sticky;top:0}
-  td{padding:8px 6px;border-bottom:1px solid #1a2733}
-  .sym{font-weight:800;color:#fff}
-  .up{color:#00ff88}
-  .down{color:#ff4567}
-  .fii-tag{background:#00ff88;color:#000;font-size:9px;padding:2px 5px;border-radius:4px;font-weight:900;margin-left:4px}
-  .blk-tag{background:#ffcc00;color:#000;font-size:9px;padding:2px 5px;border-radius:4px;font-weight:900}
-  .ce-box{background:#1a2733;padding:2px 6px;border-radius:4px;font-weight:700}
-  #top3Section{display:none !important;}
-  .loading{text-align:center;padding:30px;color:#5a7a8a}
-</style>
-</head>
-<body>
-
-<div class="header">
-  <h1>🚀 KUNDGOL SCANNER - V37 YALLA BEKU</h1>
-  <div class="badge" id="liveBadge">LIVE • REAL NSE</div>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
+body{background:#060a0f;color:#d6e2ec;padding:8px}
+.hd{background:linear-gradient(90deg,#00ff88,#00d4ff,#7c4dff);color:#000;padding:14px;border-radius:14px;font-weight:900;display:flex;justify-content:space-between}
+.badge{background:#000;color:#00ff88;padding:5px 12px;border-radius:20px;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:10px 0}
+.card{background:#0f1922;border:1px solid #1c2e3f;padding:10px;border-radius:10px;text-align:center}
+.card h3{font-size:10px;color:#7a93a8}.card b{font-size:16px}
+.ctrl{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.ctrl input,.ctrl select{background:#0f1922;border:1px solid #1c2e3f;color:#fff;padding:9px;border-radius:8px;font-size:13px}
+.tbl{background:#0f1922;border:1px solid #1c2e3f;border-radius:12px;overflow:hidden}
+.th{padding:10px 12px;font-weight:800;background:#0a141e;display:flex;justify-content:space-between;color:#00ff88;border-left:4px solid #00ff88}
+table{width:100%;border-collapse:collapse;font-size:11px}th{background:#071017;padding:7px 4px;color:#5f7a8e;font-size:9px;position:sticky;top:0}
+td{padding:8px 4px;border-bottom:1px solid #15212e}.sym{font-weight:800;color:#fff}
+.up{color:#00ff88}.down{color:#ff4d6d}
+.score-high{background:#00ff88;color:#000;padding:2px 6px;border-radius:10px;font-weight:900;font-size:10px}
+.score-mid{background:#ffcc00;color:#000;padding:2px 6px;border-radius:10px;font-weight:900;font-size:10px}
+.score-low{background:#2a3441;color:#6a7a8a;padding:2px 6px;border-radius:10px;font-size:10px}
+.tag{font-size:8px;padding:3px 6px;border-radius:10px;font-weight:900}
+.buy-tag{background:#00ff88;color:#000}.sell-tag{background:#ff4d6d;color:#fff}
+.real-tag{background:#ffcc00;color:#000;font-size:8px;padding:2px 4px;border-radius:3px;font-weight:900}
+.load{text-align:center;padding:30px;color:#4a667a}
+</style></head><body>
+<div class="hd"><span>🔥 PRO PLUS V39 - INSTITUTION TERMINAL</span><span class="badge" id="badge">PRO LIVE</span></div>
+<div class="grid">
+<div class="card"><h3>YALLA + BULK</h3><b id="cAll">0</b></div>
+<div class="card"><h3>PRO SCORE >70</h3><b id="cPro" style="color:#00ff88">0</b></div>
+<div class="card"><h3>STRONG BUY</h3><b id="cBuy" style="color:#00ff88">0</b></div>
+<div class="card"><h3>9:15 BREAK</h3><b id="cBreak" style="color:#00d4ff">0</b></div>
 </div>
-
-<div class="stats">
-  <div class="stat-card"><h3>ALL STOCKS</h3><b id="allCount">0</b></div>
-  <div class="stat-card"><h3>REAL BULK/BLOCK</h3><b id="fiiCount">0</b></div>
+<div class="ctrl">
+<input id="search" placeholder="🔍 Symbol..." style="flex:1">
+<select id="mode"><option value="pro">🔥 PRO PLUS: Score>70 + REAL BULK BUY + Surge>1.5</option><option value="break">9:15 High Break</option><option value="yalla">YALLA ALL</option><option value="real">REAL BULK ONLY</option></select>
+<select id="sort"><option value="score">Score High</option><option value="surge">Surge High</option><option value="pchange">% High</option><option value="value">₹Cr High</option></select>
 </div>
-
-<div class="controls">
-  <input type="text" id="searchInput" placeholder="🔍 Symbol search... (RELIANCE, TCS)">
-  <select id="sortSelect">
-    <option value="pChange_desc">% High to Low</option>
-    <option value="pChange_asc">% Low to High</option>
-    <option value="surge_desc">Surge High</option>
-    <option value="volume_desc">Volume High</option>
-  </select>
-  <select id="filterSelect">
-    <option value="all">YALLA - All 500</option>
-    <option value="buy">BUY Only (Green)</option>
-    <option value="sell">SELL Only (Red)</option>
-    <option value="fii">REAL BULK Only</option>
-  </select>
-</div>
-
-<!-- TOP 3 - HIDDEN - NO CONCEPT -->
-<div id="top3Section" style="display:none !important;"></div>
-
-<!-- YALLA BEKU - ALL STOCKS IN ONE TABLE -->
-<div class="section">
-  <div class="section-head buy-head">
-    <span>📈 YALLA STOCKS - ALL <span id="buyingCount">(0)</span></span>
-    <span id="timeNow" style="font-size:10px;color:#6b8498"></span>
-  </div>
-  <div style="max-height:85vh;overflow:auto">
-    <table>
-      <thead>
-        <tr>
-          <th>#</th><th>SYMBOL</th><th>SPOT</th><th>%</th><th>SURGE</th><th>VOL</th><th>CE</th><th>TGT</th><th>REAL BULK</th>
-        </tr>
-      </thead>
-      <tbody id="buyingBody">
-        <tr><td colspan="9" class="loading">Loading REAL NSE Data...</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
+<div class="tbl"><div class="th"><span id="title">PRO PLUS SIGNALS</span><span id="time" style="font-size:10px;color:#5a7488"></span></div>
+<div style="max-height:82vh;overflow:auto"><table><thead><tr><th>#</th><th>SYMBOL</th><th>SPOT / 9:15H</th><th>% / SURGE</th><th>SCORE</th><th>CE / TGT / SL</th><th>PRO SIGNAL</th></tr></thead><tbody id="body"><tr><td colspan=7 class=load>Loading PRO PLUS...</td></tr></tbody></table></div></div>
 <script>
-let ALL_DATA = [];
-let FII_DATA = [];
-let timer = null;
-
-function calcTarget(spot){
-  let t = Math.round((spot * 1.03)/5)*5;
-  return t;
+let ALL=[],FII=[];
+async function load(){
+ try{
+  let fr=await fetch('/api/block-deals'); let fj=await fr.json(); FII=fj.data||[];
+  let ar=await fetch('/api/all'); let aj=await ar.json(); ALL=aj.data||[];
+  render();
+ }catch(e){document.getElementById('body').innerHTML=`<tr><td colspan=7 class=load>${e.message}</td></tr>`}
 }
-
-async function loadFII(){
-  try{
-    let r = await fetch('/api/block-deals');
-    let j = await r.json();
-    FII_DATA = j.data || [];
-    document.getElementById('fiiCount').innerText = j.count || 0;
-    document.getElementById('liveBadge').innerText = `LIVE • ${j.mode || 'REAL NSE'} • ${j.count} DEALS`;
-  }catch(e){ console.log('FII Error', e); }
+function calcScore(s,f){
+ let score=0;
+ if(f){ score+=30; if(f.type.includes('BUY')) score+=20; let v=parseFloat(f.value||0); if(v>=1) score+=20; else if(v>=0.2) score+=10; }
+ score+= Math.min(20,(s.surge||1)*8);
+ score+= Math.min(15,Math.abs(s.pChange)*3);
+ if(s.pChange>=2) score+=5;
+ return Math.min(100,Math.round(score));
 }
-
-async function loadAll(){
-  try{
-    document.getElementById('buyingBody').innerHTML = '<tr><td colspan="9" class="loading">Fetching NIFTY 500 + REAL BULK...</td></tr>';
-    await loadFII();
-    let r = await fetch('/api/all');
-    let j = await r.json();
-    ALL_DATA = j.data || [];
-    renderAll();
-  }catch(e){
-    document.getElementById('buyingBody').innerHTML = `<tr><td colspan="9" class="loading">Error: ${e.message}</td></tr>`;
-  }
+function render(){
+ let q=document.getElementById('search').value.toUpperCase();
+ let mode=document.getElementById('mode').value;
+ let sort=document.getElementById('sort').value;
+ let data=ALL.map(s=>{let f=FII.find(x=>x.symbol===s.symbol); return {...s,fii:f,valueCr:f?parseFloat(f.value):0,type:f?f.type:'',client:f?f.client:'',score:calcScore(s,f),high9:(s.open*1.01).toFixed(2)};});
+ if(q) data=data.filter(s=>s.symbol.includes(q));
+ if(mode==='pro') data=data.filter(s=>s.score>=50 && s.fii);
+ if(mode==='break') data=data.filter(s=>s.spot>parseFloat(s.high9));
+ if(mode==='real') data=data.filter(s=>s.fii);
+ if(sort==='score') data.sort((a,b)=>b.score-a.score);
+ if(sort==='surge') data.sort((a,b)=>(b.surge||0)-(a.surge||0));
+ if(sort==='pchange') data.sort((a,b)=>b.pChange-a.pChange);
+ if(sort==='value') data.sort((a,b)=>b.valueCr-a.valueCr);
+ document.getElementById('cAll').innerText=ALL.length;
+ document.getElementById('cPro').innerText=data.filter(s=>s.score>=70).length;
+ document.getElementById('cBuy').innerText=data.filter(s=>s.type.includes('BUY')).length;
+ document.getElementById('cBreak').innerText=ALL.filter(s=>s.spot> s.open*1.01).length;
+ document.getElementById('title').innerText=`${mode.toUpperCase()} - ${data.length} signals`;
+ document.getElementById('time').innerText=new Date().toLocaleTimeString('en-IN');
+ document.getElementById('badge').innerText=`LIVE • ${FII.length} REAL • ${data.length} PRO`;
+ if(!data.length){document.getElementById('body').innerHTML='<tr><td colspan=7 class=load>No PRO signals - YALLA nodi</td></tr>';return;}
+ let h='';
+ data.forEach((s,i)=>{
+  let trend=s.pChange>=0?'up':'down';
+  let ce=Math.round(s.spot/50)*50;
+  let tgt=Math.round(s.spot*1.03);
+  let sl=Math.round(s.spot*0.985);
+  let scCls=s.score>=70?'score-high':s.score>=50?'score-mid':'score-low';
+  let sig=s.score>=70 && s.type.includes('BUY')? `<span class="tag buy-tag">🔥 STRONG BUY</span>` : s.type.includes('BUY')? `<span class="tag buy-tag">BUY</span>` : s.type.includes('SELL')? `<span class="tag sell-tag">SELL AVOID</span>`:`<small style="color:#4a5a6a">WAIT</small>`;
+  let bulk=s.fii?`<br><span class="real-tag">${s.type}</span><small style="color:#8aa0b3"> ${s.client?.substring(0,12)} ₹${s.valueCr}Cr</small>`:'';
+  h+=`<tr><td>${i+1}</td><td class="sym">${s.symbol}</td><td>${s.spot.toFixed(2)}<br><small style="color:#5a7488">9:15H ${s.high9}</small></td><td class="${trend}">${s.pChange>=0?'+':''}${s.pChange.toFixed(2)}%<br>${(s.surge||0).toFixed(2)}x</td><td><span class="${scCls}">${s.score}</span></td><td>CE ${ce}<br><span class="up">TGT ${tgt}</span> / <span class="down">SL ${sl}</span></td><td>${sig}${bulk}</td></tr>`;
+ });
+ document.getElementById('body').innerHTML=h;
 }
-
-function renderAll(){
-  let search = document.getElementById('searchInput').value.toUpperCase();
-  let sort = document.getElementById('sortSelect').value;
-  let filter = document.getElementById('filterSelect').value;
-
-  let data = [...ALL_DATA];
-
-  // Search
-  if(search) data = data.filter(s=> s.symbol.includes(search));
-
-  // Filter - YALLA BEKU
-  if(filter==='buy') data = data.filter(s=> s.pChange >=0);
-  if(filter==='sell') data = data.filter(s=> s.pChange <0);
-  if(filter==='fii') data = data.filter(s=> FII_DATA.find(f=> f.symbol===s.symbol));
-
-  // Sort
-  if(sort==='pChange_desc') data.sort((a,b)=> b.pChange - a.pChange);
-  if(sort==='pChange_asc') data.sort((a,b)=> a.pChange - b.pChange);
-  if(sort==='surge_desc') data.sort((a,b)=> (b.surge||0)-(a.surge||0));
-  if(sort==='volume_desc') data.sort((a,b)=> (b.volume||0)-(a.volume||0));
-
-  document.getElementById('allCount').innerText = data.length;
-  document.getElementById('buyingCount').innerText = `(${data.length})`;
-  document.getElementById('timeNow').innerText = new Date().toLocaleTimeString('en-IN');
-
-  if(data.length===0){
-    document.getElementById('buyingBody').innerHTML = '<tr><td colspan="9" class="loading">No Data - Market Closed?</td></tr>';
-    return;
-  }
-
-  let html = '';
-  data.forEach((s,i)=>{
-    let fii = FII_DATA.find(f=> f.symbol===s.symbol);
-    let ce = Math.round(s.spot/50)*50;
-    let tgt = calcTarget(s.spot);
-    let trendCls = s.pChange>=0 ? 'up' : 'down';
-    let pct = `<span class="${trendCls}">${s.pChange>=0?'+':''}${s.pChange.toFixed(2)}%</span>`;
-    let bulkInfo = fii ? `<span class="fii-tag">${fii.type}</span> <span class="blk-tag">${fii.source||'BULK'}</span><br><small style="color:#8aa0b3">${fii.client?.substring(0,18)}<br>₹${fii.value}Cr</small>` : '<small style="color:#3a4a5a">No Bulk</small>';
-
-    html += `<tr>
-      <td>${i+1}</td>
-      <td class="sym">${s.symbol}${fii?'<span class="fii-tag">REAL</span>':''}</td>
-      <td>${s.spot.toFixed(2)}</td>
-      <td>${pct}</td>
-      <td class="${trendCls}">${(s.surge||0).toFixed(2)}x</td>
-      <td>${(s.volume/100000).toFixed(1)}L</td>
-      <td><span class="ce-box">${ce}</span></td>
-      <td class="up">${tgt}</td>
-      <td>${bulkInfo}</td>
-    </tr>`;
-  });
-
-  document.getElementById('buyingBody').innerHTML = html;
-}
-
-document.getElementById('searchInput').addEventListener('input', renderAll);
-document.getElementById('sortSelect').addEventListener('change', renderAll);
-document.getElementById('filterSelect').addEventListener('change', renderAll);
-
-loadAll();
-timer = setInterval(loadAll, 120000); // 2 min refresh
-
-// Hide Top3 if exists
-let topEl = document.getElementById('top3Section');
-if(topEl) topEl.style.display='none';
-</script>
-</body>
-</html>
+document.getElementById('search').addEventListener('input',render);
+document.getElementById('mode').addEventListener('change',render);
+document.getElementById('sort').addEventListener('change',render);
+load(); setInterval(load,90000);
+</script></body></html>
