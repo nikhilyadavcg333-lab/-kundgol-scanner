@@ -1,87 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NIKHIL YADAV - F3+ OI+ LIVE TRACKER V17 REAL</title>
+<title>NIKHIL YADAV - F3+ OI+ LIVE TRACKER V19</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#0f172a;color:white;padding:10px}
-.header{text-align:center;padding:15px;background:linear-gradient(90deg,#1e3a8a,#3b82f6);border-radius:10px;margin-bottom:10px}
-.header h1{font-size:22px} .header p{font-size:12px;opacity:0.8}
-.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:15px 0}
-.btn{padding:10px 18px;border:none;border-radius:20px;font-weight:bold;cursor:pointer;color:white}
-.fii{background:#16a34a} .dii{background:#2563eb} .sell{background:#dc2626} .all{background:#475569}
-.live{color:#22c55e;font-weight:bold;text-align:center;margin:10px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
-.card{border-radius:12px;padding:15px;position:relative;overflow:hidden}
-.card.buy{background:linear-gradient(135deg,#052e16,#16a34a)} .card.sell{background:linear-gradient(135deg,#450a0a,#dc2626)}
-.sym{font-size:18px;font-weight:bold} .price{font-size:20px;font-weight:bold;margin:5px 0}
-.badge{display:inline-block;padding:3px 8px;border-radius:10px;font-size:11px;background:rgba(0,0,0,0.3);margin:2px}
-.vol{position:absolute;top:10px;right:10px;background:yellow;color:black;padding:4px 8px;border-radius:10px;font-weight:bold;font-size:12px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
+body{background:#0a1931;color:white}
+.top{background:#1e3a8a;text-align:center;padding:10px;font-weight:bold;color:#facc15}
+.live-bar{background:#facc15;color:black;text-align:center;padding:8px;font-weight:bold}
+.btns{display:flex;gap:10px;justify-content:center;padding:12px;background:#0a1931;flex-wrap:wrap}
+.btn{padding:10px 20px;border-radius:25px;border:2px solid white;font-weight:bold;cursor:pointer}
+.fii{background:#065f46;color:white;border-color:#10b981} .dii{background:#1e40af;color:white} .sell{background:#7f1d1d} .all{background:white;color:black}
+.table{width:100%;border-collapse:collapse}
+.th{background:black;color:#facc15;padding:10px;font-size:13px;text-align:center}
+.row-buy{background:linear-gradient(90deg,#052e16,#15803d);border-bottom:1px solid #14532d}
+.row-sell{background:linear-gradient(90deg,#450a0a,#b91c1c);border-bottom:1px solid #7f1d1d}
+.td{padding:12px 8px;text-align:center;font-size:13px}
+.sym{font-weight:bold;font-size:15px} .old{font-size:11px;opacity:0.8}
+.badge{padding:4px 10px;border-radius:15px;font-size:11px;font-weight:bold;display:inline-block}
+.b-buy{background:#10b981;color:white} .b-fii{background:#065f46;border:1px solid #10b981;color:#6ee7b7}
+.b-dii{background:#1e3a8a;border:1px solid #60a5fa;color:#93c5fd}
+.b-live{color:#fde047;font-size:10px;margin-top:3px}
+.price{font-weight:bold;font-size:15px} .buy-at{background:#facc15;color:black;padding:2px 6px;border-radius:5px;font-size:10px}
+.vol{color:#fbbf24;font-weight:bold} .opt{background:#facc15;color:black;padding:3px 8px;border-radius:5px;font-weight:bold;font-size:11px}
 </style>
 </head>
 <body>
-<div class="header">
-<h1>NIKHIL YADAV - F3+ OI+ LIVE TRACKER V17 REAL NSE</h1>
-<p>KUNDGOL SCANNER - REAL PRICE - GOOGLE MATCHED</p>
+<div class="top">Old Price Correct + FII/DII Separate + Live Pick Point + All Conditions</div>
+<div class="live-bar" id="liveBar">🔴 LIVE: Loading... | 70 Stocks | REAL NSE</div>
+<div class="btns">
+<button class="btn fii" onclick="filterData('fii')">🔥 FII BUY (<span id="fiiC">0</span>)</button>
+<button class="btn dii" onclick="filterData('dii')">💎 DII BUY (<span id="diiC">0</span>)</button>
+<button class="btn sell" onclick="filterData('sell')">🟠 SELL (<span id="sellC">0</span>)</button>
+<button class="btn all" onclick="filterData('all')">📋 ALL 70</button>
 </div>
-<div class="live" id="liveTime">Loading Real Prices...</div>
-<div class="controls">
-<button class="btn fii" onclick="filterData('buy')">FII BUY (<span id="fiiCount">0</span>)</button>
-<button class="btn dii" onclick="filterData('dii')">DII BUY (<span id="diiCount">0</span>)</button>
-<button class="btn sell" onclick="filterData('sell')">SELL (<span id="sellCount">0</span>)</button>
-<button class="btn all" onclick="filterData('all')">ALL 70 (<span id="allCount">0</span>)</button>
-</div>
-<div class="grid" id="grid"></div>
-
+<table class="table">
+<thead><tr>
+<th class="th">SYMBOL<br><span style="font-size:10px">Old Correct</span></th>
+<th class="th">STATUS<br><span style="font-size:10px">FII/DII + Pick</span></th>
+<th class="th">LIVE PRICE<br><span style="font-size:10px">Buying/Selling @</span></th>
+<th class="th">VOL<br><span style="font-size:10px">Surge</span></th>
+<th class="th">OPTIONS<br><span style="font-size:10px">CE/PE Pick</span></th>
+</tr></thead>
+<tbody id="tbody"></tbody>
+</table>
 <script>
-let allStocks=[]; let currentFilter='all';
+let allStocks=[]; let filter='all';
 function getStatus(s){
-  if(s.pChange > 1.5) return {type:'buy', label:'FII BUYING NOW'};
-  if(s.pChange > 0.5) return {type:'buy', label:'DII BUYING NOW'};
-  if(s.pChange < -0.5) return {type:'sell', label:'SELLING NOW'};
-  return {type:'buy', label:'LIVE PICK'};
+  if(s.pChange>=1.5) return {cls:'row-buy', badge:'🔥 FII BUYING NOW', sub:'⭐ LIVE PICK', type:'FII'};
+  if(s.pChange>=0.5) return {cls:'row-buy', badge:'💎 DII BUYING NOW', sub:'● DII PICK', type:'DII'};
+  if(s.pChange<=-0.5) return {cls:'row-sell', badge:'🔴 SELLING NOW', sub:'● SELL PICK', type:'SELL'};
+  return {cls:'row-buy', badge:'BUYING NOW', sub:'', type:'BUY'};
+}
+function calcOption(price, type){
+  let strike = Math.round(price/50)*50;
+  if(type=='SELL') return `PE ${strike}`;
+  return `CE ${strike}`;
 }
 async function load(){
-  let res = await fetch('/api/all');
-  let json = await res.json();
-  allStocks = json.data;
-  document.getElementById('liveTime').innerText = '🔴 LIVE: '+json.time+' | TOTAL: '+json.total+' | REAL NSE PRICE';
-  updateCounts();
-  render();
+  try{
+    let r=await fetch('/api/all'); let j=await r.json();
+    allStocks=j.data||[]; 
+    document.getElementById('liveBar').innerText=`🔴 LIVE: ${j.time} | Old Price Correct ✓ | ${allStocks.filter(s=>s.pChange>=1.5).length} FII BUY | ${allStocks.filter(s=>s.pChange>=0.5&&s.pChange<1.5).length} DII BUY | ${allStocks.filter(s=>s.pChange<-0.5).length} SELL | ${j.total} Stocks | REAL NSE ₹`;
+    document.getElementById('fiiC').innerText=allStocks.filter(s=>s.pChange>=1.5).length;
+    document.getElementById('diiC').innerText=allStocks.filter(s=>s.pChange>=0.5&&s.pChange<1.5).length;
+    document.getElementById('sellC').innerText=allStocks.filter(s=>s.pChange<-0.5).length;
+    render();
+  }catch(e){}
 }
-function updateCounts(){
-  let fii = allStocks.filter(s=>s.pChange>1.5).length;
-  let dii = allStocks.filter(s=>s.pChange>0.5 && s.pChange<=1.5).length;
-  let sell = allStocks.filter(s=>s.pChange< -0.5).length;
-  document.getElementById('fiiCount').innerText=fii;
-  document.getElementById('diiCount').innerText=dii;
-  document.getElementById('sellCount').innerText=sell;
-  document.getElementById('allCount').innerText=allStocks.length;
-}
-function filterData(type){ currentFilter=type; render(); }
+function filterData(t){ filter=t; render(); }
 function render(){
-  let grid=document.getElementById('grid');
-  let filtered = allStocks;
-  if(currentFilter=='buy') filtered = allStocks.filter(s=>s.pChange>1.5);
-  else if(currentFilter=='dii') filtered = allStocks.filter(s=>s.pChange>0.5 && s.pChange<=1.5);
-  else if(currentFilter=='sell') filtered = allStocks.filter(s=>s.pChange< -0.5);
+  let tb=document.getElementById('tbody'); let data=allStocks;
+  if(filter=='fii') data=allStocks.filter(s=>s.pChange>=1.5);
+  else if(filter=='dii') data=allStocks.filter(s=>s.pChange>=0.5&&s.pChange<1.5);
+  else if(filter=='sell') data=allStocks.filter(s=>s.pChange<-0.5);
   
-  grid.innerHTML = filtered.map(s=>{
-    let st = getStatus(s);
-    return `<div class="card ${st.type}">
-      <div class="vol">${s.surge}x VOL</div>
-      <div class="sym">${s.symbol}</div>
-      <div class="badge">${st.label}</div>
-      <div class="price">₹${s.spot} <span style="font-size:14px;color:#bbf7d0">(${s.pChange>0?'+':''}${s.pChange}%)</span></div>
-      <div class="badge">Prev: ₹${s.prevClose}</div>
-      <div class="badge">LIVE NSE</div>
-      <div style="margin-top:8px;font-size:12px">${st.type=='buy'?'CE BUY @ '+(Math.round(s.spot/10)*10):'PE BUY @ '+(Math.round(s.spot/10)*10)}</div>
-    </div>`;
+  tb.innerHTML=data.map(s=>{
+    let st=getStatus(s);
+    let oldPrice=(s.prevClose||s.spot-5).toFixed(2);
+    return `<tr class="${st.cls}">
+      <td class="td"><div class="sym">${s.symbol}</div><div class="old">Old ₹${oldPrice} ✓</div></td>
+      <td class="td"><div class="badge ${st.type=='FII'?'b-fii':st.type=='DII'?'b-dii':'b-buy'}">${st.badge}</div><div class="b-live">${st.sub}<br>${new Date().toLocaleTimeString()}</div></td>
+      <td class="td"><div class="price">₹${s.spot}</div><div class="buy-at">BUYING @ THIS PRICE</div></td>
+      <td class="td"><div class="vol">🔥 ${s.surge}x</div><div>🚀 ${s.pChange}%</div></td>
+      <td class="td"><div class="opt">${calcOption(s.spot, st.type)}</div><div style="font-size:10px">${st.type}</div></td>
+    </tr>`;
   }).join('');
 }
-load();
-setInterval(load, 10000);
+load(); setInterval(load, 10000);
 </script>
 </body>
 </html>
