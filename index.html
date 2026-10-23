@@ -1,55 +1,155 @@
-<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>V50 ULTIMATE</title>
-<style>body{background:#0a0f1c;color:#fff;font-family:Arial;padding:10px}
-.top{display:flex;overflow-x:auto;gap:8px}
-.card{min-width:110px;padding:10px;border-radius:10px;text-align:center;font-weight:700}
-.bull{background:#00ff88;color:#000}.bear{background:#ff4444}
-.box{background:#111827;padding:15px;border-radius:12px;margin-top:12px;border:1px solid #333}
-input{padding:12px;width:60%;border-radius:8px;border:none;background:#1f2937;color:#fff}
-button{padding:12px 18px;border-radius:8px;border:none;font-weight:700;cursor:pointer}
-.scan{background:#00ff88}.bearwin{background:#ffd700}
-.v50{font-size:42px;font-weight:900;color:#00ff88}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
-.btn{padding:12px;border-radius:8px;text-align:center;font-weight:700}
-.ce{border:1px solid #00ff88}.tgt{border:1px solid #00ff88;color:#00ff88}.sl{border:1px solid #ff4444;color:#ff4444}
-</style></head><body>
-<div class="top" id="sectors"></div>
-<div class="box">
- <input id="sym" placeholder="hdfc bank, sbi, reliance"><button class="scan" onclick="scan()">SCAN</button>
- <button class="bearwin" onclick="bear()">BEAR WINNERS 🏆</button>
- <div id="out" style="margin-top:15px"></div>
- <div id="bearout"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kundgol V11 - All Base</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a1931;color:#fff;font-family:Inter,Arial;padding:12px}
+.badge{padding:8px 14px;border-radius:8px;font-weight:700;font-size:13px;display:inline-block;margin:3px}
+.bull{background:#00e676;color:#000} .bear{background:#ff5252} .neu{background:#455a64}
+.rowTop{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+input,select{padding:12px;border-radius:10px;border:none;background:#132a4c;color:#fff;font-size:14px}
+input{flex:1}
+.btn{padding:10px 14px;border-radius:10px;border:none;font-weight:800;cursor:pointer;font-size:13px}
+.bScan{background:#00e676} .bBear{background:#ffeb3b;color:#000} .bBull{background:#00e5ff;color:#000} .bPos{background:#ff6dff;color:#000} .bNews{background:#ff9100;color:#000} .bTrend{background:#7c4dff;color:#fff} .bOrder{background:#18ffff;color:#000}
+.card{background:#11294f;border-radius:16px;padding:16px;margin-top:12px;border:1px solid #1e3a5f}
+.title{font-size:17px;font-weight:800;margin-bottom:10px}
+.stockRow{display:flex;justify-content:space-between;align-items:center;background:#0d1f3d;padding:12px;border-radius:10px;margin:8px 0;flex-wrap:wrap}
+.tag{font-size:11px;padding:3px 7px;border-radius:6px;margin-left:6px;font-weight:700}
+.tagNews{background:#ff9100;color:#000} .tagTrend{background:#7c4dff} .tagOrder{background:#18ffff;color:#000} .tagV{background:#ffd54f;color:#000}
+</style>
+</head>
+<body>
+
+<div id="indexTop">Loading...</div>
+
+<div class="rowTop">
+  <select id="poolSelect" onchange="changePool()">
+    <option value="ALL">SELECT STOCK LIST - All</option>
+    <option value="NIFTY50">Nifty 50</option>
+    <option value="BANK">Bank + Financial</option>
+    <option value="NEXT50">Next 50</option>
+    <option value="MIDCAP">Midcap Select</option>
+    <option value="FPI150">India FPI 150</option>
+    <option value="FPI100">FPI 100</option>
+    <option value="CUSTOM">Custom List</option>
+  </select>
+  <input id="stockInput" value="tcs, infy, reliance, sbin, hdfc, icici, bharti, midcap, tatamotors, fpi">
 </div>
+
+<div class="rowTop">
+  <button class="btn bScan" onclick="scanAll()">SCAN NOW</button>
+  <button class="btn bBear" onclick="showList('bear')">BEAR WINNERS</button>
+  <button class="btn bBull" onclick="showList('bull')">BULL WINNERS</button>
+  <button class="btn bPos" onclick="showList('positive')">POSITIVE WINNERS</button>
+  <button class="btn bNews" onclick="showList('news')">NEWS BASE+</button>
+  <button class="btn bTrend" onclick="showList('trend')">TREND BASE</button>
+  <button class="btn bOrder" onclick="showList('order')">BIG ORDER BASE</button>
+</div>
+
+<div id="listContainer"></div>
+
 <script>
-async function loadSectors(){
- let r=await fetch('/api/sectors'); let d=await r.json();
- document.getElementById('sectors').innerHTML=d.sectors.map(s=>`<div class="card ${s.status=='BULL'?'bull':'bear'}">${s.name}<br>${s.change}%<br>${s.status=='BULL'?'↑ BULL':'↓ BEAR'}</div>`).join('');
+let niftyChange = 0.27;
+let stocksData = [];
+
+const pools = {
+  NIFTY50:['TCS','INFY','RELIANCE','HDFCBANK','ICICIBANK','SBIN','BHARTIARTL'],
+  BANK:['HDFCBANK','ICICIBANK','SBIN','AXISBANK','KOTAKBANK'],
+  NEXT50:['ADANIGREEN','ZOMATO','DMART','PIDILITE'],
+  MIDCAP:['TATAMOTORS','MIDCAP','BHEL','PERSISTENT','MPHASIS'],
+  FPI150:['TCS','INFY','TATAMOTORS','BHEL','POLYCAB','COFORGE'],
+  FPI100:['TCS','INFY','RELIANCE'],
+  ALL:['TCS','INFY','RELIANCE','SBIN','HDFCBANK','ICICIBANK','BHARTIARTL','TATAMOTORS','BHEL','COFORGE','POLYCAB','ADANIGREEN'],
+  CUSTOM:[]
+};
+
+function changePool(){
+  const p = document.getElementById('poolSelect').value;
+  if(p!=='CUSTOM'){
+    document.getElementById('stockInput').value = pools[p].join(', ');
+  }
 }
-async function scan(){
- let s=document.getElementById('sym').value||'SBIN';
- let r=await fetch('/api/v50/'+s); let d=await r.json();
- document.getElementById('out').innerHTML=`
-  <div>${d.symbol} • NSE • EQ</div>
-  <div>V50 Score</div><div class="v50">${d.v50}%</div>
-  <div>LTP ₹${d.chart?.ltp||0} ${d.chart?.change||0}% • ${d.signal}</div>
-  <div class="grid">
-   <div>Trend<br><b>${d.chart?.trend||''}</b></div>
-   <div>Order Flow<br><b>BUY ${d.flow?.buy||0}% • ${d.flow?.status||''}</b></div>
-   <div>Candle<br><b>${d.chart?.candle||''}</b></div>
-   <div>Source<br><b>${d.chart?.source||''}</b></div>
-  </div>
-  <div class="grid" style="margin-top:15px">
-   <div class="btn ce">CE<br>${d.ce}</div>
-   <div class="btn tgt">TGT<br>${d.tgt}</div>
-   <div class="btn sl">SL<br>${d.sl}</div>
-   <div class="btn ce" style="background:#00ff88;color:#000" onclick="alert('Order Placed ${d.symbol} ${d.ce}')">PLACE ORDER</div>
-  </div>
-  <div style="margin-top:10px;font-size:12px;color:#aaa">PCR: ${d.option?.pcr||1} • ${d.option?.trend||''} • Flow: ${d.flow?.source||''}<br>News: ${(d.news||[]).map(n=>n.title).join(' | ')}</div>
- `;
+
+async function fetchIndex(){
+  niftyChange = (Math.random()*1.2-0.3).toFixed(2);
+  document.getElementById('indexTop').innerHTML = `
+    <span class="badge ${niftyChange>=0?'bull':'bear'}">50 ${niftyChange}% ${niftyChange>=0?'↑ BULL':'↓ BEAR'}</span>
+    <span class="badge bear">NEXT 50 -1.19% ↓ BEAR</span>
+    <span class="badge bear">BANK -0.43% ↓ BEAR</span>
+    <span class="badge neu">FINANCIAL -0.34% BEAR</span>
+    <span class="badge bear">MIDCAP -0.89% BEAR</span>
+    <span class="badge bull">FPI 150 0.13% BULL</span>
+  `;
 }
-async function bear(){
- let r=await fetch('/api/bear-winners'); let d=await r.json();
- document.getElementById('bearout').innerHTML=`<h3>BEAR WINNERS Nifty ${d.niftyChange}% (${d.count})</h3>`+d.winners.map(w=>`<div style="background:#111827;padding:8px;margin:5px;border-radius:8px">🏆 ${w.symbol} | Change ${w.stockChange}% | RS +${w.rs}% | V50 ${w.v50}%<br><small>${w.reason}</small> <button onclick="document.getElementById('sym').value='${w.symbol}';scan()">SCAN</button></div>`).join('');
+
+function mockScan(){
+  const inputStocks = document.getElementById('stockInput').value.split(',').map(s=>s.trim().toUpperCase()).filter(Boolean);
+  const base = (inputStocks.length?inputStocks:pools.ALL);
+  stocksData = base.map((sym,i)=>{
+    const ch = +( (Math.random()*4 -0.5).toFixed(2) );
+    const rs = +(ch - niftyChange).toFixed(2);
+    const v50 = 65 + Math.floor(Math.random()*20);
+    const newsScore = Math.floor(Math.random()*100); // NEWS BASE+
+    const trend = Math.random()>0.5?'BULL':'BEAR';
+    const ema = Math.random()>0.4?'EMA BULL':'EMA BEAR';
+    const orderBuy = 40 + Math.floor(Math.random()*40); // 40-80%
+    const bigOrder = orderBuy>65?'BIG BUY':orderBuy<45?'BIG SELL':'NEUTRAL';
+    return {sym, change:ch, rs, v50, newsScore, trend, ema, orderBuy, bigOrder, volume: (100+Math.random()*200).toFixed(0)+'%'}
+  });
 }
-loadSectors(); setInterval(loadSectors,60000);
-</script></body></html>
+
+function showList(type){
+  let list=[], title='', extra='';
+  if(type==='bear'){
+    list = stocksData.filter(s=>s.rs>0.4).sort((a,b)=>b.rs-a.rs).slice(0,5);
+    title = `BEAR WINNERS Nifty ${niftyChange}% (${list.length}) - Same Strategy Base`;
+  }else if(type==='bull'){
+    list = stocksData.filter(s=>s.change> (parseFloat(niftyChange)+0.4) && s.v50>=68).sort((a,b)=>b.rs-a.rs).slice(0,5);
+    title = `BULL WINNERS Nifty ${niftyChange}% (${list.length}) - Nifty beat`;
+  }else if(type==='positive'){
+    list = stocksData.filter(s=>s.change>=1.0).sort((a,b)=>b.change-a.change).slice(0,5);
+    title = `POSITIVE WINNERS >1% (${list.length}) - Absolute Gainers`;
+  }else if(type==='news'){
+    list = stocksData.filter(s=>s.newsScore>70).sort((a,b)=>b.newsScore-a.newsScore).slice(0,5);
+    title = `NEWS BASE+ (${list.length}) - News Score >70`;
+    extra = 'news';
+  }else if(type==='trend'){
+    list = stocksData.filter(s=>s.trend==='BULL' && s.ema.includes('BULL')).sort((a,b)=>b.v50-a.v50).slice(0,5);
+    title = `TREND BASE (${list.length}) - EMA + Supertrend BULL`;
+    extra = 'trend';
+  }else if(type==='order'){
+    list = stocksData.filter(s=>s.orderBuy>=60).sort((a,b)=>b.orderBuy-a.orderBuy).slice(0,5);
+    title = `BIG ORDER BASE (${list.length}) - Big Buyer 60%+`;
+    extra = 'order';
+  }
+
+  document.getElementById('listContainer').innerHTML = `
+    <div class="card">
+      <div class="title">${title}</div>
+      ${list.map(s=>`
+        <div class="stockRow">
+          <div>
+            <b>${s.sym} | Change ${s.change}% | RS ${s.rs}% | V50 ${s.v50}%</b>
+            ${type==='news'?`<span class="tag tagNews">NEWS ${s.newsScore}</span>`:''}
+            ${type==='trend'?`<span class="tag tagTrend">${s.trend} ${s.ema}</span>`:''}
+            ${type==='order'?`<span class="tag tagOrder">BUY ${s.orderBuy}% ${s.bigOrder} Vol ${s.volume}</span>`:''}
+            <span class="tag tagV">V50 ${s.v50}%</span>
+            <br><small style="color:#8aff8a">Nifty ${niftyChange}% vs ${s.sym} ${s.change}% = RS +${s.rs}% ${extra==='order'?`| OrderFlow BUY ${s.orderBuy}%`:''} ${extra==='news'?`| News: Results/FII Buy`:''}</small>
+          </div>
+          <button class="btn bScan" onclick="scanStock('${s.sym}')">SCAN</button>
+        </div>
+      `).join('') || '<small>No match - Pool change madi SCAN madi</small>'}
+    </div>
+  `;
+}
+
+function scanAll(){ fetchIndex(); mockScan(); showList('bull'); }
+function scanStock(sym){ alert(sym+' Details:\nNEWS: FII Buy 200cr\nTREND: BULL Engulfing EMA 20>50\nORDER: BUY 67% Big Order 5cr\nCE Strike + TGT 2% SL 1%') }
+
+fetchIndex(); mockScan(); showList('bull');
+</script>
+</body>
+</html>
